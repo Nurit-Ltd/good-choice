@@ -1,34 +1,20 @@
-import React from "react";
-import { cn } from "@/lib/utils";
+import * as React from "react"
+import { Input as InputPrimitive } from "@base-ui/react/input"
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
-  error?: string;
+import { cn } from "@/lib/utils"
+
+function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+  return (
+    <InputPrimitive
+      type={type}
+      data-slot="input"
+      className={cn(
+        "h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
+        className
+      )}
+      {...props}
+    />
+  )
 }
 
-export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, error, type = "text", ...props }, ref) => {
-    return (
-      <div className="w-full space-y-1">
-        {label && (
-          <label className="block text-xs font-medium text-slate-700 dark:text-slate-300">
-            {label}
-          </label>
-        )}
-        <input
-          type={type}
-          ref={ref}
-          className={cn(
-            "flex h-11 w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-slate-100 dark:focus:ring-slate-100",
-            error && "border-red-500 focus:border-red-500 focus:ring-red-500",
-            className
-          )}
-          {...props}
-        />
-        {error && <p className="text-xs text-red-500">{error}</p>}
-      </div>
-    );
-  }
-);
-
-Input.displayName = "Input";
+export { Input }
