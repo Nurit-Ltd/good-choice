@@ -44,7 +44,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Left Column: Stacked Image Gallery */}
           <div className="flex flex-col gap-6">
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-sm bg-white">
+            <div className="relative w-full aspect-8/5 rounded-lg overflow-hidden shadow-sm bg-white">
               <Image
                 src={images[0]}
                 alt={product.name}
@@ -55,7 +55,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
               />
             </div>
 
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-sm bg-white">
+            <div className="relative w-full aspect-8/5 rounded-lg overflow-hidden shadow-sm bg-white">
               <Image
                 src={secondaryImage}
                 alt={`${product.name} alternate view`}
@@ -115,19 +115,19 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
             {/* Spec Boxes Grid (Matching Screenshot 3) */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-              <div className="p-4 rounded-2xl bg-[#EFECE5]/60 border border-secondary-200/50 flex flex-col gap-2">
+              <div className="p-4 rounded-lg bg-secondary-100/60 border border-secondary-200/50 flex flex-col gap-2">
                 <Palette className="w-5 h-5 text-primary-950" style={{ color: "var(--color-primary-950, #62103A)" }} />
                 <span className="font-body text-xs font-semibold text-grey-950">Style</span>
                 <span className="font-body text-xs text-grey-700">{product.specs?.style || "Modern Contemporary"}</span>
               </div>
 
-              <div className="p-4 rounded-2xl bg-[#EFECE5]/60 border border-secondary-200/50 flex flex-col gap-2">
+              <div className="p-4 rounded-lg bg-secondary-100/60 border border-secondary-200/50 flex flex-col gap-2">
                 <Users className="w-5 h-5 text-primary-950" style={{ color: "var(--color-primary-950, #62103A)" }} />
                 <span className="font-body text-xs font-semibold text-grey-950">Seating Capacity</span>
                 <span className="font-body text-xs text-grey-700">{product.specs?.seatingCapacity || "3-4 Seater (per unit)"}</span>
               </div>
 
-              <div className="p-4 rounded-2xl bg-[#EFECE5]/60 border border-secondary-200/50 flex flex-col gap-2">
+              <div className="p-4 rounded-lg bg-secondary-100/60 border border-secondary-200/50 flex flex-col gap-2">
                 <Sparkles className="w-5 h-5 text-primary-950" style={{ color: "var(--color-primary-950, #62103A)" }} />
                 <span className="font-body text-xs font-semibold text-grey-950">Upholstery</span>
                 <span className="font-body text-xs text-grey-700">{product.specs?.upholstery || "Premium Fabric"}</span>
