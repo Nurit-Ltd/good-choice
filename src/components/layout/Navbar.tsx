@@ -119,7 +119,7 @@ export function Navbar({
 
             {/* Right Circle with Arrow */}
             <span
-              className="w-[40px] h-[40px] rounded-full flex items-center justify-center text-white bg-primary-950 transition-colors duration-200 group-hover:bg-primary-900 shrink-0 shadow-xs"
+              className="w-10 h-10 rounded-full flex items-center justify-center text-white bg-primary-950 transition-colors duration-200 group-hover:bg-primary-900 shrink-0 shadow-xs"
               style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}
             >
               <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
@@ -194,7 +194,7 @@ export function Navbar({
               <span className="px-5 py-2.5 rounded-full font-body font-medium text-[16px] text-white bg-primary-950" style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}>
                 WhatsApp
               </span>
-              <span className="w-[42px] h-[42px] rounded-full flex items-center justify-center text-white bg-primary-950 shrink-0" style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}>
+              <span className="w-10.5 h-10.5 rounded-full flex items-center justify-center text-white bg-primary-950 shrink-0" style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}>
                 <ArrowRight className="w-4 h-4" />
               </span>
             </Link>
