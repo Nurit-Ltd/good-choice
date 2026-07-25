@@ -58,7 +58,7 @@ export function Navbar({
                 <div key={item.label} className="relative group">
                   <button
                     type="button"
-                    className={`flex items-center gap-1.5 font-body text-[16px] font-medium leading-[150%] text-center text-grey-950 transition-colors duration-200 hover:text-primary-950 py-2 cursor-pointer ${
+                    className={`flex items-center gap-1.5 font-body text-[16px] font-normal leading-[150%] text-center text-grey-950 transition-colors duration-200 hover:text-primary-950 py-2 cursor-pointer ${
                       isActive ? "text-primary-950 font-semibold" : ""
                     }`}
                     style={{ color: "var(--color-grey-950, #292929)" }}
@@ -74,7 +74,7 @@ export function Navbar({
                         <Link
                           key={sub.label}
                           href={sub.href}
-                          className="px-3 py-2 text-sm font-body font-medium text-grey-950 hover:text-primary-950 hover:bg-secondary-50 rounded-lg transition-colors text-left"
+                          className="px-3 py-2 text-sm font-body font-normal text-grey-950 hover:text-primary-950 hover:bg-secondary-50 rounded-lg transition-colors text-left"
                         >
                           {sub.label}
                         </Link>
@@ -89,8 +89,8 @@ export function Navbar({
               <Link
                 key={item.label}
                 href={item.href}
-                className={`font-body text-[16px] font-medium leading-[150%] text-center text-grey-950 transition-colors duration-200 hover:text-primary-950 py-2 px-4 ${
-                  isActive ? "text-primary-950 font-medium" : ""
+                className={`font-body text-[16px] font-normal leading-[150%] text-center text-grey-950 transition-colors duration-200 hover:text-primary-950 py-2 px-4 ${
+                  isActive ? "text-primary-950 font-normal" : ""
                 }`}
                 style={{ color: "var(--color-grey-950, #292929)" }}
               >
@@ -111,7 +111,7 @@ export function Navbar({
           >
             {/* Left Pill with Text */}
             <span
-              className="px-4 py-2 rounded-full font-body font-medium text-[16px] leading-[150%] text-white bg-primary-950 transition-colors duration-200 group-hover:bg-primary-900 shadow-xs"
+              className="px-4 py-2 rounded-full font-body font-normal text-[16px] leading-[150%] text-white bg-primary-950 transition-colors duration-200 group-hover:bg-primary-900 shadow-xs"
               style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}
             >
               WhatsApp
@@ -152,7 +152,7 @@ export function Navbar({
                     <button
                       type="button"
                       onClick={() => toggleDropdown(item.label)}
-                      className="flex items-center justify-between w-full py-2.5 px-3 rounded-lg font-body text-[16px] font-medium text-grey-950 hover:bg-secondary-50 text-left"
+                      className="flex items-center justify-between w-full py-2.5 px-3 rounded-lg font-body text-[16px] font-normal text-grey-950 hover:bg-secondary-50 text-left"
                     >
                       <span>{item.label}</span>
                       <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`} />
@@ -165,7 +165,7 @@ export function Navbar({
                             key={sub.label}
                             href={sub.href}
                             onClick={() => setMobileMenuOpen(false)}
-                            className="py-2 px-3 text-sm font-body font-medium text-grey-700 hover:text-primary-950 hover:bg-secondary-50 rounded-lg"
+                            className="py-2 px-3 text-sm font-body font-normal text-grey-700 hover:text-primary-950 hover:bg-secondary-50 rounded-lg"
                           >
                             {sub.label}
                           </Link>
@@ -181,7 +181,7 @@ export function Navbar({
                   key={item.label}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-2.5 px-3 rounded-lg font-body text-[16px] font-medium text-grey-950 hover:bg-secondary-50 text-left"
+                  className="py-2.5 px-3 rounded-lg font-body text-[16px] font-normal text-grey-950 hover:bg-secondary-50 text-left"
                 >
                   {item.label}
                 </Link>
@@ -191,7 +191,7 @@ export function Navbar({
 
           <div className="pt-2 border-t border-secondary-100 flex justify-center">
             <Link href={whatsappUrl} target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)} className="group flex items-center gap-1.5">
-              <span className="px-5 py-2.5 rounded-full font-body font-medium text-[16px] text-white bg-primary-950" style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}>
+              <span className="px-5 py-2.5 rounded-full font-body font-normal text-[16px] text-white bg-primary-950" style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}>
                 WhatsApp
               </span>
               <span className="w-10.5 h-10.5 rounded-full flex items-center justify-center text-white bg-primary-950 shrink-0" style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}>
