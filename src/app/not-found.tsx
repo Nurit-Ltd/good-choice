@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
   return (
@@ -11,7 +11,7 @@ export default function NotFound() {
       </p>
       <div className="mt-6">
         <Link href="/">
-          <Button variant="primary">Return Home</Button>
+          <Button variant="default">Return Home</Button>
         </Link>
       </div>
     </div>

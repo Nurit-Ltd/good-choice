@@ -1,8 +1,8 @@
-import { Card } from "@/components/ui/Card";
+import { Card } from "@/components/ui/card";
 
 export default function OrdersPage() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 space-y-8">
+    <div className="container py-12 space-y-8">
       <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
         My Orders
       </h1>

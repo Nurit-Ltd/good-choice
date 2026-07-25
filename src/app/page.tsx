@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getProducts } from "@/services/productService";
 import { ProductGrid } from "@/components/features/products/ProductGrid";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 export default async function Home() {
   const products = await getProducts();
@@ -10,11 +10,11 @@ export default async function Home() {
   return (
     <div className="space-y-16 py-10">
       {/* Hero Section */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <section className="container">
         <div className="rounded-3xl bg-slate-900 px-6 py-20 text-center text-white sm:py-28 lg:px-12 shadow-2xl relative overflow-hidden">
           <div className="relative z-10 max-w-3xl mx-auto space-y-6">
-            <span className="inline-block rounded-full bg-slate-800 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-slate-300">
-              New Season Arrival
+            <span className="inline-block bg-slate-800 px-4 py-1.5 text-5xl font-heading tracking-wider text-slate-300">
+            Shop By Room
             </span>
             <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl">
               Elevate Your Lifestyle with Good Choice
@@ -39,7 +39,7 @@ export default async function Home() {
       </section>
 
       {/* Featured Products */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8">
+      <section className="container space-y-8">
         <div className="flex items-end justify-between">
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">

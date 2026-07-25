@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 export default function CartPage() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 space-y-8">
+    <div className="container py-12 space-y-8">
       <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
         Shopping Cart
       </h1>
@@ -16,7 +16,7 @@ export default function CartPage() {
         </p>
         <div>
           <Link href="/products">
-            <Button variant="primary">Start Shopping</Button>
+            <Button variant="default">Start Shopping</Button>
           </Link>
         </div>
       </div>

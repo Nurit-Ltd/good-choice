@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Product } from "@/types/product";
 import { formatCurrency } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 interface ProductCardProps {
   product: Product;
