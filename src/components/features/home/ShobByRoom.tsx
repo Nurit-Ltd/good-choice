@@ -13,18 +13,18 @@ interface RoomItem {
 }
 
 const ROOM_ITEMS: RoomItem[] = [
-  { id: "1", title: "Living Room", image: "/images/home/room/room-1.png", href: "#" },
-  { id: "2", title: "Dining Room", image: "/images/home/room/room-2.png", href: "#" },
-  { id: "3", title: "Bed Room", image: "/images/home/room/room-3.png", href: "#" },
-  { id: "4", title: "Study Room", image: "/images/home/room/room-4.png", href: "#" },
-  { id: "5", title: "Kitchen & Bar", image: "/images/home/room/room-1.png", href: "#" },
-  { id: "6", title: "Outdoor Lounge", image: "/images/home/room/room-2.png", href: "#" },
-  { id: "7", title: "Master Bedroom", image: "/images/home/room/room-3.png", href: "#" },
-  { id: "8", title: "Home Office", image: "/images/home/room/room-4.png", href: "#" },
-  { id: "9", title: "Entryway & Hall", image: "/images/home/room/room-1.png", href: "#" },
-  { id: "10", title: "Luxury Bathroom", image: "/images/home/room/room-2.png", href: "#" },
-  { id: "11", title: "Guest Room", image: "/images/home/room/room-3.png", href: "#" },
-  { id: "12", title: "Terrace & Balcony", image: "/images/home/room/room-4.png", href: "#" },
+  { id: "1", title: "Living Room", image: "/images/home/room/room-1.png", href: "/products?category=Living%20Room" },
+  { id: "2", title: "Dining Room", image: "/images/home/room/room-2.png", href: "/products?category=Dining%20Room" },
+  { id: "3", title: "Bed Room", image: "/images/home/room/room-3.png", href: "/products?category=Beds" },
+  { id: "4", title: "Study Room", image: "/images/home/room/room-4.png", href: "/products?category=Wardrobes" },
+  { id: "5", title: "Kitchen & Bar", image: "/images/home/room/room-1.png", href: "/products?category=Dining%20Room" },
+  { id: "6", title: "Outdoor Lounge", image: "/images/home/room/room-2.png", href: "/products?category=Outdoor" },
+  { id: "7", title: "Master Bedroom", image: "/images/home/room/room-3.png", href: "/products?category=Beds" },
+  { id: "8", title: "Home Office", image: "/images/home/room/room-4.png", href: "/products?category=Chairs" },
+  { id: "9", title: "Entryway & Hall", image: "/images/home/room/room-1.png", href: "/products?category=Home%20Decor" },
+  { id: "10", title: "Luxury Bathroom", image: "/images/home/room/room-2.png", href: "/products?category=Home%20Decor" },
+  { id: "11", title: "Guest Room", image: "/images/home/room/room-3.png", href: "/products?category=Beds" },
+  { id: "12", title: "Terrace & Balcony", image: "/images/home/room/room-4.png", href: "/products?category=Outdoor" },
 ];
 
 export function ShopByRoom() {

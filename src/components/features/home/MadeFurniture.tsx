@@ -8,12 +8,13 @@ export function MadeFurniture() {
           {/* Left Column: Image Top -> Text Bottom */}
           <div className="flex flex-col gap-8 lg:gap-12">
             {/* Top Image: Art of Furniture */}
-            <div className="relative w-full h-95 sm:h-120 lg:h-139.5 rounded-2xl lg:rounded-3xl overflow-hidden group shadow-sm">
+            <div className="relative w-full aspect-792/882 min-h-110 sm:min-h-145 lg:min-h-180 xl:min-h-220.5 rounded-lg overflow-hidden group shadow-sm">
               <Image
                 src="/images/home/furniture-made-process/art-furniture.webp"
                 alt="The Art of Furniture Making craft material"
                 fill
                 priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
             </div>
@@ -57,11 +58,12 @@ export function MadeFurniture() {
             </div>
 
             {/* Bottom Image: Artisan at work */}
-            <div className="relative w-full h-95 sm:h-120 lg:h-139.5 rounded-2xl lg:rounded-3xl overflow-hidden group shadow-sm">
+            <div className="relative w-full aspect-792/882 min-h-110 sm:min-h-145 lg:min-h-180 xl:min-h-220.5 rounded-lg overflow-hidden group shadow-sm">
               <Image
                 src="/images/home/furniture-made-process/made-furniture.webp"
                 alt="Artisan making furniture in workshop"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
             </div>

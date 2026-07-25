@@ -1,3 +1,9 @@
+export interface ProductSpecs {
+  style?: string;
+  seatingCapacity?: string;
+  upholstery?: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -6,12 +12,16 @@ export interface Product {
   price: number;
   originalPrice?: number;
   category: string;
+  subcategory?: string;
+  tag?: string;
   images: string[];
   inStock: boolean;
   stockCount: number;
   rating: number;
   reviewCount: number;
   isFeatured?: boolean;
+  specs?: ProductSpecs;
+  keyFeatures?: string[];
   createdAt: string;
 }
 
