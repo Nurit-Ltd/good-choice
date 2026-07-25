@@ -1,4 +1,5 @@
 import { Banner } from "@/components/features/home/Banner";
+import { MadeFurniture } from "@/components/features/home/MadeFurniture";
 import { ShopByRoom } from "@/components/features/home/ShobByRoom";
 import { ProductGrid } from "@/components/features/products/ProductGrid";
 import { getProducts } from "@/services/productService";
@@ -17,6 +18,9 @@ export default async function Home() {
 
       {/* Shop By Room Section */}
       <ShopByRoom />
+
+      {/* Made Furniture Craftsmanship Section */}
+      <MadeFurniture />
 
       {/* Featured Products */}
       <section className="container space-y-8">
