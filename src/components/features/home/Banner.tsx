@@ -34,7 +34,7 @@ export function Banner({ data = bannerData, autoPlayInterval = 6000, className =
         {/* Background Images with Smooth Transition */}
         {data.slides.map((slide, idx) => (
           <div key={slide.id} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${idx === currentIndex ? "opacity-100 z-0" : "opacity-0 -z-10"}`}>
-            <Image src={slide.image} alt={slide.alt} fill priority={idx === 0} sizes="100vw" className="object-fill object-top" />
+            <Image src={slide.image} alt={slide.alt} fill priority={idx === 0} sizes="100vw" className="object-cover object-top" />
           </div>
         ))}
 

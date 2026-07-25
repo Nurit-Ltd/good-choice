@@ -12,22 +12,21 @@ export interface BannerData {
 
 export const bannerData: BannerData = {
   title: "Crafted Luxury for Elevated Living",
-  subtitle:
-    "Bespoke furniture designed with premium materials, timeless aesthetics, and precision craftsmanship for refined modern interiors.",
+  subtitle: "Bespoke furniture designed with premium materials, timeless aesthetics, and precision craftsmanship for refined modern interiors.",
   slides: [
     {
       id: 1,
-      image: "/images/home/banner/slide-1.jpg",
+      image: "/images/home/banner/Img-1.webp",
       alt: "Crafted Luxury sofa living room",
     },
     {
       id: 2,
-      image: "/images/home/banner/slide-2.png",
+      image: "/images/home/banner/Img-2.webp",
       alt: "Minimalist wooden sofa living room",
     },
     {
       id: 3,
-      image: "/images/home/banner/slide-3.png",
+      image: "/images/home/banner/Img-3.webp",
       alt: "Cozy armchairs living room",
     },
   ],
