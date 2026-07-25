@@ -46,6 +46,12 @@
   --color-grey-50: #fcfcfc;
 }
 
+@layer base {
+  body {
+    
+  }
+}
+
 @utility container {
   width: 100% !important;
   max-width: none !important;

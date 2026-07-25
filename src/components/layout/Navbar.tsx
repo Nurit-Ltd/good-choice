@@ -34,7 +34,7 @@ export function Navbar({
   return (
     <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${className}`}>
       <div
-        className="flex h-18  items-center justify-between px-4 sm:px-6 py-2.5 rounded-lg bg-secondary-300/16 backdrop-blur-[32px] shadow-xs"
+        className="flex h-18 items-center justify-between px-4 sm:px-6 py-2.5 bg-secondary-300/16 backdrop-blur-[32px] shadow-xs"
         style={{
           backgroundColor: "rgba(201, 188, 168, 0.16)",
           borderColor: "var(--color-secondary-50, #F8F6F4)",
