@@ -23,7 +23,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   const secondaryImage = images[1] || images[0];
 
   return (
-    <div className="w-full bg-[#F8F6F4] pb-24">
+    <div className="w-full">
       {/* Top Breadcrumb Bar */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-4">
         <div className="flex items-center gap-2 font-body text-xs text-grey-600">
@@ -45,24 +45,11 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           {/* Left Column: Stacked Image Gallery */}
           <div className="flex flex-col gap-6">
             <div className="relative w-full aspect-8/5 rounded-lg overflow-hidden shadow-sm bg-white">
-              <Image
-                src={images[0]}
-                alt={product.name}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
+              <Image src={images[0]} alt={product.name} fill priority sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
             </div>
 
             <div className="relative w-full aspect-8/5 rounded-lg overflow-hidden shadow-sm bg-white">
-              <Image
-                src={secondaryImage}
-                alt={`${product.name} alternate view`}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
+              <Image src={secondaryImage} alt={`${product.name} alternate view`} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
             </div>
           </div>
 
@@ -70,17 +57,11 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           <div className="flex flex-col gap-8">
             {/* Title & Description */}
             <div className="space-y-4">
-              <h1
-                className="font-heading text-4xl sm:text-5xl lg:text-[56px] font-normal leading-[110%] tracking-tight text-grey-950"
-                style={{ color: "var(--color-grey-950, #292929)" }}
-              >
+              <h1 className="font-heading text-4xl sm:text-5xl lg:text-[56px] font-normal leading-[110%] tracking-tight text-grey-950" style={{ color: "var(--color-grey-950, #292929)" }}>
                 {product.name}
               </h1>
 
-              <p
-                className="font-body text-sm sm:text-base leading-[160%] text-grey-700 max-w-xl"
-                style={{ color: "var(--color-grey-700, #525252)" }}
-              >
+              <p className="font-body text-sm sm:text-base leading-[160%] text-grey-700 max-w-xl" style={{ color: "var(--color-grey-700, #525252)" }}>
                 {product.description}
               </p>
             </div>
@@ -100,9 +81,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
 
             {/* Key Features List */}
             <div className="space-y-3 pt-2">
-              <h3 className="font-body text-base font-semibold text-grey-950">
-                Key Features
-              </h3>
+              <h3 className="font-body text-base font-semibold text-grey-950">Key Features</h3>
               <ul className="space-y-2 font-body text-sm text-grey-700">
                 {product.keyFeatures?.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-2.5">
@@ -138,9 +117,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
       </section>
 
       {/* Related Products Carousel Section */}
-      <div className="mt-16 sm:mt-24">
-        <RecentlyCrafted title="Related Products" products={relatedProducts} />
-      </div>
+      <RecentlyCrafted title="Related Products" products={relatedProducts} />
     </div>
   );
 }
