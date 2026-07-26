@@ -1,16 +1,16 @@
 "use client";
 
-import { siteConfig } from "@/config/site";
-import { NavItem } from "@/types/navigation";
-import { ArrowRight, Menu } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useRef, useState } from "react";
 import { DesktopNav } from "@/components/layout/navbar/DesktopNav";
 import { MegaMenuPanel } from "@/components/layout/navbar/MegaMenuPanel";
 import { MobileSheet } from "@/components/layout/navbar/MobileSheet";
 import { DualPillButton } from "@/components/ui/DualPillButton";
+import { siteConfig } from "@/config/site";
+import { NavItem } from "@/types/navigation";
+import { Menu } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useRef, useState } from "react";
 
 interface NavbarProps {
   navItems?: NavItem[];
@@ -66,25 +66,11 @@ export function Navbar({
         </Link>
 
         {/* Desktop Navigation Items */}
-        <DesktopNav
-          navItems={navItems}
-          pathname={pathname}
-          hoveredNav={hoveredNav}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onItemClick={handleItemClick}
-        />
+        <DesktopNav navItems={navItems} pathname={pathname} hoveredNav={hoveredNav} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onItemClick={handleItemClick} />
 
         {/* Right CTA Button - WhatsApp Dual Pill */}
         <div className="hidden md:flex items-center">
-          <DualPillButton
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="primary"
-            size="md"
-            aria-label="Contact us on WhatsApp"
-          >
+          <DualPillButton href={whatsappUrl} target="_blank" rel="noopener noreferrer" variant="primary" size="md" aria-label="Contact us on WhatsApp">
             WhatsApp
           </DualPillButton>
         </div>
@@ -101,23 +87,10 @@ export function Navbar({
       </div>
 
       {/* Desktop Dynamic Mega Menu Panel Overlay */}
-      <MegaMenuPanel
-        navItems={navItems}
-        hoveredNav={hoveredNav}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onItemClick={handleItemClick}
-      />
+      <MegaMenuPanel navItems={navItems} hoveredNav={hoveredNav} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onItemClick={handleItemClick} />
 
       {/* Mobile Side Sheet Drawer Navigation */}
-      <MobileSheet
-        isOpen={mobileMenuOpen}
-        onClose={() => setMobileMenuOpen(false)}
-        navItems={navItems}
-        logoSrc={logoSrc}
-        logoAlt={logoAlt}
-        whatsappUrl={whatsappUrl}
-      />
+      <MobileSheet isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} navItems={navItems} logoSrc={logoSrc} logoAlt={logoAlt} whatsappUrl={whatsappUrl} />
     </header>
   );
 }

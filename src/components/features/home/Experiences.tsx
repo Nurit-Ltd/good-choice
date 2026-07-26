@@ -152,7 +152,7 @@ export function Experiences({
             return (
               <div
                 key={exp.id}
-                className="group relative overflow-hidden w-full sm:w-[340px] lg:w-full shrink-0 lg:shrink h-100 p-8 rounded-lg bg-[#701544] flex flex-col items-center justify-between text-center transition-transform duration-300 hover:scale-[1.015] shadow-lg cursor-pointer snap-center"
+                className="group relative overflow-hidden w-full sm:w-85 lg:w-full shrink-0 lg:shrink h-100 p-8 rounded-lg bg-[#701544] flex flex-col items-center justify-between text-center transition-transform duration-300 hover:scale-[1.015] shadow-lg cursor-pointer snap-center"
               >
                 {/* Layer 0: Base White Background (hidden in default state to eliminate corner stroke bleed) */}
                 <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />

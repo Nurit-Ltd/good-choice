@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import React from "react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import React from "react";
+import { LongRightArrowIcon } from "../shared/svgs";
 
 export interface DualPillButtonProps {
   href?: string;
@@ -16,18 +16,7 @@ export interface DualPillButtonProps {
   fullWidth?: boolean;
 }
 
-export function DualPillButton({
-  href,
-  children,
-  variant = "primary",
-  size = "md",
-  target,
-  rel,
-  className = "",
-  onClick,
-  "aria-label": ariaLabel,
-  fullWidth = false,
-}: DualPillButtonProps) {
+export function DualPillButton({ href, children, variant = "primary", size = "md", target, rel, className = "", onClick, "aria-label": ariaLabel, fullWidth = false }: DualPillButtonProps) {
   const isPrimary = variant === "primary";
   const isLight = variant === "light";
 
@@ -52,69 +41,53 @@ export function DualPillButton({
   const pillStyles: React.CSSProperties = isPrimary
     ? { backgroundColor: "var(--color-primary-950, #62103A)", color: "#FFFFFF" }
     : isLight
-    ? { backgroundColor: "var(--color-grey-50, #FCFCFC)", color: "var(--color-primary-950, #62103A)" }
-    : {};
+      ? { backgroundColor: "var(--color-grey-50, #FCFCFC)", color: "var(--color-primary-950, #62103A)" }
+      : {};
 
   const iconStyles: React.CSSProperties = isPrimary
     ? { backgroundColor: "var(--color-primary-950, #62103A)", color: "#FFFFFF" }
     : isLight
-    ? { backgroundColor: "var(--color-grey-50, #FCFCFC)", color: "var(--color-primary-950, #62103A)" }
-    : {};
+      ? { backgroundColor: "var(--color-grey-50, #FCFCFC)", color: "var(--color-primary-950, #62103A)" }
+      : {};
 
   const content = (
     <>
-      <span
-        className={cn(
-          sizeClasses.pill,
-          "transition-colors duration-200 shadow-xs",
-          fullWidth && "flex-1 text-center"
-        )}
-        style={pillStyles}
-      >
+      <span className={cn(sizeClasses.pill, "transition-colors duration-200 shadow-xs", fullWidth && "flex-1 text-center")} style={pillStyles}>
         {children}
       </span>
-      <span
-        className={cn(
-          sizeClasses.icon,
-          "flex items-center justify-center transition-colors duration-200 shrink-0 shadow-xs"
-        )}
-        style={iconStyles}
-      >
-        <ArrowRight className={cn(sizeClasses.iconSize, "transition-transform duration-200 group-hover:translate-x-0.5")} />
+      <span className={cn(sizeClasses.icon, "relative overflow-hidden flex items-center justify-center transition-colors duration-200 shrink-0 shadow-xs")} style={iconStyles}>
+        {/* Main Icon: Slides out to right on hover, slides back in from right on hover out */}
+        <LongRightArrowIcon
+          className={cn(
+            sizeClasses.iconSize,
+            "transition-all duration-300 ease-out group-hover:translate-x-[150%] group-hover:opacity-0"
+          )}
+        />
+        {/* Incoming Icon: Slides in from left on hover, slides back out to left on hover out */}
+        <LongRightArrowIcon
+          className={cn(
+            sizeClasses.iconSize,
+            "absolute transition-all duration-300 ease-out translate-x-[-150%] opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
+          )}
+        />
       </span>
     </>
   );
 
-  const containerClassName = cn(
-    "group flex items-center transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer",
-    fullWidth && "w-full justify-center",
-    className
-  );
+  const containerClassName = cn("group flex items-center transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer", fullWidth && "w-full justify-center", className);
 
   const label = ariaLabel || (typeof children === "string" ? children : undefined);
 
   if (href) {
     return (
-      <Link
-        href={href}
-        target={target}
-        rel={rel}
-        onClick={onClick}
-        className={containerClassName}
-        aria-label={label}
-      >
+      <Link href={href} target={target} rel={rel} onClick={onClick} className={containerClassName} aria-label={label}>
         {content}
       </Link>
     );
   }
 
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={containerClassName}
-      aria-label={label}
-    >
+    <button type="button" onClick={onClick} className={containerClassName} aria-label={label}>
       {content}
     </button>
   );
