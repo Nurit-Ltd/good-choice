@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { DualPillButton } from "@/components/ui/DualPillButton";
 import { useEffect, useRef } from "react";
 
 export interface CollectionItem {
@@ -128,30 +127,14 @@ export function Collections({
 
             {/* CTA Button - Dual Pill matching Navbar design language */}
             <div className="pt-2">
-              <Link
+              <DualPillButton
                 href={buttonHref}
-                className="group flex items-center transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                variant="light"
+                size="lg"
                 aria-label={buttonText}
               >
-                <span
-                  className="px-6 py-3.5 rounded-full font-body font-normal text-[16px] leading-[150%] transition-colors duration-200 shadow-xs"
-                  style={{
-                    backgroundColor: "var(--color-grey-50, #FCFCFC)",
-                    color: "var(--color-primary-950, #62103A)",
-                  }}
-                >
-                  {buttonText}
-                </span>
-                <span
-                  className="w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-200 shrink-0 shadow-xs"
-                  style={{
-                    backgroundColor: "var(--color-grey-50, #FCFCFC)",
-                    color: "var(--color-primary-950, #62103A)",
-                  }}
-                >
-                  <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-                </span>
-              </Link>
+                {buttonText}
+              </DualPillButton>
             </div>
           </div>
 

@@ -1,5 +1,6 @@
 import { Banner } from "@/components/features/home/Banner";
 import { Collections } from "@/components/features/home/Collections";
+import { Explore } from "@/components/features/home/Explore";
 import { MadeFurniture } from "@/components/features/home/MadeFurniture";
 import { RecentlyCrafted } from "@/components/features/home/RecentlyCrafted";
 import { ShopByRoom } from "@/components/features/home/ShobByRoom";
@@ -26,6 +27,9 @@ export default async function Home() {
 
       {/* Grand Atelier Collections Section */}
       <Collections />
+
+      {/* Explore Elevated Living Essentials Section */}
+      <Explore products={products} />
     </div>
   );
 }

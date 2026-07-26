@@ -10,6 +10,7 @@ import { useRef, useState } from "react";
 import { DesktopNav } from "@/components/layout/navbar/DesktopNav";
 import { MegaMenuPanel } from "@/components/layout/navbar/MegaMenuPanel";
 import { MobileSheet } from "@/components/layout/navbar/MobileSheet";
+import { DualPillButton } from "@/components/ui/DualPillButton";
 
 interface NavbarProps {
   navItems?: NavItem[];
@@ -76,26 +77,16 @@ export function Navbar({
 
         {/* Right CTA Button - WhatsApp Dual Pill */}
         <div className="hidden md:flex items-center">
-          <Link
+          <DualPillButton
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
+            variant="primary"
+            size="md"
             aria-label="Contact us on WhatsApp"
           >
-            <span
-              className="px-4 py-2 rounded-full font-body font-normal text-[16px] leading-[150%] text-white bg-primary-950 transition-colors duration-200 group-hover:bg-primary-900 shadow-xs"
-              style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}
-            >
-              WhatsApp
-            </span>
-            <span
-              className="w-10 h-10 rounded-full flex items-center justify-center text-white bg-primary-950 transition-colors duration-200 group-hover:bg-primary-900 shrink-0 shadow-xs"
-              style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}
-            >
-              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-            </span>
-          </Link>
+            WhatsApp
+          </DualPillButton>
         </div>
 
         {/* Mobile Hamburger Toggle Button */}
