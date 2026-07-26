@@ -16,7 +16,7 @@ interface ProductsPageProps {
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const params = await searchParams;
   const page = Number(params.page) || 1;
-  const category = params.category || "Chairs";
+  const category = params.category || "all";
 
   const { products, total, totalPages, currentPage } = await getProductsPaginated({
     page,

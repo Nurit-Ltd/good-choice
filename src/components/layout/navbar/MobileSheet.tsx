@@ -5,6 +5,7 @@ import { ArrowRight, ChevronDown, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { DualPillButton } from "@/components/ui/DualPillButton";
 
 interface MobileSheetProps {
   isOpen: boolean;
@@ -188,26 +189,17 @@ export function MobileSheet({
 
         {/* Footer CTA */}
         <div className="p-5 border-t border-secondary-200/60 bg-[#F5F1EA]/50 flex flex-col items-center gap-3">
-          <Link
+          <DualPillButton
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
             onClick={onClose}
-            className="group flex items-center justify-center w-full transition-transform duration-200 active:scale-98"
+            variant="primary"
+            size="md"
+            fullWidth
           >
-            <span
-              className="px-5 py-2.5 rounded-l-full font-body font-normal text-[15px] text-white bg-primary-950 shadow-xs flex-1 text-center"
-              style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}
-            >
-              WhatsApp Us
-            </span>
-            <span
-              className="w-10 h-10 rounded-r-full flex items-center justify-center text-white bg-primary-950 shrink-0 shadow-xs"
-              style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}
-            >
-              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-            </span>
-          </Link>
+            WhatsApp Us
+          </DualPillButton>
           <span className="text-[12px] font-body text-grey-500 text-center">
             Good Choice Furniture © 2026
           </span>

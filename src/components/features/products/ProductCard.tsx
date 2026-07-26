@@ -14,7 +14,7 @@ export function ProductCard({ product, className = "" }: ProductCardProps) {
   const tagText = product.tag || "Made to order";
 
   return (
-    <div className={`group relative flex flex-col mb-12 sm:mb-14 ${className}`}>
+    <div className={`group relative flex flex-col mb-4 md:mb-14 ${className}`}>
       <Link href={`/products/${product.slug}`} className="block relative w-full">
         {/* Main Image Container */}
         <div className="relative w-full aspect-4/3 rounded-lg group-hover:rounded-bl-none overflow-hidden bg-[#F5F2ED] border border-transparent group-hover:border-primary-950 transition-colors duration-300">

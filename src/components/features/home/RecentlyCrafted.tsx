@@ -63,8 +63,8 @@ export function RecentlyCrafted({
             {title}
           </h2>
 
-          {/* Slider Controls (Matching ShopByRoom SVG Controls) */}
-          <div className="flex items-center gap-6 lg:gap-8 xl:gap-16 shrink-0">
+          {/* Slider Controls (Desktop/Tablet Top Right) */}
+          <div className="hidden sm:flex items-center gap-6 lg:gap-8 xl:gap-16 shrink-0">
             <button
               type="button"
               onClick={() => handleScroll("left")}
@@ -110,6 +110,39 @@ export function RecentlyCrafted({
               <ProductCard product={product} />
             </div>
           ))}
+        </div>
+
+        {/* Mobile Bottom Slider Controls (Centered below slider) */}
+        <div className="flex sm:hidden items-center justify-center gap-8 mt-6">
+          <button
+            type="button"
+            onClick={() => handleScroll("left")}
+            disabled={!canScrollLeft}
+            className={`inline-flex items-center gap-2 text-sm font-medium transition-colors cursor-pointer ${
+              canScrollLeft
+                ? "text-grey-950 hover:text-primary-950"
+                : "text-grey-400 cursor-not-allowed opacity-40"
+            }`}
+            aria-label="Previous slide"
+          >
+            <CustomArrowLeft className="w-4 h-4" />
+            <span>Previous</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleScroll("right")}
+            disabled={!canScrollRight}
+            className={`inline-flex items-center gap-2 text-sm font-medium transition-colors cursor-pointer ${
+              canScrollRight
+                ? "text-primary-950 hover:text-[#4a0c2c]"
+                : "text-grey-400 cursor-not-allowed opacity-40"
+            }`}
+            aria-label="Next slide"
+          >
+            <span>Next</span>
+            <CustomArrowRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </section>
