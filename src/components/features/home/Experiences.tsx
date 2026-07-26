@@ -79,7 +79,7 @@ export function Experiences({
   const handleScroll = (direction: "left" | "right") => {
     const el = scrollContainerRef.current;
     if (!el) return;
-    const scrollAmount = el.clientWidth * 0.8;
+    const scrollAmount = el.clientWidth;
     el.scrollBy({
       left: direction === "left" ? -scrollAmount : scrollAmount,
       behavior: "smooth",
@@ -88,8 +88,8 @@ export function Experiences({
 
   return (
     <section className={`relative w-full overflow-hidden bg-primary-950 py-16 sm:py-24 ${className}`} style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}>
-      {/* Background Watermark Logo Overlay (Spanning full top-to-bottom section edge) */}
-      <div className="absolute inset-y-0 right-0 pointer-events-none select-none z-0 w-full h-full">
+      {/* Background Watermark Logo Overlay (Hidden on Mobile, Visible on Tablet/Desktop) */}
+      <div className="hidden sm:block absolute inset-y-0 right-0 pointer-events-none select-none z-0 w-full h-full">
         <Image src="/images/home/Experiences/logo-shadow.png" alt="Good Choice Watermark Shadow" fill className="object-contain object-right" priority />
       </div>
 
@@ -108,8 +108,8 @@ export function Experiences({
             </p>
           </div>
 
-          {/* Slider Navigation Arrows (Previous / Next matching ShopByRoom) */}
-          <div className="flex items-center gap-6 lg:gap-8 xl:gap-16 shrink-0 pt-2 lg:pt-0">
+          {/* Slider Navigation Arrows (Desktop Top Right) */}
+          <div className="hidden lg:flex items-center gap-6 lg:gap-8 xl:gap-16 shrink-0 pt-2 lg:pt-0">
             <button
               type="button"
               onClick={() => handleScroll("left")}
@@ -141,7 +141,7 @@ export function Experiences({
         {/* Experiences Cards Grid / Carousel Container */}
         <div
           ref={scrollContainerRef}
-          className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 overflow-x-auto lg:overflow-visible scrollbar-none py-2 scroll-smooth"
+          className="w-full flex lg:grid lg:grid-cols-4 gap-6 lg:gap-8 overflow-x-auto lg:overflow-visible scrollbar-none snap-x snap-mandatory py-2 scroll-smooth"
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
@@ -152,7 +152,7 @@ export function Experiences({
             return (
               <div
                 key={exp.id}
-                className="group relative overflow-hidden w-full shrink-0 lg:shrink h-100 p-8 rounded-lg bg-[#701544] flex flex-col items-center justify-between text-center transition-transform duration-300 hover:scale-[1.015] shadow-lg cursor-pointer"
+                className="group relative overflow-hidden w-full sm:w-[340px] lg:w-full shrink-0 lg:shrink h-100 p-8 rounded-lg bg-[#701544] flex flex-col items-center justify-between text-center transition-transform duration-300 hover:scale-[1.015] shadow-lg cursor-pointer snap-center"
               >
                 {/* Layer 0: Base White Background (hidden in default state to eliminate corner stroke bleed) */}
                 <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
@@ -175,6 +175,35 @@ export function Experiences({
               </div>
             );
           })}
+        </div>
+
+        {/* Mobile Bottom Slider Controls (Centered below slider) */}
+        <div className="flex lg:hidden items-center justify-center gap-8 mt-6">
+          <button
+            type="button"
+            onClick={() => handleScroll("left")}
+            disabled={!canScrollLeft}
+            className={`inline-flex items-center gap-2 text-sm font-medium transition-colors cursor-pointer ${
+              canScrollLeft ? "text-grey-50 hover:text-white" : "text-grey-50/40 cursor-not-allowed opacity-40"
+            }`}
+            aria-label="Previous experiences"
+          >
+            <CustomArrowLeft className="w-4 h-4" />
+            <span>Previous</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleScroll("right")}
+            disabled={!canScrollRight}
+            className={`inline-flex items-center gap-2 text-sm font-medium transition-colors cursor-pointer ${
+              canScrollRight ? "text-grey-50 hover:text-white" : "text-grey-50/40 cursor-not-allowed opacity-40"
+            }`}
+            aria-label="Next experiences"
+          >
+            <span>Next</span>
+            <CustomArrowRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </section>

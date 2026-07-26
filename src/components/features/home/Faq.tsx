@@ -61,7 +61,7 @@ export function Faq({
   };
 
   return (
-    <section className={`w-full py-16 sm:py-20 lg:py-24 ${className}`}>
+    <section className={`w-full pt-16 sm:pt-20 lg:pt-24 ${className}`}>
       <div className="container">
         <div className="flex flex-col lg:flex-row justify-between items-start gap-10 lg:gap-16 xl:gap-24">
           

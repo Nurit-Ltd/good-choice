@@ -36,8 +36,8 @@ export function MadeFurniture() {
             </div>
           </div>
 
-          {/* Right Column: Text Top -> Image Bottom */}
-          <div className="flex flex-col gap-8 lg:gap-12">
+          {/* Right Column: Image Top on Mobile -> Text Top on Desktop */}
+          <div className="flex flex-col-reverse lg:flex-col gap-8 lg:gap-12">
             {/* Top Content: Made with Care for a Cleaner Future */}
             <div className="flex flex-col gap-4 sm:gap-6">
               <h2 className="font-heading text-3xl sm:text-4xl lg:text-[64px] font-normal leading-[110%] tracking-[-0.64px] text-grey-950" style={{ color: "var(--color-grey-950, #292929)" }}>

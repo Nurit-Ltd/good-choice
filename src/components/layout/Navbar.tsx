@@ -50,9 +50,9 @@ export function Navbar({
   };
 
   return (
-    <header className={`sticky top-0 z-50 w-full transition-all px-4 pt-4 duration-300 ${className}`}>
+    <header className={`sticky top-0 z-50 w-full transition-all px-3 pt-2 sm:px-4 sm:pt-4 duration-300 ${className}`}>
       <div
-        className="flex h-18 items-center rounded-lg border justify-between px-4 sm:px-6 py-2.5 bg-secondary-300/16 backdrop-blur-[32px] shadow-xs relative z-50"
+        className="flex h-14 sm:h-18 items-center rounded-lg border justify-between px-3 sm:px-6 py-1.5 sm:py-2.5 bg-secondary-300/16 backdrop-blur-[32px] shadow-xs relative z-50"
         style={{
           backgroundColor: "rgba(201, 188, 168, 0.16)",
           borderColor: "var(--color-secondary-50, #F8F6F4)",
@@ -62,7 +62,7 @@ export function Navbar({
       >
         {/* Brand Logo */}
         <Link href="/" className="flex items-center shrink-0 transition-opacity hover:opacity-90">
-          <Image src={logoSrc} alt={logoAlt} width={117} height={40} className="w-29.25 h-10 object-contain" priority />
+          <Image src={logoSrc} alt={logoAlt} width={117} height={40} className="w-24 sm:w-29.25 h-8 sm:h-10 object-contain" priority />
         </Link>
 
         {/* Desktop Navigation Items */}

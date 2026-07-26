@@ -41,10 +41,10 @@ export function FooterBottomBar() {
           href="https://maps.google.com/?q=Muaither+Umm+Al+Dome+St+Doha+Qatar"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 font-body text-xs sm:text-sm font-normal text-grey-950/80 hover:text-primary-950 transition-colors duration-200 group"
+          className="inline font-body text-xs sm:text-sm font-normal text-grey-950/80 hover:text-primary-950 transition-colors duration-200 group leading-relaxed"
         >
           <span>C.R. No:82686, Muaither, Umm Al Dome St, Doha, Qatar, Ar Rayyan</span>
-          <span className="inline-flex items-center justify-center w-5 h-5 rounded-sm bg-primary-950 text-white transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+          <span className="inline-flex align-middle ml-1.5 items-center justify-center w-5 h-5 rounded-sm bg-primary-950 text-white transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
             <ArrowUpRight className="w-3.5 h-3.5" />
           </span>
         </a>
