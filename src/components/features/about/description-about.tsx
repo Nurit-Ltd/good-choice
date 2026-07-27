@@ -19,7 +19,7 @@ export function DescriptionAbout() {
   ];
 
   return (
-    <section className="w-full py-16 sm:py-24 lg:py-32 bg-[#F8F6F4]">
+    <section className="w-full py-16 sm:py-24">
       <div className="container">
         {/* Centered Single-Column Container */}
         <div className="flex flex-col items-start text-left">

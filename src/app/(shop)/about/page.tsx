@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { HeroAbout } from "@/components/features/about/hero-about";
 import { DescriptionAbout } from "@/components/features/about/description-about";
+import { VisionaryBrand } from "@/components/features/about/visionary-brand";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -16,6 +17,9 @@ export default function AboutPage() {
 
       {/* Centered Single-Column Description & 4-Column Statistics Section */}
       <DescriptionAbout />
+
+      {/* The Visionary Behind the Brand Section */}
+      <VisionaryBrand />
     </div>
   );
 }
