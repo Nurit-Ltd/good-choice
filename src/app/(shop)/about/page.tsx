@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { HeroAbout } from "@/components/features/about/hero-about";
 import { DescriptionAbout } from "@/components/features/about/description-about";
 import { VisionaryBrand } from "@/components/features/about/visionary-brand";
+import { Handcraft } from "@/components/features/about/handcraft";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -20,6 +21,9 @@ export default function AboutPage() {
 
       {/* The Visionary Behind the Brand Section */}
       <VisionaryBrand />
+
+      {/* Handcrafted with Purpose and Precision Section */}
+      <Handcraft />
     </div>
   );
 }
