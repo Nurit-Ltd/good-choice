@@ -116,3 +116,40 @@ export const LongRightArrowIcon = ({ className, ...props }: SVGProps<SVGSVGEleme
     </svg>
   );
 };
+
+export const ModernMenuIcon = ({ className, ...props }: SVGProps<SVGSVGElement>) => {
+  return (
+    <svg
+      {...props}
+      className={`transition-transform duration-300 ${className || ""}`}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <path
+        d="M5 8H13.75"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="transition-transform duration-300 ease-out group-hover:translate-x-1"
+      />
+      <path
+        d="M5 12H19"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="transition-transform duration-300 ease-out group-hover:-translate-x-1"
+      />
+      <path
+        d="M10.25 16L19 16"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="transition-transform duration-300 ease-out group-hover:translate-x-1"
+      />
+    </svg>
+  );
+};

@@ -42,11 +42,11 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-10 space-y-8">
         {/* Filter & Count Bar */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-grey-200">
-          <div className="font-body text-sm text-grey-700">
+        <div className="flex flex-row items-center justify-between gap-3 pb-4 border-b border-grey-200">
+          <div className="font-body text-xs sm:text-sm text-grey-700 truncate min-w-0">
             <span className="font-semibold text-grey-950">{categoryTitle}</span>
-            <span className="mx-2">•</span>
-            <span>{total} items</span>
+            <span className="mx-1.5 sm:mx-2">•</span>
+            <span className="whitespace-nowrap">{total} items</span>
           </div>
 
           {/* Reusable Category Dropdown Selector */}
