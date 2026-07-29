@@ -3,10 +3,10 @@
 import { DesktopNav } from "@/components/layout/navbar/DesktopNav";
 import { MegaMenuPanel } from "@/components/layout/navbar/MegaMenuPanel";
 import { MobileSheet } from "@/components/layout/navbar/MobileSheet";
+import { ModernMenuIcon } from "@/components/shared/svgs";
 import { DualPillButton } from "@/components/ui/DualPillButton";
 import { siteConfig } from "@/config/site";
 import { NavItem } from "@/types/navigation";
-import { Menu } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -79,10 +79,10 @@ export function Navbar({
         <button
           type="button"
           onClick={() => setMobileMenuOpen(true)}
-          className="md:hidden flex items-center justify-center p-2 rounded-lg text-grey-950 hover:bg-secondary-50 transition-colors cursor-pointer"
+          className="md:hidden group flex items-center justify-center p-1.5 rounded-xl text-grey-950 hover:bg-secondary-200/60 active:bg-secondary-300/80 active:scale-95 transition-all duration-200 cursor-pointer focus:outline-none"
           aria-label="Open navigation menu sheet"
         >
-          <Menu className="w-6 h-6" />
+          <ModernMenuIcon className="w-9 h-9 text-grey-950 group-hover:scale-105 transition-transform duration-200" />
         </button>
       </div>
 
