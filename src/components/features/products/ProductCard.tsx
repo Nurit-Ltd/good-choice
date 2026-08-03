@@ -17,11 +17,11 @@ export function ProductCard({ product, className = "" }: ProductCardProps) {
     <div className={`group relative flex flex-col mb-4 md:mb-14 ${className}`}>
       <Link href={`/products/${product.slug}`} className="block relative w-full">
         {/* Main Image Container */}
-        <div className="relative w-full aspect-4/3 rounded-lg group-hover:rounded-bl-none overflow-hidden bg-[#F5F2ED] border border-transparent group-hover:border-primary-950 transition-colors duration-300">
+        <div className="relative w-full aspect-4/3 rounded-lg group-hover:rounded-bl-none overflow-hidden bg-[#F5F2ED] border border-transparent group-hover:border-primary-950 transition-colors duration-500">
           <Image src={primaryImage} alt={product.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw" className="object-cover img-hover-scale" />
 
           {/* Row 1: Action Bar (Category | Discover) - Positioned INSIDE bottom-left of Image */}
-          <div className="absolute bottom-0 left-[0.5px] w-[85%] z-20 flex items-stretch border-t border-r border-primary-950 bg-[#FAF8F5] rounded-tr-lg overflow-hidden opacity-0 scale-y-0 group-hover:opacity-100 group-hover:scale-y-100 transition-all duration-300 ease-out origin-bottom justify-between">
+          <div className="absolute bottom-0 left-[0.5px] w-[85%] z-20 flex items-stretch border-t border-r border-primary-950 bg-[#FAF8F5] rounded-tr-lg overflow-hidden opacity-0 scale-y-0 group-hover:opacity-100 group-hover:scale-y-100 transition-all duration-500 ease-out origin-bottom justify-between">
             <span className="flex-1 p-4 text-base font-medium text-grey-950 bg-[#FAF8F5] flex items-center  border-primary-950 truncate">{product.category}</span>
             <span className="p-4 text-base font-medium text-white flex items-center justify-center transition-colors duration-200" style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}>
               Discover
