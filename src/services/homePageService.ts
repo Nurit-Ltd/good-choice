@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { fetchStrapiAPI, getStrapiMediaUrl } from './strapi';
 import { Product } from '@/types/product';
-import { getProducts } from './productService';
+import { getCatalogProducts } from './catalogService';
 
 export interface BannerSlide {
   id: string | number;
@@ -67,6 +68,7 @@ export interface HomePageData {
     subtitle: string;
     buttonText: string;
     buttonHref: string;
+    backgroundImage?: string;
     items: CollectionItemData[];
   };
   explore: {
@@ -132,6 +134,7 @@ const DEFAULT_HOME_DATA: HomePageData = {
     subtitle: 'Collections',
     buttonText: 'Browse Collections',
     buttonHref: '/products',
+    backgroundImage: '/images/home/collections/collection-1.png',
     items: [
       { id: 'col-1', name: 'Alcoroque', image: '/images/home/collections/collection-1.png', href: '/products?collection=alcoroque-1' },
       { id: 'col-2', name: 'Alcoroque', image: '/images/home/collections/collection-2.png', href: '/products?collection=alcoroque-2' },
@@ -172,35 +175,87 @@ const DEFAULT_HOME_DATA: HomePageData = {
  * Layer 1 Home Page Fetcher with On-Demand ISR Tag Caching
  */
 export async function getHomePageData(): Promise<HomePageData> {
-  // Fetch dynamic products for home sections
-  const products = await getProducts();
+  const { products } = await getCatalogProducts({ limit: 12 });
 
-  // Try fetching hero banners from Strapi
-  const { data: heroBanners } = await fetchStrapiAPI<Array<{ id: number; title: string; image: { url: string } }>>('/hero-banners?populate=*', {
+  const { data: heroBanners } = await fetchStrapiAPI<Array<{ id: number; title: string; banner_images?: Array<{ url: string }> }>>('/hero-banners?populate=*', {
     tags: ['home-page', 'hero-banners'],
   });
 
+  const { data: homeConfig } = await fetchStrapiAPI<any>('/home-page?populate=*', {
+    tags: ['home-page'],
+  });
+
+  const homeAttrs = homeConfig?.attributes || homeConfig || {};
+
   const parsedBanners: BannerSlide[] = (heroBanners && Array.isArray(heroBanners) && heroBanners.length > 0)
-    ? heroBanners.map((b, idx) => ({
-        id: b.id || `slide-${idx}`,
-        image: getStrapiMediaUrl(b.image?.url),
-        alt: b.title || 'Home Banner',
-      }))
+    ? heroBanners.map((b, idx) => {
+        const imgUrl = Array.isArray(b.banner_images) && b.banner_images.length > 0
+          ? b.banner_images[0].url
+          : (b as any).image?.url;
+        return {
+          id: b.id || `slide-${idx}`,
+          image: getStrapiMediaUrl(imgUrl),
+          alt: b.title || 'Home Banner',
+        };
+      })
     : DEFAULT_HOME_DATA.banner.slides;
 
   return {
-    ...DEFAULT_HOME_DATA,
     banner: {
-      ...DEFAULT_HOME_DATA.banner,
+      title: homeAttrs.hero_title || DEFAULT_HOME_DATA.banner.title,
+      subtitle: homeAttrs.hero_subtitle || DEFAULT_HOME_DATA.banner.subtitle,
       slides: parsedBanners,
     },
+    shopByRoom: {
+      title: homeAttrs.shop_by_room_title || DEFAULT_HOME_DATA.shopByRoom.title,
+      subtitle: homeAttrs.shop_by_room_subtitle || DEFAULT_HOME_DATA.shopByRoom.subtitle,
+      items: DEFAULT_HOME_DATA.shopByRoom.items,
+    },
+    craftsmanship: {
+      leftTitle: homeAttrs.craftsmanship_left_title || DEFAULT_HOME_DATA.craftsmanship.leftTitle,
+      leftParagraphs: Array.isArray(homeAttrs.craftsmanship_left_paragraphs) && homeAttrs.craftsmanship_left_paragraphs.length > 0
+        ? homeAttrs.craftsmanship_left_paragraphs
+        : DEFAULT_HOME_DATA.craftsmanship.leftParagraphs,
+      leftImage: homeAttrs.craftsmanship_left_image?.url
+        ? getStrapiMediaUrl(homeAttrs.craftsmanship_left_image.url)
+        : DEFAULT_HOME_DATA.craftsmanship.leftImage,
+      rightTitle: homeAttrs.craftsmanship_right_title || DEFAULT_HOME_DATA.craftsmanship.rightTitle,
+      rightParagraphs: Array.isArray(homeAttrs.craftsmanship_right_paragraphs) && homeAttrs.craftsmanship_right_paragraphs.length > 0
+        ? homeAttrs.craftsmanship_right_paragraphs
+        : DEFAULT_HOME_DATA.craftsmanship.rightParagraphs,
+      rightImage: homeAttrs.craftsmanship_right_image?.url
+        ? getStrapiMediaUrl(homeAttrs.craftsmanship_right_image.url)
+        : DEFAULT_HOME_DATA.craftsmanship.rightImage,
+    },
     recentlyCrafted: {
-      title: DEFAULT_HOME_DATA.recentlyCrafted.title,
+      title: homeAttrs.recently_crafted_title || DEFAULT_HOME_DATA.recentlyCrafted.title,
       products: products.slice(0, 12),
     },
+    collections: {
+      title: homeAttrs.collections_title || DEFAULT_HOME_DATA.collections.title,
+      subtitle: homeAttrs.collections_subtitle || DEFAULT_HOME_DATA.collections.subtitle,
+      buttonText: homeAttrs.collections_button_text || DEFAULT_HOME_DATA.collections.buttonText,
+      buttonHref: homeAttrs.collections_button_href || DEFAULT_HOME_DATA.collections.buttonHref,
+      backgroundImage: homeAttrs.collections_background_image?.url
+        ? getStrapiMediaUrl(homeAttrs.collections_background_image.url)
+        : DEFAULT_HOME_DATA.collections.backgroundImage,
+      items: DEFAULT_HOME_DATA.collections.items,
+    },
     explore: {
-      ...DEFAULT_HOME_DATA.explore,
+      title: homeAttrs.explore_title || DEFAULT_HOME_DATA.explore.title,
+      subtitle: homeAttrs.explore_subtitle || DEFAULT_HOME_DATA.explore.subtitle,
+      buttonText: homeAttrs.explore_button_text || DEFAULT_HOME_DATA.explore.buttonText,
+      buttonHref: homeAttrs.explore_button_href || DEFAULT_HOME_DATA.explore.buttonHref,
       products: products.slice(0, 8),
+    },
+    experiences: {
+      title: homeAttrs.experiences_title || DEFAULT_HOME_DATA.experiences.title,
+      subtitle: homeAttrs.experiences_subtitle || DEFAULT_HOME_DATA.experiences.subtitle,
+      items: DEFAULT_HOME_DATA.experiences.items,
+    },
+    faq: {
+      title: homeAttrs.faq_title || DEFAULT_HOME_DATA.faq.title,
+      items: DEFAULT_HOME_DATA.faq.items,
     },
   };
 }
