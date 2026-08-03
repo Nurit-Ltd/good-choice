@@ -3,6 +3,7 @@
 import { DesktopNav } from "@/components/layout/navbar/DesktopNav";
 import { MegaMenuPanel } from "@/components/layout/navbar/MegaMenuPanel";
 import { MobileSheet } from "@/components/layout/navbar/MobileSheet";
+import { FloatingWhatsAppButton } from "@/components/shared/FloatingWhatsAppButton";
 import { ModernMenuIcon } from "@/components/shared/svgs";
 import { DualPillButton } from "@/components/ui/DualPillButton";
 import { siteConfig } from "@/config/site";
@@ -91,6 +92,9 @@ export function Navbar({
 
       {/* Mobile Side Sheet Drawer Navigation */}
       <MobileSheet isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} navItems={navItems} logoSrc={logoSrc} logoAlt={logoAlt} whatsappUrl={whatsappUrl} />
+
+      {/* Mobile Draggable Floating WhatsApp Icon */}
+      <FloatingWhatsAppButton whatsappUrl={whatsappUrl} />
     </header>
   );
 }

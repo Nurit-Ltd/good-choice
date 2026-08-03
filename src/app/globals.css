@@ -108,4 +108,17 @@
   }
 }
 
+/* Universal Figma Spring Easing Image Hover Scale Effect */
+.img-hover-scale {
+  transition: transform 1250ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  will-change: transform;
+  transform: scale(1);
+}
+
+.group:hover .img-hover-scale,
+a:hover .img-hover-scale,
+.img-hover-scale:hover {
+  transform: scale(1.1);
+}
+
 

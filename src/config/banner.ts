@@ -1,5 +1,5 @@
 export interface BannerSlide {
-  id: number;
+  id: string | number;
   image: string;
   alt: string;
 }

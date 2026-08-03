@@ -39,4 +39,6 @@ export interface ProductFilter {
   maxPrice?: number;
   searchQuery?: string;
   sortBy?: "price-asc" | "price-desc" | "rating" | "newest";
+  page?: number;
+  limit?: number;
 }
