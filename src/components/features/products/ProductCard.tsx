@@ -18,13 +18,7 @@ export function ProductCard({ product, className = "" }: ProductCardProps) {
       <Link href={`/products/${product.slug}`} className="block relative w-full">
         {/* Main Image Container */}
         <div className="relative w-full aspect-4/3 rounded-lg group-hover:rounded-bl-none overflow-hidden bg-[#F5F2ED] border border-transparent group-hover:border-primary-950 transition-colors duration-300">
-          <Image
-            src={primaryImage}
-            alt={product.name}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-            className="object-cover img-hover-scale"
-          />
+          <Image src={primaryImage} alt={product.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw" className="object-cover img-hover-scale" />
 
           {/* Row 1: Action Bar (Category | Discover) - Positioned INSIDE bottom-left of Image */}
           <div className="absolute bottom-0 left-[0.5px] w-[85%] z-20 flex items-stretch border-t border-r border-primary-950 bg-[#FAF8F5] rounded-tr-lg overflow-hidden opacity-0 scale-y-0 group-hover:opacity-100 group-hover:scale-y-100 transition-all duration-300 ease-out origin-bottom justify-between">
@@ -37,19 +31,15 @@ export function ProductCard({ product, className = "" }: ProductCardProps) {
 
         {/* Default View Title (Visible when NOT hovered) */}
         <div className="pt-2.5 px-1 transition-opacity duration-200 group-hover:opacity-0">
-          <h3 className="font-body text-sm sm:text-base font-medium text-grey-950">{product.name}</h3>
+          <h3 className="font-body text-sm sm:text-base font-medium text-grey-950 line-clamp-1">{product.name}</h3>
         </div>
 
         {/* Row 2: Info Box (Positioned Directly Below Image with Generous Spacing) */}
-        <div className="absolute -bottom-11.25 left-0 w-[85%] z-30 flex flex-col border-x border-b border-primary-950 bg-[#FAF8F5] rounded-b-lg p-3.5 gap-3.4.5 opacity-0 scale-y-0 group-hover:opacity-100 group-hover:scale-y-100 transition-all duration-300 ease-out origin-top">
-          <span className="font-body text-base font-medium text-grey-950 truncate">{product.name}</span>
-
-          <div className="flex items-center justify-between pt-0.5">
-            {/* Maroon Square Dot on Bottom-Left */}
-            <span className="w-1 h-1 shrink-0" style={{ backgroundColor: "var(--color-primary-950, #62103A)" }} />
-
+        <div className="absolute -bottom-5.25 left-0 w-[85%] z-30 flex flex-col border-x border-b border-primary-950 bg-[#FAF8F5] rounded-b-lg p-3.5 gap-3.4.5 opacity-0 scale-y-0 group-hover:opacity-100 group-hover:scale-y-100 transition-all duration-300 ease-out origin-top">
+          <div className="flex items-center justify-between gap-2 pt-0.5 min-w-0">
+            <span className="font-body text-base font-medium text-grey-950 truncate flex-1 min-w-0">{product.name}</span>
             {/* Made to Order Text on Bottom-Right */}
-            <span className="font-body text-base font-medium" style={{ color: "var(--color-primary-950, #62103A)" }}>
+            <span className="font-body text-base font-medium shrink-0 whitespace-nowrap" style={{ color: "var(--color-primary-950, #62103A)" }}>
               {tagText}
             </span>
           </div>
