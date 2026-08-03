@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { DualPillButton } from "@/components/ui/DualPillButton";
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 
 export interface CollectionItem {
@@ -152,14 +152,7 @@ export function Collections({
       <div className="sticky top-0 w-full h-screen flex items-center justify-between overflow-hidden">
         {/* Background Image Container */}
         <div className="absolute inset-0 z-0">
-          <Image
-            src="/images/home/collections/collection-bg.webp"
-            alt="Grand Atelier Furniture Collection background"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-center"
-          />
+          <Image src="/images/home/collections/collection-bg.webp" alt="Grand Atelier Furniture Collection background" fill priority sizes="100vw" className="object-cover object-center" />
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
@@ -174,10 +167,7 @@ export function Collections({
             {/* Left Text Frame */}
             <div className="flex flex-col items-start gap-2 sm:gap-6 max-w-2xl shrink-0 pt-10 lg:pt-0">
               {/* Subtitle / Tag line */}
-              <span
-                className="font-body text-base sm:text-[20px] lg:text-[24px] font-normal leading-[120%] text-grey-50"
-                style={{ color: "var(--color-grey-50, #FCFCFC)" }}
-              >
+              <span className="font-body text-base sm:text-[20px] lg:text-[24px] font-normal leading-[120%] text-grey-50" style={{ color: "var(--color-grey-50, #FCFCFC)" }}>
                 {subtitle}
               </span>
 
