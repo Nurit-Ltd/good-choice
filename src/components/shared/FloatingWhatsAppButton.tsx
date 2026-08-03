@@ -76,7 +76,7 @@ export function FloatingWhatsAppButton({ whatsappUrl = "https://wa.me/9741234567
       onMouseDown={handleStart}
       onMouseMove={handleMove}
       onMouseUp={handleEnd}
-      className={`md:hidden z-[9999] flex items-center justify-center w-14 h-14 rounded-full bg-primary-950 text-white shadow-xl shadow-primary-950/40 border border-white/20 cursor-grab active:cursor-grabbing hover:scale-105 active:scale-95 transition-transform duration-150 select-none group ${
+      className={`md:hidden z-9999 flex items-center justify-center w-14 h-14 rounded-full bg-primary-950 text-white shadow-xl shadow-primary-950/40 border border-white/20 cursor-grab active:cursor-grabbing hover:scale-105 active:scale-95 transition-transform duration-150 select-none group ${
         !customPos ? "bottom-6 right-4 sm:right-6" : ""
       }`}
       aria-label="Contact us on WhatsApp (Draggable)"
