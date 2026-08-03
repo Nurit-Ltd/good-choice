@@ -155,22 +155,22 @@ export function Experiences({
                 className="group relative overflow-hidden w-full sm:w-85 lg:w-full shrink-0 lg:shrink h-100 p-8 rounded-lg bg-[#701544] flex flex-col items-center justify-between text-center transition-transform duration-300 hover:scale-[1.015] shadow-lg cursor-pointer snap-center"
               >
                 {/* Layer 0: Base White Background (hidden in default state to eliminate corner stroke bleed) */}
-                <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none" />
+                <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out pointer-events-none" />
 
-                {/* Layer 1: Burgundy Background Layer (Sucks into Icon center at 50% 100px on hover) */}
-                <div className="absolute -inset-0.5 bg-[#701544] pointer-events-none transition-all duration-350 ease-out [clip-path:circle(160%_at_50%_100px)] group-hover:[clip-path:circle(0%_at_50%_100px)]" />
+                {/* Layer 1: Burgundy Background Layer (Sucks into Icon center at 50% 100px on hover over 700ms) */}
+                <div className="absolute -inset-0.5 bg-[#701544] pointer-events-none transition-all duration-700 ease-in-out [clip-path:circle(160%_at_50%_100px)] group-hover:[clip-path:circle(0%_at_50%_100px)]" />
 
                 {/* Top Icon Area */}
-                <div className="relative z-10 w-24 h-24 flex items-center justify-center text-grey-50 group-hover:text-primary-950 transition-colors duration-300 pt-12">
-                  <IconComponent className="w-24 h-24 text-current transition-colors duration-300" />
+                <div className="relative z-10 w-24 h-24 flex items-center justify-center text-grey-50 group-hover:text-primary-950 transition-colors duration-700 ease-in-out pt-12">
+                  <IconComponent className="w-24 h-24 text-current transition-colors duration-700 ease-in-out" />
                 </div>
 
                 {/* Bottom Content Area: Title & Subtitle */}
                 <div className="relative z-10 flex flex-col items-center gap-3 pb-2">
-                  <h3 className="font-body text-xl sm:text-[24px] font-medium leading-[110%] tracking-[-0.24px] text-grey-50 group-hover:text-primary-950 transition-colors duration-300">
+                  <h3 className="font-body text-xl sm:text-[24px] font-medium leading-[110%] tracking-[-0.24px] text-grey-50 group-hover:text-primary-950 transition-colors duration-700 ease-in-out">
                     {exp.title}
                   </h3>
-                  <p className="font-body text-sm font-light leading-[150%] text-grey-200 group-hover:text-primary-950/80 max-w-70 transition-colors duration-300">{exp.description}</p>
+                  <p className="font-body text-sm font-light leading-[150%] text-grey-200 group-hover:text-primary-950/80 max-w-70 transition-colors duration-700 ease-in-out">{exp.description}</p>
                 </div>
               </div>
             );
