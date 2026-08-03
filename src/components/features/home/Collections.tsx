@@ -161,7 +161,7 @@ export function Collections({
                         alt={item.name}
                         fill
                         sizes="(max-width: 640px) 320px, 400px"
-                        className="object-contain transition-transform duration-500 hover:scale-105"
+                        className="object-contain img-hover-scale"
                       />
                     </div>
                   </div>

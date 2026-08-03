@@ -22,7 +22,7 @@ export function Handcraft() {
                   alt="Artisan wood carving detail"
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                  className="object-cover img-hover-scale"
                 />
               </div>
               <div className="relative w-full aspect-398/500 rounded-lg overflow-hidden shadow-sm bg-secondary-100 group">
@@ -31,7 +31,7 @@ export function Handcraft() {
                   alt="Handcrafted woodworking precision"
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                  className="object-cover img-hover-scale"
                 />
               </div>
             </div>
@@ -46,7 +46,7 @@ export function Handcraft() {
                   alt="Artisan crafting bespoke furniture"
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                  className="object-cover img-hover-scale"
                 />
               </div>
               <div className="relative w-full aspect-398/500 rounded-lg overflow-hidden shadow-sm bg-secondary-100 group">
@@ -55,7 +55,7 @@ export function Handcraft() {
                   alt="Handcrafted furniture workshop"
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                  className="object-cover img-hover-scale"
                 />
               </div>
             </div>

@@ -37,7 +37,7 @@ export function HeroAbout() {
                   fill
                   priority
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                  className="object-cover img-hover-scale"
                 />
               </div>
               <div className="relative w-full aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden shadow-sm group bg-secondary-100 shrink-0">
@@ -47,7 +47,7 @@ export function HeroAbout() {
                   fill
                   priority
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                  className="object-cover img-hover-scale"
                 />
               </div>
               <div className="relative w-full aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden shadow-sm group bg-secondary-100 shrink-0">
@@ -56,7 +56,7 @@ export function HeroAbout() {
                   alt="Luxury sofa interior design repeated bottom overlap"
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                  className="object-cover img-hover-scale"
                 />
               </div>
               <div className="hidden sm:block relative w-full aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden shadow-sm group bg-secondary-100 shrink-0">
@@ -65,7 +65,7 @@ export function HeroAbout() {
                   alt="Elevated modern living room interior repeated bottom overlap"
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                  className="object-cover img-hover-scale"
                 />
               </div>
             </div>
@@ -79,7 +79,7 @@ export function HeroAbout() {
                   fill
                   priority
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                  className="object-cover img-hover-scale"
                 />
               </div>
               <div className="relative w-full aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden shadow-sm group bg-secondary-100 shrink-0">
@@ -89,7 +89,7 @@ export function HeroAbout() {
                   fill
                   priority
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                  className="object-cover img-hover-scale"
                 />
               </div>
               <div className="relative w-full aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden shadow-sm group bg-secondary-100 shrink-0">
@@ -98,7 +98,7 @@ export function HeroAbout() {
                   alt="Handcrafted wooden armchair furniture set"
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                  className="object-cover img-hover-scale"
                 />
               </div>
               <div className="hidden sm:block relative w-full aspect-4/3 rounded-xl sm:rounded-2xl overflow-hidden shadow-sm group bg-secondary-100 shrink-0">
@@ -107,7 +107,7 @@ export function HeroAbout() {
                   alt="Lounge seating repeated bottom overlap"
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                  className="object-cover img-hover-scale"
                 />
               </div>
             </div>

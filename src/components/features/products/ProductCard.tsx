@@ -23,7 +23,7 @@ export function ProductCard({ product, className = "" }: ProductCardProps) {
             alt={product.name}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            className="object-cover img-hover-scale"
           />
 
           {/* Row 1: Action Bar (Category | Discover) - Positioned INSIDE bottom-left of Image */}

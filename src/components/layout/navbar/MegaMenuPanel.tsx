@@ -84,7 +84,7 @@ export function MegaMenuPanel({ navItems, hoveredNav, onMouseEnter, onMouseLeave
                         onClick={onItemClick}
                         className="relative w-44 lg:w-52 h-64 lg:h-72 rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-all duration-300"
                       >
-                        <Image src={promo.image} alt={promo.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                        <Image src={promo.image} alt={promo.title} fill className="object-cover img-hover-scale" />
                         <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/10 to-transparent" />
                         <span className="absolute top-5 left-5 font-heading text-xl lg:text-2xl font-bold text-white drop-shadow-md">{promo.title}</span>
                       </Link>
