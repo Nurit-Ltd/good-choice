@@ -181,32 +181,27 @@ export async function getCatalogProducts(filter?: ProductFilter): Promise<Catalo
       ? attrs.categories[0].name
       : (attrs.category?.name || attrs.category || 'Furniture');
 
+    const basePrice = Number(attrs.base_price || attrs.price || 0);
+    const discPrice = attrs.base_discount_price || attrs.original_price;
+
     return {
       id: String(item.id || item.documentId || `prod-${idx}`),
       name: attrs.name || attrs.title || 'Bespoke Furniture Item',
       slug: attrs.slug || (attrs.name || attrs.title || '').toLowerCase().replace(/\s+/g, '-'),
-      description: attrs.description || attrs.short_description || 'Handcrafted luxury furniture piece.',
-      price: Number(attrs.base_price || attrs.price || 0),
-      originalPrice: Number(attrs.base_discount_price || attrs.original_price || Math.round((attrs.base_price || 0) * 1.2)),
+      description: attrs.description || attrs.short_description || '',
+      price: basePrice,
+      originalPrice: discPrice ? Number(discPrice) : basePrice,
       category: catName,
       subcategory: attrs.subcategory || '',
-      tag: attrs.tag || 'Made to order',
+      tag: attrs.tag || '',
       images: imagesList,
       inStock: attrs.catalog_status === 'available' || attrs.is_active || true,
-      stockCount: Number(attrs.base_stock_quantity || 10),
-      rating: Number(attrs.rating || 4.8),
-      reviewCount: Number(attrs.review_count || 24),
+      stockCount: Number(attrs.base_stock_quantity || 0),
+      rating: Number(attrs.rating || 5.0),
+      reviewCount: Number(attrs.review_count || 0),
       isFeatured: Boolean(attrs.feature_product || attrs.is_featured),
-      specs: attrs.specifications || {
-        style: 'Modern Contemporary',
-        seatingCapacity: 'Standard Unit',
-        upholstery: 'Premium Fabric',
-      },
-      keyFeatures: attrs.key_features || [
-        'Elegant curved design',
-        'High-density foam cushioning',
-        'Precision craftsmanship',
-      ],
+      specs: attrs.specifications || attrs.specs || undefined,
+      keyFeatures: attrs.key_features || attrs.features || [],
       createdAt: attrs.createdAt || new Date().toISOString(),
     };
   });
@@ -250,31 +245,27 @@ export async function getSingleProductBySlug(slug: string): Promise<Product | nu
     ? attrs.categories[0].name
     : (attrs.category?.name || attrs.category || 'Furniture');
 
+  const basePrice = Number(attrs.base_price || attrs.price || 0);
+  const discPrice = attrs.base_discount_price || attrs.original_price;
+
   return {
     id: String(item.id || item.documentId),
     name: attrs.name || attrs.title,
     slug: attrs.slug,
-    description: attrs.description || attrs.short_description,
-    price: Number(attrs.base_price || attrs.price || 0),
-    originalPrice: Number(attrs.base_discount_price || attrs.original_price || Math.round((attrs.base_price || 0) * 1.2)),
+    description: attrs.description || attrs.short_description || '',
+    price: basePrice,
+    originalPrice: discPrice ? Number(discPrice) : basePrice,
     category: catName,
     subcategory: attrs.subcategory || '',
-    tag: attrs.tag || 'Made to order',
+    tag: attrs.tag || '',
     images: imagesList,
     inStock: attrs.catalog_status === 'available' || attrs.is_active || true,
-    stockCount: Number(attrs.base_stock_quantity || 10),
-    rating: Number(attrs.rating || 4.8),
-    reviewCount: Number(attrs.review_count || 24),
+    stockCount: Number(attrs.base_stock_quantity || 0),
+    rating: Number(attrs.rating || 5.0),
+    reviewCount: Number(attrs.review_count || 0),
     isFeatured: Boolean(attrs.feature_product || attrs.is_featured),
-    specs: attrs.specifications || {
-      style: 'Modern Contemporary',
-      seatingCapacity: 'Standard Unit',
-      upholstery: 'Premium Fabric',
-    },
-    keyFeatures: attrs.key_features || [
-      'Elegant curved design',
-      'High-density foam cushioning',
-    ],
+    specs: attrs.specifications || attrs.specs || undefined,
+    keyFeatures: attrs.key_features || attrs.features || [],
     createdAt: attrs.createdAt || new Date().toISOString(),
   };
 }
