@@ -27,7 +27,7 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
   if (isMissingSrc || error) {
     return (
       <div
-        className={`relative flex flex-col items-center justify-center bg-gradient-to-br from-stone-100 to-stone-200 dark:from-neutral-800 dark:to-neutral-900 text-stone-400 dark:text-neutral-500 rounded-lg overflow-hidden border border-stone-200/50 dark:border-neutral-700/50 transition-colors ${aspectRatio} ${className}`}
+        className={`relative flex flex-col items-center justify-center bg-linear-to-br from-stone-100 to-stone-200 dark:from-neutral-800 dark:to-neutral-900 text-stone-400 dark:text-neutral-500 rounded-lg overflow-hidden border border-stone-200/50 dark:border-neutral-700/50 transition-colors ${aspectRatio} ${className}`}
         style={{ width: props.width ? `${props.width}px` : "100%", height: props.height ? `${props.height}px` : "100%" }}
       >
         {fallbackType === "product" ? (
