@@ -6,6 +6,7 @@ export interface ContentPageData {
   slug: string;
   subtitle?: string;
   content: string;
+  sectionData?: Array<{ id: string; title: string; text: string }>;
   metaTitle?: string;
   metaDescription?: string;
   updatedAt?: string;
@@ -101,6 +102,7 @@ export async function getContentPageBySlug(slug: string): Promise<ContentPageDat
     slug: attrs.slug || normalizedSlug,
     subtitle: attrs.subtitle || '',
     content: attrs.content || attrs.body || '',
+    sectionData: attrs.section_data || attrs.sectionData || [],
     metaTitle: attrs.seo?.metaTitle,
     metaDescription: attrs.seo?.metaDescription,
     updatedAt: attrs.updatedAt,

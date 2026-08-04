@@ -1,5 +1,6 @@
 "use client";
 
+import { useAboutPage } from "@/hooks/use-about-page";
 import Image from "next/image";
 
 interface MarqueeItem {
@@ -8,7 +9,7 @@ interface MarqueeItem {
   alt: string;
 }
 
-const COLUMN_1_IMAGES: MarqueeItem[] = [
+const DEFAULT_COLUMN_1_IMAGES: MarqueeItem[] = [
   { id: "c1-1", src: "/images/about/hero/ah-1.jpg", alt: "Luxury sofa and table interior design" },
   { id: "c1-2", src: "/images/about/hero/ah-3.png", alt: "Elevated modern living room interior" },
   { id: "c1-3", src: "/images/about/hero/ah-2.jpg", alt: "Lounge seating with accent lighting" },
@@ -17,7 +18,7 @@ const COLUMN_1_IMAGES: MarqueeItem[] = [
   { id: "c1-6", src: "/images/home/furniture-made-process/art-furniture.webp", alt: "Art of furniture making" },
 ];
 
-const COLUMN_2_IMAGES: MarqueeItem[] = [
+const DEFAULT_COLUMN_2_IMAGES: MarqueeItem[] = [
   { id: "c2-1", src: "/images/about/hero/ah-4.png", alt: "Handcrafted wooden armchair furniture" },
   { id: "c2-2", src: "/images/about/hero/ah-2.jpg", alt: "Lounge seating with carpet" },
   { id: "c2-3", src: "/images/about/hero/ah-1.jpg", alt: "Luxury sofa interior design" },
@@ -26,11 +27,28 @@ const COLUMN_2_IMAGES: MarqueeItem[] = [
   { id: "c2-6", src: "/images/home/furniture-made-process/made-furniture.webp", alt: "Artisan at work" },
 ];
 
-// Duplicate items for 100% seamless infinite loop
-const col1Loop = [...COLUMN_1_IMAGES, ...COLUMN_1_IMAGES];
-const col2Loop = [...COLUMN_2_IMAGES, ...COLUMN_2_IMAGES];
-
 export function HeroAbout() {
+  const { data: aboutData } = useAboutPage();
+
+  const heroTitle = aboutData?.heroTitle || "Luxury Shaped by Timeless Design";
+  const heroSubtitle = aboutData?.heroSubtitle || "Our creations embody refined aesthetics, meticulous craftsmanship, and enduring quality, thoughtfully designed for elevated modern lifestyles.";
+
+  const dynamicImages: MarqueeItem[] =
+    aboutData?.heroImages && aboutData.heroImages.length > 0
+      ? aboutData.heroImages.map((url, idx) => ({
+          id: `cms-img-${idx}`,
+          src: url,
+          alt: `About gallery image ${idx + 1}`,
+        }))
+      : [];
+
+  const col1Images = dynamicImages.length > 0 ? dynamicImages.slice(0, Math.ceil(dynamicImages.length / 2)) : DEFAULT_COLUMN_1_IMAGES;
+  const col2Images = dynamicImages.length > 0 ? dynamicImages.slice(Math.ceil(dynamicImages.length / 2)) : DEFAULT_COLUMN_2_IMAGES;
+
+  // Duplicate items for 100% seamless infinite loop
+  const col1Loop = [...col1Images, ...col1Images];
+  const col2Loop = [...col2Images, ...col2Images];
+
   return (
     <section className="w-full relative overflow-hidden bg-[#F8F6F4] mt-4">
       {/* Dynamic Keyframe Animations for Infinite Marquee */}
@@ -91,10 +109,10 @@ export function HeroAbout() {
             className="font-heading text-4xl sm:text-6xl lg:text-[72px] xl:text-[81px] font-normal leading-[110%] tracking-[-0.81px] text-grey-950 mb-6"
             style={{ color: "var(--color-grey-950, #292929)" }}
           >
-            Luxury Shaped by Timeless Design
+            {heroTitle}
           </h1>
           <p className="font-body text-base sm:text-[16px] font-medium leading-[150%] tracking-[0.32px] text-grey-950 max-w-162.5" style={{ color: "var(--color-grey-950, #292929)" }}>
-            Our creations embody refined aesthetics, meticulous craftsmanship, and enduring quality, thoughtfully designed for elevated modern lifestyles.
+            {heroSubtitle}
           </p>
         </div>
 

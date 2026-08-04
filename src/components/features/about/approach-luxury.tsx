@@ -1,26 +1,31 @@
+"use client";
+
+import { useAboutPage } from "@/hooks/use-about-page";
+
 export function ApproachLuxury() {
-  const luxuryFeatures = [
-    {
-      title: "Enduring Artistry",
-      description:
-        "Honoring tradition while embracing modern refinement, our craftsmanship delivers enduring beauty, exceptional comfort, and quality.",
-    },
-    {
-      title: "Premium Materials",
-      description:
-        "Premium materials thoughtfully sourced to deliver enduring beauty, strength, and sophisticated comfort across every design.",
-    },
-    {
-      title: "Refined Precision",
-      description:
-        "Precision refined through expertise ensures seamless construction, elegant finishes, and uncompromising attention to detail.",
-    },
-    {
-      title: "Trusted Excellence",
-      description:
-        "Our reputation is built on trusted excellence, delivering consistent quality, reliability, and refined craftsmanship clients confidently rely on.",
-    },
-  ];
+  const { data: aboutData } = useAboutPage();
+
+  const title = aboutData?.approachTitle || "An Uncompromising Approach to Luxury";
+  const luxuryFeatures = (aboutData?.approachItems && aboutData.approachItems.length > 0)
+    ? aboutData.approachItems
+    : [
+        {
+          title: "Enduring Artistry",
+          description: "Honoring tradition while embracing modern refinement, our craftsmanship delivers enduring beauty, exceptional comfort, and quality.",
+        },
+        {
+          title: "Premium Materials",
+          description: "Premium materials thoughtfully sourced to deliver enduring beauty, strength, and sophisticated comfort across every design.",
+        },
+        {
+          title: "Refined Precision",
+          description: "Precision refined through expertise ensures seamless construction, elegant finishes, and uncompromising attention to detail.",
+        },
+        {
+          title: "Trusted Excellence",
+          description: "Our reputation is built on trusted excellence, delivering consistent quality, reliability, and refined craftsmanship clients confidently rely on.",
+        },
+      ];
 
   return (
     <section className="w-full py-16 sm:py-24">
@@ -28,11 +33,10 @@ export function ApproachLuxury() {
         {/* Section Heading */}
         <div className="max-w-204 mb-12 sm:mb-16 lg:mb-20">
           <h2
-            className="font-heading text-4xl sm:text-6xl lg:text-[72px] xl:text-[81px] font-normal leading-[110%] tracking-[-0.81px] text-grey-950"
+            className="font-heading text-4xl sm:text-6xl lg:text-[72px] xl:text-[81px] font-normal leading-[110%] tracking-[-0.81px] text-grey-950 whitespace-pre-line"
             style={{ color: "var(--color-grey-950, #292929)" }}
           >
-            An Uncompromising <br className="hidden sm:inline" />
-            Approach to Luxury
+            {title}
           </h2>
         </div>
 
@@ -53,7 +57,7 @@ export function ApproachLuxury() {
 
               {/* Feature Description */}
               <p
-                className="font-body text-sm sm:text-[16px] font-normal leading-[150%] tracking-[0.32px] text-grey-950 max-w-84"
+                className="font-body text-sm sm:text-[16px] font-normal leading-[150%] tracking-[0.32px] text-grey-950 max-w-84 whitespace-pre-line"
                 style={{ color: "var(--color-grey-950, #292929)" }}
               >
                 {feature.description}
