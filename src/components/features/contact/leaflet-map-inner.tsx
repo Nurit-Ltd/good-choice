@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-const QATAR_COORDS: [number, number] = [25.275, 51.428];
+const DEFAULT_COORDS: [number, number] = [25.275, 51.428];
 
 // Custom Red Pin Marker Icon
 const redPinIcon = L.divIcon({
@@ -20,16 +20,40 @@ const redPinIcon = L.divIcon({
   popupAnchor: [0, -36],
 });
 
-// Helper component to open popup automatically on load
-function AutoOpenPopup() {
+// Helper component to dynamically re-center map when coords/zoom update
+function RecenterMap({ coords, zoom }: { coords: [number, number]; zoom: number }) {
   const map = useMap();
   useEffect(() => {
+    map.setView(coords, zoom);
     map.invalidateSize();
-  }, [map]);
+  }, [map, coords, zoom]);
   return null;
 }
 
-export default function LeafletMapInner() {
+export interface LeafletMapInnerProps {
+  coords?: [number, number];
+  zoom?: number;
+  storeName?: string;
+  address?: string;
+  mapsUrl?: string;
+}
+
+export default function LeafletMapInner({
+  coords = DEFAULT_COORDS,
+  zoom = 14,
+  storeName = "Good Choice Furniture",
+  address = "C.R. No:82686, Muaither, Umm Al Dome St, Doha, Qatar, Ar Rayyan",
+  mapsUrl,
+}: LeafletMapInnerProps) {
+  const markerRef = useRef<L.Marker>(null);
+  const mapActionUrl = mapsUrl || `https://maps.google.com/?q=${coords[0]},${coords[1]}`;
+
+  useEffect(() => {
+    if (markerRef.current) {
+      markerRef.current.openPopup();
+    }
+  }, [coords]);
+
   return (
     <div className="w-full h-full relative">
       <style jsx global>{`
@@ -60,8 +84,8 @@ export default function LeafletMapInner() {
       `}</style>
 
       <MapContainer
-        center={QATAR_COORDS}
-        zoom={14}
+        center={coords}
+        zoom={zoom}
         scrollWheelZoom={false}
         className="w-full h-full z-0"
       >
@@ -70,36 +94,34 @@ export default function LeafletMapInner() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        <AutoOpenPopup />
+        <RecenterMap coords={coords} zoom={zoom} />
 
-        <Marker position={QATAR_COORDS} icon={redPinIcon}>
+        <Marker ref={markerRef} position={coords} icon={redPinIcon}>
           <Popup autoClose={false} closeOnClick={false} className="custom-location-popup">
             {/* Tooltip Card Matching Figma Design */}
-            <div className="bg-white text-center w-[250px] sm:w-[280px] flex flex-col items-center">
+            <div className="bg-white text-center w-62.5 sm:w-70 flex flex-col items-center">
               {/* White Top Portion */}
               <div className="p-5 flex flex-col items-center w-full">
                 <h4
                   className="font-heading text-lg sm:text-xl font-medium tracking-tight mb-2"
                   style={{ color: "var(--color-primary-950, #62103A)" }}
                 >
-                  Good Choice <br /> Furniture-1
+                  {storeName}
                 </h4>
                 <p
-                  className="font-body text-xs leading-relaxed text-[#656565]"
+                  className="font-body text-xs leading-relaxed text-grey-600 whitespace-pre-line"
                   style={{ color: "var(--color-grey-600, #656565)" }}
                 >
-                  C.R. No:82686, Muaither, <br />
-                  Umm Al Dome St, Doha, <br />
-                  Qatar, Ar Rayyan
+                  {address}
                 </p>
               </div>
 
               {/* Maroon Bottom Portion: View Larger Map */}
               <a
-                href={`https://maps.google.com/?q=${QATAR_COORDS[0]},${QATAR_COORDS[1]}`}
+                href={mapActionUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="map-action-btn w-full py-3 bg-[#62103A] !text-white font-body text-xs font-medium tracking-wide hover:bg-[#4d0c2d] transition-colors block text-center"
+                className="map-action-btn w-full py-3 bg-primary-950 text-white! font-body text-xs font-medium tracking-wide hover:bg-[#4d0c2d] transition-colors block text-center"
                 style={{ color: "#ffffff" }}
               >
                 View Larger Map
