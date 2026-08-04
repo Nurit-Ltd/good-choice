@@ -7,11 +7,13 @@ import { FloatingWhatsAppButton } from "@/components/shared/FloatingWhatsAppButt
 import { ModernMenuIcon } from "@/components/shared/svgs";
 import { DualPillButton } from "@/components/ui/DualPillButton";
 import { siteConfig } from "@/config/site";
+import { useMegaMenu } from "@/hooks/use-catalog";
+import { useSiteSettings } from "@/hooks/use-site-settings";
 import { NavItem } from "@/types/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo } from "react";
 
 interface NavbarProps {
   navItems?: NavItem[];
@@ -22,16 +24,50 @@ interface NavbarProps {
 }
 
 export function Navbar({
-  navItems = siteConfig.navLinks,
-  logoSrc = "/icons/logo.svg",
-  logoAlt = "Good Choice Furniture",
-  whatsappUrl = siteConfig.whatsappUrl || "https://wa.me/8801700000000",
+  navItems: propNavItems,
+  logoSrc: propLogoSrc,
+  logoAlt: propLogoAlt,
+  whatsappUrl: propWhatsappUrl,
   className = "",
 }: NavbarProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Layer 2 Dynamic Hooks
+  const { data: siteSettings } = useSiteSettings();
+  const { data: megaMenuData } = useMegaMenu();
+
+  const logoSrc = propLogoSrc || siteSettings?.navbarLogoUrl || "/icons/logo.svg";
+  const logoAlt = propLogoAlt || siteSettings?.siteName || "Good Choice Furniture";
+  const whatsappUrl = propWhatsappUrl || siteSettings?.whatsappUrl || siteConfig.whatsappUrl || "https://wa.me/8801700000000";
+
+  // Merge Strapi Mega Menu categories and promos dynamically
+  const mergedNavItems: NavItem[] = useMemo(() => {
+    const baseItems = propNavItems || siteConfig.navLinks;
+
+    if (!megaMenuData || (megaMenuData.categories.length === 0 && megaMenuData.promos.length === 0)) {
+      return baseItems;
+    }
+
+    return baseItems.map((item) => {
+      if (item.isMegaMenu) {
+        return {
+          ...item,
+          megaMenu: {
+            categories: megaMenuData.categories.length > 0
+              ? megaMenuData.categories
+              : item.megaMenu?.categories || [],
+            promos: megaMenuData.promos.length > 0
+              ? megaMenuData.promos
+              : item.megaMenu?.promos || [],
+          },
+        };
+      }
+      return item;
+    });
+  }, [propNavItems, megaMenuData]);
 
   const handleMouseEnter = (label: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -67,7 +103,7 @@ export function Navbar({
         </Link>
 
         {/* Desktop Navigation Items */}
-        <DesktopNav navItems={navItems} pathname={pathname} hoveredNav={hoveredNav} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onItemClick={handleItemClick} />
+        <DesktopNav navItems={mergedNavItems} pathname={pathname} hoveredNav={hoveredNav} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onItemClick={handleItemClick} />
 
         {/* Right CTA Button - WhatsApp Dual Pill */}
         <div className="hidden md:flex items-center">
@@ -88,10 +124,10 @@ export function Navbar({
       </div>
 
       {/* Desktop Dynamic Mega Menu Panel Overlay */}
-      <MegaMenuPanel navItems={navItems} hoveredNav={hoveredNav} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onItemClick={handleItemClick} />
+      <MegaMenuPanel navItems={mergedNavItems} hoveredNav={hoveredNav} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onItemClick={handleItemClick} />
 
       {/* Mobile Side Sheet Drawer Navigation */}
-      <MobileSheet isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} navItems={navItems} logoSrc={logoSrc} logoAlt={logoAlt} whatsappUrl={whatsappUrl} />
+      <MobileSheet isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} navItems={mergedNavItems} logoSrc={logoSrc} logoAlt={logoAlt} whatsappUrl={whatsappUrl} />
 
       {/* Mobile Draggable Floating WhatsApp Icon */}
       <FloatingWhatsAppButton whatsappUrl={whatsappUrl} />

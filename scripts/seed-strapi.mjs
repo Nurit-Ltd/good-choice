@@ -150,14 +150,24 @@ async function seed() {
       body: JSON.stringify({ data: SITE_SETTING_DATA }),
     });
     if (!res.ok) {
-      // Try POST if PUT fails on single type
       await postData('/site-setting', SITE_SETTING_DATA);
     }
   } catch {
     await postData('/site-setting', SITE_SETTING_DATA);
   }
 
+  // 5. Seed Mega Menu Ads Banners
+  console.log('Seeding Mega Menu Ads Banners...');
+  const PROMO_BANNERS = [
+    { title: 'Just In', link: '/products?tag=just-in', placement: 'mega_menu', order_by: 1, is_active: true },
+    { title: 'Outlet', link: '/products?tag=outlet', placement: 'mega_menu', order_by: 2, is_active: true },
+  ];
+  for (const banner of PROMO_BANNERS) {
+    await postData('/ads-banners', banner);
+  }
+
   console.log('✅ Strapi Data Seeding Complete!');
 }
 
 seed();
+

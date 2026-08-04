@@ -29,6 +29,28 @@ export interface CatalogProductsResult {
  * Pure Strapi REST API implementation (Zero Mock Fallbacks)
  */
 
+export interface MegaMenuCategoryItem {
+  label: string;
+  href: string;
+}
+
+export interface MegaMenuCategory {
+  title: string;
+  href: string;
+  items: MegaMenuCategoryItem[];
+}
+
+export interface MegaMenuPromo {
+  title: string;
+  image: string;
+  href: string;
+}
+
+export interface MegaMenuData {
+  categories: MegaMenuCategory[];
+  promos: MegaMenuPromo[];
+}
+
 export async function getCatalogCategories(): Promise<CategoryData[]> {
   const { data, error } = await fetchStrapiAPI<Array<{ id: number; name: string; slug: string; description?: string; image?: { url: string } }>>('/categories?populate=*', {
     tags: ['products-list', 'categories'],
@@ -46,6 +68,57 @@ export async function getCatalogCategories(): Promise<CategoryData[]> {
     image: getStrapiMediaUrl(cat.image?.url),
   }));
 }
+
+export async function getMegaMenuData(): Promise<MegaMenuData> {
+  const { data: catData } = await fetchStrapiAPI<Array<any>>('/categories?populate=*', {
+    tags: ['mega-menu', 'categories'],
+  });
+
+  const { data: bannerData } = await fetchStrapiAPI<Array<any>>('/ads-banners?filters[placement][$eq]=mega_menu&filters[is_active][$eq]=true', {
+    tags: ['mega-menu', 'ads-banners'],
+  });
+
+  const rawCategories = Array.isArray(catData) ? catData : [];
+  // Filter top-level parent categories (where parent is null)
+  const parentCategories = rawCategories.filter((cat: any) => {
+    const attrs = cat.attributes || cat;
+    return !attrs.parent;
+  });
+
+  const categories: MegaMenuCategory[] = parentCategories.slice(0, 8).map((cat: any) => {
+    const attrs = cat.attributes || cat;
+    const catSlug = attrs.slug || attrs.name.toLowerCase().replace(/\s+/g, '-');
+    const childrenList = Array.isArray(attrs.children) ? attrs.children : (attrs.children?.data || []);
+
+    const subItems: MegaMenuCategoryItem[] = childrenList.map((sub: any) => {
+      const subAttrs = sub.attributes || sub;
+      const subSlug = subAttrs.slug || subAttrs.name.toLowerCase().replace(/\s+/g, '-');
+      return {
+        label: subAttrs.name || 'Subcategory',
+        href: `/products?category=${catSlug}&subcategory=${subSlug}`,
+      };
+    });
+
+    return {
+      title: attrs.name || 'Category',
+      href: `/products?category=${catSlug}`,
+      items: subItems,
+    };
+  });
+
+  const promos: MegaMenuPromo[] = (Array.isArray(bannerData) ? bannerData : []).slice(0, 2).map((b: any) => {
+    const attrs = b.attributes || b;
+    return {
+      title: attrs.title || 'Special Promo',
+      image: getStrapiMediaUrl(attrs.image?.url || attrs.image),
+      href: attrs.link || '/products',
+    };
+  });
+
+  return { categories, promos };
+}
+
+
 
 export async function getCatalogBrands(): Promise<BrandData[]> {
   const { data, error } = await fetchStrapiAPI<Array<{ id: number; name: string; slug: string; logo?: { url: string } }>>('/brands?populate=*', {

@@ -1,8 +1,8 @@
 "use client";
 
 import { NavItem } from "@/types/navigation";
-import Image from "next/image";
 import Link from "next/link";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 
 interface MegaMenuPanelProps {
   navItems: NavItem[];
@@ -18,6 +18,10 @@ export function MegaMenuPanel({ navItems, hoveredNav, onMouseEnter, onMouseLeave
       {navItems.map((item) => {
         if (!item.isMegaMenu || !item.megaMenu) return null;
         const isHovered = hoveredNav === item.label;
+
+        // Cap at maximum 8 parent categories for exact 4 columns x 2 rows grid balance
+        const categoriesList = (item.megaMenu.categories || []).slice(0, 8);
+        const promoList = (item.megaMenu.promos || []).slice(0, 2);
 
         return (
           <div
@@ -37,31 +41,33 @@ export function MegaMenuPanel({ navItems, hoveredNav, onMouseEnter, onMouseLeave
               }}
             >
               <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between gap-8 lg:gap-12">
-                {/* Categories Grid */}
+                {/* Categories Grid (Max 8 items, 4 columns) */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-8 flex-1">
-                  {item.megaMenu.categories.map((cat) => (
-                    <div key={cat.title} className="flex flex-col gap-3">
+                  {categoriesList.map((cat) => (
+                    <div key={cat.title} className="flex flex-col gap-3 max-w-full overflow-hidden">
                       <Link
                         href={cat.href || "#"}
                         onClick={onItemClick}
-                        className="group relative inline-flex items-center self-start text-lg sm:text-[19px] font-semibold text-primary-950 transition-colors duration-200 pb-0.5"
+                        className="group relative inline-flex items-center self-start text-lg sm:text-[19px] font-semibold text-primary-950 transition-colors duration-200 pb-0.5 max-w-full whitespace-nowrap truncate"
                         style={{ color: "var(--color-primary-950, #62103A)" }}
+                        title={cat.title}
                       >
-                        <span>{cat.title}</span>
+                        <span className="truncate">{cat.title}</span>
                         <span
                           className="absolute bottom-0 left-0 w-full h-px opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100 transition-all duration-300 ease-out origin-left pointer-events-none"
                           style={{ height: "1px", backgroundColor: "var(--color-primary-950, #62103A)" }}
                         />
                       </Link>
-                      <ul className="flex flex-col gap-2">
-                        {cat.items.map((sub) => (
-                          <li key={sub.label}>
+                      <ul className="flex flex-col gap-2 max-w-full overflow-hidden">
+                        {(cat.items || []).map((sub) => (
+                          <li key={sub.label} className="max-w-full overflow-hidden">
                             <Link
                               href={sub.href}
                               onClick={onItemClick}
-                              className="group relative inline-flex items-center font-body text-[15px] font-normal text-grey-700 hover:text-primary-950 transition-colors duration-200 py-0.5"
+                              className="group relative inline-flex items-center font-body text-[15px] font-normal text-grey-700 hover:text-primary-950 transition-colors duration-200 py-0.5 max-w-full whitespace-nowrap truncate"
+                              title={sub.label}
                             >
-                              <span>{sub.label}</span>
+                              <span className="truncate">{sub.label}</span>
                               <span
                                 className="absolute bottom-0 left-0 w-full h-px opacity-0 scale-x-0 group-hover:opacity-100 group-hover:scale-x-100 transition-all duration-300 ease-out origin-left pointer-events-none"
                                 style={{ height: "1px", backgroundColor: "var(--color-primary-950, #62103A)" }}
@@ -75,18 +81,26 @@ export function MegaMenuPanel({ navItems, hoveredNav, onMouseEnter, onMouseLeave
                 </div>
 
                 {/* Promo Cards */}
-                {item.megaMenu.promos && item.megaMenu.promos.length > 0 && (
+                {promoList.length > 0 && (
                   <div className="flex gap-4 shrink-0 justify-end self-start">
-                    {item.megaMenu.promos.map((promo) => (
+                    {promoList.map((promo) => (
                       <Link
                         key={promo.title}
                         href={promo.href}
                         onClick={onItemClick}
                         className="relative w-44 lg:w-52 h-64 lg:h-72 rounded-2xl overflow-hidden group shadow-md hover:shadow-xl transition-all duration-300"
                       >
-                        <Image src={promo.image} alt={promo.title} fill className="object-cover img-hover-scale" />
-                        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/10 to-transparent" />
-                        <span className="absolute top-5 left-5 font-heading text-xl lg:text-2xl font-bold text-white drop-shadow-md">{promo.title}</span>
+                        <ImageWithFallback
+                          src={promo.image}
+                          alt={promo.title}
+                          fill
+                          fallbackType="banner"
+                          className="object-cover img-hover-scale"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                        <span className="absolute top-5 left-5 font-heading text-xl lg:text-2xl font-bold text-white drop-shadow-md whitespace-nowrap truncate max-w-[85%]">
+                          {promo.title}
+                        </span>
                       </Link>
                     ))}
                   </div>
