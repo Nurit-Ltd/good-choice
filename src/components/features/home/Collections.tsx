@@ -174,7 +174,7 @@ export function Collections({
                   <Link
                     key={`${item.id}-${index}`}
                     href={item.href || buttonHref}
-                    className="w-[70vw] sm:w-[320px] lg:w-full shrink-0 flex flex-col rounded-2xl xl:rounded-[20px] overflow-hidden shadow-lg transition-transform duration-300 hover:-translate-y-1 block group"
+                    className="w-[70vw] sm:w-[320px] lg:w-full shrink-0 flex flex-col rounded-2xl xl:rounded-[20px] overflow-hidden shadow-lg transition-transform duration-300 hover:-translate-y-1 group"
                   >
                     {/* Card Image Area (White Background) */}
                     <div className="relative w-full h-44 sm:h-75 xl:h-85 bg-white p-4 sm:p-6 flex items-center justify-center">

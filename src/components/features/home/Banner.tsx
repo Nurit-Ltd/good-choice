@@ -1,20 +1,22 @@
 "use client";
 
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
-import { bannerData, BannerData } from "@/config/banner";
+import { useHomePageData } from "@/hooks/use-home";
 import { useCallback, useEffect, useState } from "react";
 
 interface BannerProps {
-  data?: BannerData;
   autoPlayInterval?: number;
   className?: string;
 }
 
-export function Banner({ data = bannerData, autoPlayInterval = 4000, className = "" }: BannerProps) {
+export function Banner({ autoPlayInterval = 4000, className = "" }: BannerProps) {
+  const { data: homeData } = useHomePageData();
+  const banner = homeData?.banner;
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
 
-  const slides = data?.slides || [];
+  const slides = banner?.slides || [];
   const hasMultipleSlides = slides.length > 1;
   const currentSlide = slides[currentIndex] || slides[0];
 
@@ -32,7 +34,7 @@ export function Banner({ data = bannerData, autoPlayInterval = 4000, className =
     handleSlideChange((currentIndex + 1) % slides.length);
   }, [currentIndex, slides.length, handleSlideChange]);
 
-  // Reset prevIndex after animation duration (1250ms matching Figma specs)
+  // Reset prevIndex after animation duration (1250ms)
   useEffect(() => {
     if (prevIndex === null) return;
     const timer = setTimeout(() => {
@@ -41,19 +43,19 @@ export function Banner({ data = bannerData, autoPlayInterval = 4000, className =
     return () => clearTimeout(timer);
   }, [prevIndex]);
 
-  // Continuous JS timer autoplay (without mouse pause)
+  // Continuous JS timer autoplay
   useEffect(() => {
     if (slides.length <= 1) return;
     const timer = setTimeout(nextSlide, autoPlayInterval);
     return () => clearTimeout(timer);
   }, [currentIndex, autoPlayInterval, nextSlide, slides.length]);
 
-  const activeTitle = currentSlide?.title || data.title;
-  const activeSubtitle = currentSlide?.subtitle || data.subtitle;
+  const activeTitle = currentSlide?.title || banner?.title || "Sculpted Simplicity";
+  const activeSubtitle = currentSlide?.subtitle || banner?.subtitle || "Explore curved silhouettes and minimalist craftsmanship designed to bring warmth, balance, and quiet luxury to modern living spaces.";
 
   return (
     <section className={`w-full ${className}`}>
-      {/* GPU-Accelerated 100% Smooth Keyframe Animation based on Figma Specs */}
+      {/* GPU-Accelerated Smooth Keyframe Animation */}
       <style>{`
         @keyframes bannerProgressFill {
           from { width: 0%; }
@@ -124,7 +126,7 @@ export function Banner({ data = bannerData, autoPlayInterval = 4000, className =
 
         {/* Content & Active Slide Controls */}
         <div className="relative z-20 w-full flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 lg:gap-12">
-          {/* Constant Title & Subtitle - Exact Placement Parity */}
+          {/* Constant Title & Subtitle */}
           <div className="max-w-xl text-left space-y-3">
             <h1 className="font-heading text-3xl sm:text-5xl lg:text-[60px] xl:text-[64px] font-normal leading-[108%] tracking-wide text-grey-950">{activeTitle}</h1>
             <p className="font-body text-xs sm:text-sm lg:text-[16px] font-normal leading-[150%] text-grey-950/90 max-w-lg">{activeSubtitle}</p>
