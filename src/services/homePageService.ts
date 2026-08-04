@@ -177,7 +177,7 @@ const DEFAULT_HOME_DATA: HomePageData = {
 export async function getHomePageData(): Promise<HomePageData> {
   const { products } = await getCatalogProducts({ limit: 12 });
 
-  const { data: heroBanners } = await fetchStrapiAPI<Array<{ id: number; title: string; banner_images?: Array<{ url: string }> }>>('/hero-banners?populate=*', {
+  const { data: heroBanners } = await fetchStrapiAPI<Array<{ id: number; title: string; banner_images?: Array<{ url: string }>; image?: { url: string } }>>('/hero-banners?populate=*', {
     tags: ['home-page', 'hero-banners'],
   });
 
@@ -191,7 +191,7 @@ export async function getHomePageData(): Promise<HomePageData> {
     ? heroBanners.map((b, idx) => {
         const imgUrl = Array.isArray(b.banner_images) && b.banner_images.length > 0
           ? b.banner_images[0].url
-          : (b as any).image?.url;
+          : b.image?.url;
         return {
           id: b.id || `slide-${idx}`,
           image: getStrapiMediaUrl(imgUrl),
@@ -209,23 +209,19 @@ export async function getHomePageData(): Promise<HomePageData> {
     shopByRoom: {
       title: homeAttrs.shop_by_room_title || DEFAULT_HOME_DATA.shopByRoom.title,
       subtitle: homeAttrs.shop_by_room_subtitle || DEFAULT_HOME_DATA.shopByRoom.subtitle,
-      items: DEFAULT_HOME_DATA.shopByRoom.items,
+      items: homeAttrs.shop_by_room_items || DEFAULT_HOME_DATA.shopByRoom.items,
     },
     craftsmanship: {
       leftTitle: homeAttrs.craftsmanship_left_title || DEFAULT_HOME_DATA.craftsmanship.leftTitle,
       leftParagraphs: Array.isArray(homeAttrs.craftsmanship_left_paragraphs) && homeAttrs.craftsmanship_left_paragraphs.length > 0
         ? homeAttrs.craftsmanship_left_paragraphs
         : DEFAULT_HOME_DATA.craftsmanship.leftParagraphs,
-      leftImage: homeAttrs.craftsmanship_left_image?.url
-        ? getStrapiMediaUrl(homeAttrs.craftsmanship_left_image.url)
-        : DEFAULT_HOME_DATA.craftsmanship.leftImage,
+      leftImage: getStrapiMediaUrl(homeAttrs.craftsmanship_left_image?.url || DEFAULT_HOME_DATA.craftsmanship.leftImage),
       rightTitle: homeAttrs.craftsmanship_right_title || DEFAULT_HOME_DATA.craftsmanship.rightTitle,
       rightParagraphs: Array.isArray(homeAttrs.craftsmanship_right_paragraphs) && homeAttrs.craftsmanship_right_paragraphs.length > 0
         ? homeAttrs.craftsmanship_right_paragraphs
         : DEFAULT_HOME_DATA.craftsmanship.rightParagraphs,
-      rightImage: homeAttrs.craftsmanship_right_image?.url
-        ? getStrapiMediaUrl(homeAttrs.craftsmanship_right_image.url)
-        : DEFAULT_HOME_DATA.craftsmanship.rightImage,
+      rightImage: getStrapiMediaUrl(homeAttrs.craftsmanship_right_image?.url || DEFAULT_HOME_DATA.craftsmanship.rightImage),
     },
     recentlyCrafted: {
       title: homeAttrs.recently_crafted_title || DEFAULT_HOME_DATA.recentlyCrafted.title,
@@ -236,9 +232,7 @@ export async function getHomePageData(): Promise<HomePageData> {
       subtitle: homeAttrs.collections_subtitle || DEFAULT_HOME_DATA.collections.subtitle,
       buttonText: homeAttrs.collections_button_text || DEFAULT_HOME_DATA.collections.buttonText,
       buttonHref: homeAttrs.collections_button_href || DEFAULT_HOME_DATA.collections.buttonHref,
-      backgroundImage: homeAttrs.collections_background_image?.url
-        ? getStrapiMediaUrl(homeAttrs.collections_background_image.url)
-        : DEFAULT_HOME_DATA.collections.backgroundImage,
+      backgroundImage: getStrapiMediaUrl(homeAttrs.collections_background_image?.url || DEFAULT_HOME_DATA.collections.backgroundImage),
       items: DEFAULT_HOME_DATA.collections.items,
     },
     explore: {
