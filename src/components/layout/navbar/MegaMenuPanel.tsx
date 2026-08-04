@@ -97,7 +97,7 @@ export function MegaMenuPanel({ navItems, hoveredNav, onMouseEnter, onMouseLeave
                           fallbackType="banner"
                           className="object-cover img-hover-scale"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/10 to-transparent" />
                         <span className="absolute top-5 left-5 font-heading text-xl lg:text-2xl font-bold text-white drop-shadow-md whitespace-nowrap truncate max-w-[85%]">
                           {promo.title}
                         </span>
