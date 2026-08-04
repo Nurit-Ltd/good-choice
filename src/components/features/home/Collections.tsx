@@ -33,9 +33,9 @@ export function Collections({
   const { data: homeData } = useHomePageData();
   const collectionsData = homeData?.collections;
 
-  const title = propTitle || collectionsData?.title || "Grand Atelier\nFurniture\nCollection";
-  const subtitle = propSubtitle || collectionsData?.subtitle || "Collections";
-  const buttonText = propButtonText || collectionsData?.buttonText || "Browse Collections";
+  const title = propTitle || collectionsData?.title || "";
+  const subtitle = propSubtitle || collectionsData?.subtitle || "";
+  const buttonText = propButtonText || collectionsData?.buttonText || "";
   const buttonHref = propButtonHref || collectionsData?.buttonHref || "/products";
   const bgImage = collectionsData?.backgroundImage ?? "";
   const collections = propCollections || collectionsData?.items || [];
@@ -185,7 +185,7 @@ export function Collections({
                           fill
                           sizes="(max-width: 640px) 320px, 400px"
                           fallbackType="product"
-                          className="object-contain img-hover-scale"
+                          className="object-cover rounded-lg"
                         />
                       </div>
                     </div>

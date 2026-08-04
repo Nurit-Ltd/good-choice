@@ -10,8 +10,8 @@ export function ShopByRoom() {
   const { data: homeData } = useHomePageData();
   const shopData = homeData?.shopByRoom;
 
-  const title = shopData?.title || "Shop By Room";
-  const subtitle = shopData?.subtitle || "Bespoke furniture designed with premium materials, timeless aesthetics, and precision craftsmanship for refined modern interiors.";
+  const title = shopData?.title || "";
+  const subtitle = shopData?.subtitle || "";
   const items = shopData?.items || [];
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);

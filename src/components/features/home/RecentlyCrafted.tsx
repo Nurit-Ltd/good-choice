@@ -18,7 +18,7 @@ export function RecentlyCrafted({
   products: propProducts,
 }: RecentlyCraftedProps) {
   const { data: homeData, isLoading } = useHomePageData();
-  const title = propTitle || homeData?.recentlyCrafted?.title || "Recently Crafted";
+  const title = propTitle || homeData?.recentlyCrafted?.title || "";
   const products = propProducts || homeData?.recentlyCrafted?.products || [];
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);

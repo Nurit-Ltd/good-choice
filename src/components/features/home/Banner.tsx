@@ -50,8 +50,8 @@ export function Banner({ autoPlayInterval = 4000, className = "" }: BannerProps)
     return () => clearTimeout(timer);
   }, [currentIndex, autoPlayInterval, nextSlide, slides.length]);
 
-  const activeTitle = currentSlide?.title || banner?.title || "Sculpted Simplicity";
-  const activeSubtitle = currentSlide?.subtitle || banner?.subtitle || "Explore curved silhouettes and minimalist craftsmanship designed to bring warmth, balance, and quiet luxury to modern living spaces.";
+  const activeTitle = currentSlide?.title || banner?.title || "";
+  const activeSubtitle = currentSlide?.subtitle || banner?.subtitle || "";
 
   return (
     <section className={`w-full ${className}`}>

@@ -9,7 +9,7 @@ export interface ExperienceItem {
   id: string;
   title: string;
   description: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.ComponentType<{ className?: string }> | string;
   href?: string;
 }
 
@@ -20,31 +20,11 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   DressingMirrorIcon,
 };
 
-const DEFAULT_EXPERIENCES: ExperienceItem[] = [
-  {
-    id: "exp-sofa",
-    title: "New Sofa Making",
-    description: "Luxury sofas crafted with meticulous care, combining elegance, durability, and superior craftsmanship.",
-    icon: SofaIcon,
-  },
-  {
-    id: "exp-majlis",
-    title: "Arabic Majlis Making",
-    description: "Exquisitely handcrafted Arabic Majlis offering luxurious comfort, elegant design, and superior craftsmanship.",
-    icon: ArabicMajlisIcon,
-  },
-  {
-    id: "exp-dining",
-    title: "Dining Table Making",
-    description: "Luxury dining tables designed for sophistication, comfort, and lasting quality.",
-    icon: DiningTableIcon,
-  },
-  {
-    id: "exp-mirror",
-    title: "Dressing Mirror Making",
-    description: "Custom dressing mirrors designed with elegance, style, and premium craftsmanship.",
-    icon: DressingMirrorIcon,
-  },
+const DEFAULT_EXPERIENCES_LIST: ExperienceItem[] = [
+  { id: 'exp-sofa', title: 'New Sofa Making', description: 'Luxury sofas crafted with meticulous care, combining elegance, durability, and superior craftsmanship.', icon: SofaIcon },
+  { id: 'exp-majlis', title: 'Arabic Majlis Making', description: 'Exquisitely handcrafted Arabic Majlis offering luxurious comfort, elegant design, and superior craftsmanship.', icon: ArabicMajlisIcon },
+  { id: 'exp-dining', title: 'Dining Table Making', description: 'Luxury dining tables designed for sophistication, comfort, and lasting quality.', icon: DiningTableIcon },
+  { id: 'exp-mirror', title: 'Dressing Mirror Making', description: 'Custom dressing mirrors designed with elegance, style, and premium craftsmanship.', icon: DressingMirrorIcon },
 ];
 
 interface ExperiencesProps {
@@ -66,12 +46,14 @@ export function Experiences({
   const title = propTitle || expData?.title || "Crafted Experiences for Your Home";
   const subtitle = propSubtitle || expData?.subtitle || "Delivering bespoke furniture and interior solutions meticulously designed to elevate every space with elegance, comfort, and timeless craftsmanship.";
 
-  const experiences = propExperiences || (expData?.items ? expData.items.map((item) => ({
+  const experiences: ExperienceItem[] = propExperiences || (expData?.items && expData.items.length > 0 ? expData.items.map((item) => ({
     id: item.id,
     title: item.title,
     description: item.description,
-    icon: ICON_MAP[item.iconName] || SofaIcon,
-  })) : DEFAULT_EXPERIENCES);
+    icon: (item.iconName && (item.iconName.startsWith("http") || item.iconName.startsWith("/")))
+      ? item.iconName
+      : (ICON_MAP[item.iconName] || SofaIcon),
+  })) : DEFAULT_EXPERIENCES_LIST);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -109,13 +91,13 @@ export function Experiences({
 
   return (
     <section className={`relative w-full overflow-hidden bg-primary-950 py-16 sm:py-24 ${className}`} style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}>
-      {/* Background Watermark Logo Overlay (Hidden on Mobile, Visible on Tablet/Desktop) */}
+      {/* Background Watermark Logo Overlay */}
       <div className="hidden sm:block absolute inset-y-0 right-0 pointer-events-none select-none z-0 w-full h-full">
         <Image src="/images/home/Experiences/logo-shadow.png" alt="Good Choice Watermark Shadow" fill className="object-contain object-right" priority />
       </div>
 
       <div className="relative z-10 container flex flex-col gap-8 lg:gap-10">
-        {/* Top Header Row: Title & Subtitle + Slider Controls */}
+        {/* Top Header Row */}
         <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6">
           <div className="flex flex-col items-start gap-4 max-w-5xl">
             <h2
@@ -129,74 +111,83 @@ export function Experiences({
             </p>
           </div>
 
-          {/* Slider Navigation Arrows (Desktop Top Right) */}
-          <div className="hidden lg:flex items-center gap-6 lg:gap-8 xl:gap-16 shrink-0 pt-2 lg:pt-0">
-            <button
-              type="button"
-              onClick={() => handleScroll("left")}
-              disabled={!canScrollLeft}
-              className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-colors cursor-pointer ${
-                canScrollLeft ? "text-grey-50 hover:text-white" : "text-grey-50/40 cursor-not-allowed opacity-40"
-              }`}
-              aria-label="Previous experiences"
-            >
-              <CustomArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>Previous</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => handleScroll("right")}
-              disabled={!canScrollRight}
-              className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-colors cursor-pointer ${
-                canScrollRight ? "text-grey-50 hover:text-white" : "text-grey-50/40 cursor-not-allowed opacity-40"
-              }`}
-              aria-label="Next experiences"
-            >
-              <span>Next</span>
-              <CustomArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Experiences Cards Grid / Carousel Container */}
-        <div
-          ref={scrollContainerRef}
-          className="w-full flex lg:grid lg:grid-cols-4 gap-6 lg:gap-8 overflow-x-auto lg:overflow-visible scrollbar-none snap-x snap-mandatory py-2 scroll-smooth"
-          style={{
-            scrollbarWidth: "none",
-            msOverflowStyle: "none",
-          }}
-        >
-          {experiences.map((exp) => {
-            const IconComponent = exp.icon;
-            return (
-              <div
-                key={exp.id}
-                className="group relative overflow-hidden w-full sm:w-85 lg:w-full shrink-0 lg:shrink h-100 p-8 rounded-lg bg-[#701544] flex flex-col items-center justify-between text-center transition-transform duration-300 hover:scale-[1.015] shadow-lg cursor-pointer snap-center"
+          {/* Slider Controls */}
+          {experiences.length > 0 && (
+            <div className="hidden lg:flex items-center gap-6 lg:gap-8 xl:gap-16 shrink-0 pt-2 lg:pt-0">
+              <button
+                type="button"
+                onClick={() => handleScroll("left")}
+                disabled={!canScrollLeft}
+                className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-colors cursor-pointer ${
+                  canScrollLeft ? "text-grey-50 hover:text-white" : "text-grey-50/40 cursor-not-allowed opacity-40"
+                }`}
+                aria-label="Previous experiences"
               >
-                {/* Layer 0: Base White Background (hidden in default state to eliminate corner stroke bleed) */}
-                <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out pointer-events-none" />
+                <CustomArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>Previous</span>
+              </button>
 
-                {/* Layer 1: Burgundy Background Layer */}
-                <div className="absolute -inset-0.5 bg-[#701544] pointer-events-none transition-all duration-700 ease-in-out [clip-path:circle(160%_at_50%_100px)] group-hover:[clip-path:circle(0%_at_50%_100px)]" />
-
-                {/* Top Icon Area */}
-                <div className="relative z-10 w-24 h-24 flex items-center justify-center text-grey-50 group-hover:text-primary-950 transition-colors duration-700 ease-in-out pt-12">
-                  <IconComponent className="w-24 h-24 text-current transition-colors duration-700 ease-in-out" />
-                </div>
-
-                {/* Bottom Content Area: Title & Subtitle */}
-                <div className="relative z-10 flex flex-col items-center gap-3 pb-2">
-                  <h3 className="font-body text-xl sm:text-[24px] font-medium leading-[110%] tracking-[-0.24px] text-grey-50 group-hover:text-primary-950 transition-colors duration-700 ease-in-out">
-                    {exp.title}
-                  </h3>
-                  <p className="font-body text-sm font-light leading-[150%] text-grey-200 group-hover:text-primary-950/80 max-w-70 transition-colors duration-700 ease-in-out">{exp.description}</p>
-                </div>
-              </div>
-            );
-          })}
+              <button
+                type="button"
+                onClick={() => handleScroll("right")}
+                disabled={!canScrollRight}
+                className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-colors cursor-pointer ${
+                  canScrollRight ? "text-grey-50 hover:text-white" : "text-grey-50/40 cursor-not-allowed opacity-40"
+                }`}
+                aria-label="Next experiences"
+              >
+                <span>Next</span>
+                <CustomArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+              </button>
+            </div>
+          )}
         </div>
+
+        {/* Experiences Cards Grid / Carousel */}
+        {experiences.length > 0 ? (
+          <div
+            ref={scrollContainerRef}
+            className="w-full flex lg:grid lg:grid-cols-4 gap-6 lg:gap-8 overflow-x-auto lg:overflow-visible scrollbar-none snap-x snap-mandatory py-2 scroll-smooth"
+          >
+            {experiences.map((exp) => {
+              const IconComponent = typeof exp.icon === "function" ? exp.icon : null;
+              const iconSrc = typeof exp.icon === "string" ? exp.icon : null;
+
+              return (
+                <div
+                  key={exp.id}
+                  className="group relative overflow-hidden w-full sm:w-85 lg:w-full shrink-0 lg:shrink h-100 p-8 rounded-lg bg-[#701544] flex flex-col items-center justify-between text-center transition-transform duration-300 hover:scale-[1.015] shadow-lg cursor-pointer snap-center"
+                >
+                  <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out pointer-events-none" />
+                  <div className="absolute -inset-0.5 bg-[#701544] pointer-events-none transition-all duration-700 ease-in-out [clip-path:circle(160%_at_50%_100px)] group-hover:[clip-path:circle(0%_at_50%_100px)]" />
+
+                  {/* Top Icon Area */}
+                  <div className="relative z-10 w-24 h-24 flex items-center justify-center text-grey-50 group-hover:text-primary-950 transition-colors duration-700 ease-in-out pt-12">
+                    {IconComponent ? (
+                      <IconComponent className="w-24 h-24 text-current transition-colors duration-700 ease-in-out" />
+                    ) : iconSrc ? (
+                      <Image src={iconSrc} alt={exp.title} width={96} height={96} className="object-contain" />
+                    ) : (
+                      <SofaIcon className="w-24 h-24 text-current" />
+                    )}
+                  </div>
+
+                  {/* Bottom Content Area */}
+                  <div className="relative z-10 flex flex-col items-center gap-3 pb-2">
+                    <h3 className="font-body text-xl sm:text-[24px] font-medium leading-[110%] tracking-[-0.24px] text-grey-50 group-hover:text-primary-950 transition-colors duration-700 ease-in-out">
+                      {exp.title}
+                    </h3>
+                    <p className="font-body text-sm font-light leading-[150%] text-grey-200 group-hover:text-primary-950/80 max-w-70 transition-colors duration-700 ease-in-out">{exp.description}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="w-full py-12 flex flex-col items-center justify-center bg-white/10 rounded-2xl border border-dashed border-white/20 text-white/80">
+            <p className="text-sm font-medium">No active experiences found in Strapi. Create entries in Strapi Admin (`Crafted Experiences`).</p>
+          </div>
+        )}
 
         {/* Mobile Bottom Slider Controls (Centered below slider) */}
         <div className="flex lg:hidden items-center justify-center gap-8 mt-6">

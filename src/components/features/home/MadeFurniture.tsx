@@ -7,18 +7,12 @@ export function MadeFurniture() {
   const { data: homeData } = useHomePageData();
   const craft = homeData?.craftsmanship;
 
-  const leftTitle = craft?.leftTitle || "The Art of\nFurniture Making";
-  const leftParagraphs = craft?.leftParagraphs || [
-    "Every Good Choice Furniture piece begins with a simple belief: exceptional furniture requires exceptional care. Our artisans spend years perfecting their craft, ensuring that each table, chair, and cabinet meets exacting standards.",
-    "The result? Furniture that improves with age, grows more beautiful with time, and becomes an integral part of your home's story.",
-  ];
+  const leftTitle = craft?.leftTitle || "";
+  const leftParagraphs = craft?.leftParagraphs || [];
   const leftImage = craft?.leftImage ?? "";
 
-  const rightTitle = craft?.rightTitle || "Made with Care for a\nCleaner Future";
-  const rightParagraphs = craft?.rightParagraphs || [
-    "At Good Choice Furniture, we prioritize eco-friendly materials and ethical production practices in every aspect of our business. Our unwavering commitment to sustainability ensures that every piece of furniture we create is made with responsibility.",
-    "We believe that our choices impact the planet, and we strive to make a positive difference through our high-quality designs. By selecting sustainable resources, we deliver products our customers feel proud to own.",
-  ];
+  const rightTitle = craft?.rightTitle || "";
+  const rightParagraphs = craft?.rightParagraphs || [];
   const rightImage = craft?.rightImage ?? "";
 
   return (

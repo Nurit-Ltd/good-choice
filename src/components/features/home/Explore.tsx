@@ -27,9 +27,9 @@ export function Explore({
   const { data: homeData, isLoading } = useHomePageData();
   const exploreData = homeData?.explore;
 
-  const title = propTitle || exploreData?.title || "Explore Elevated Living\nEssentials";
-  const subtitle = propSubtitle || exploreData?.subtitle || "Curated furniture pieces blending refined design, premium materials, and exceptional comfort to elevate everyday living beautifully.";
-  const buttonText = propButtonText || exploreData?.buttonText || "Browse All";
+  const title = propTitle || exploreData?.title || "";
+  const subtitle = propSubtitle || exploreData?.subtitle || "";
+  const buttonText = propButtonText || exploreData?.buttonText || "";
   const buttonHref = propButtonHref || exploreData?.buttonHref || "/products";
   const products = propProducts || exploreData?.products || [];
 
