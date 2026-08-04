@@ -10,7 +10,7 @@ const LeafletMapInner = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-full min-h-[450px] bg-stone-100 animate-pulse flex items-center justify-center text-stone-400 font-body text-sm">
+      <div className="w-full h-full min-h-112.5 bg-stone-100 animate-pulse flex items-center justify-center text-stone-400 font-body text-sm">
         Loading Interactive Map...
       </div>
     ),
@@ -30,7 +30,7 @@ export function ContactMap() {
 
   return (
     <section className="w-full py-12 lg:py-16">
-      <div className="w-full h-[450px] sm:h-[550px] lg:h-[650px] relative overflow-hidden bg-stone-100">
+      <div className="w-full h-112.5 sm:h-137.5 lg:h-162.5 relative overflow-hidden bg-stone-100">
         <LeafletMapInner
           coords={[lat, lng]}
           zoom={zoom}
