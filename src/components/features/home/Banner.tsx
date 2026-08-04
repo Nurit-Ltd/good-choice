@@ -92,6 +92,12 @@ export function Banner({ data = bannerData, autoPlayInterval = 4000, className =
       `}</style>
 
       <div className="relative w-full min-h-125 sm:min-h-150 lg:min-h-200 h-[75vh] max-h-200 rounded-lg overflow-hidden flex flex-col justify-end p-6 sm:p-10 lg:p-16 group bg-linear-to-br from-[#FAF7F2] via-[#F5F1E8] to-[#EFECE5]">
+        {/* Strapi Unpopulated Badge when 0 slides exist */}
+        {!slides.length && (
+          <div className="absolute top-6 right-6 px-3.5 py-1.5 bg-stone-900/10 backdrop-blur-xs border border-stone-900/15 text-stone-700 text-xs font-semibold rounded-full z-20">
+            No Banners Uploaded (Strapi CMS)
+          </div>
+        )}
         {/* Background Images with Slide Out Left + Scale Down Enter Transitions */}
         {slides.map((slide, idx) => {
           const isCurrent = idx === currentIndex;

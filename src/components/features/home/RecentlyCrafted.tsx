@@ -1,7 +1,9 @@
 "use client";
 
 import { ProductCard } from "@/components/features/products/ProductCard";
+import { ProductCardSkeleton } from "@/components/ui/ProductCardSkeleton";
 import { CustomArrowLeft, CustomArrowRight } from "@/components/shared/svgs";
+import { useHomePageData } from "@/hooks/use-home";
 import { Product } from "@/types/product";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -11,9 +13,13 @@ interface RecentlyCraftedProps {
 }
 
 export function RecentlyCrafted({
-  title = "Recently Crafted",
-  products = [],
+  title: propTitle,
+  products: propProducts,
 }: RecentlyCraftedProps) {
+  const { data: homeData, isLoading } = useHomePageData();
+  const title = propTitle || homeData?.recentlyCrafted?.title || "Recently Crafted";
+  const products = propProducts || homeData?.recentlyCrafted?.products || [];
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -39,7 +45,7 @@ export function RecentlyCrafted({
       el.removeEventListener("scroll", checkScrollState);
       window.removeEventListener("resize", checkScrollState);
     };
-  }, [checkScrollState]);
+  }, [checkScrollState, displayProducts.length]);
 
   const handleScroll = (direction: "left" | "right") => {
     const el = scrollContainerRef.current;
@@ -102,14 +108,20 @@ export function RecentlyCrafted({
           ref={scrollContainerRef}
           className="flex flex-nowrap gap-6 overflow-x-auto scrollbar-none snap-x snap-mandatory py-4 scroll-smooth"
         >
-          {displayProducts.map((product) => (
-            <div
-              key={product.id}
-              className="shrink-0 w-[82vw] sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] snap-start"
-            >
-              <ProductCard product={product} />
-            </div>
-          ))}
+          {isLoading
+            ? Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="shrink-0 w-[82vw] sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] snap-start">
+                  <ProductCardSkeleton />
+                </div>
+              ))
+            : displayProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="shrink-0 w-[82vw] sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] snap-start"
+                >
+                  <ProductCard product={product} />
+                </div>
+              ))}
         </div>
 
         {/* Mobile Bottom Slider Controls (Centered below slider) */}

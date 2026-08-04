@@ -6,11 +6,8 @@ import { Faq } from "@/components/features/home/Faq";
 import { MadeFurniture } from "@/components/features/home/MadeFurniture";
 import { RecentlyCrafted } from "@/components/features/home/RecentlyCrafted";
 import { ShopByRoom } from "@/components/features/home/ShobByRoom";
-import { getProducts } from "@/services/productService";
 
-export default async function Home() {
-  const products = await getProducts();
-
+export default function Home() {
   return (
     <div className="pb-16 space-y-0">
       {/* Hero Banner Section */}
@@ -25,13 +22,13 @@ export default async function Home() {
       <MadeFurniture />
 
       {/* Recently Crafted Slider Section */}
-      <RecentlyCrafted products={products} />
+      <RecentlyCrafted />
 
       {/* Grand Atelier Collections Section */}
       <Collections />
 
       {/* Explore Elevated Living Essentials Section */}
-      <Explore products={products} />
+      <Explore />
 
       {/* Crafted Experiences Section */}
       <Experiences />

@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { fetchStrapiAPI, getStrapiMediaUrl } from './strapi';
+import { fetchStrapiAPI, getStrapiMediaUrl } from '@/services/strapi';
+import { getProducts } from '@/services/productService';
 import { Product } from '@/types/product';
-import { getCatalogProducts } from './catalogService';
 
 export interface BannerSlide {
-  id: string | number;
+  id: string;
   image: string;
   alt: string;
   title?: string;
   subtitle?: string;
 }
 
-export interface HomeBannerData {
+export interface HeroBannerData {
   title: string;
   subtitle: string;
   slides: BannerSlide[];
@@ -22,6 +22,12 @@ export interface RoomItemData {
   title: string;
   image: string;
   href: string;
+}
+
+export interface ShopByRoomData {
+  title: string;
+  subtitle: string;
+  items: RoomItemData[];
 }
 
 export interface CraftsmanshipData {
@@ -40,11 +46,26 @@ export interface CollectionItemData {
   href: string;
 }
 
+export interface CollectionsData {
+  title: string;
+  subtitle: string;
+  buttonText: string;
+  buttonHref: string;
+  backgroundImage: string;
+  items: CollectionItemData[];
+}
+
 export interface ExperienceItemData {
   id: string;
   title: string;
   description: string;
   iconName: string;
+}
+
+export interface ExperiencesData {
+  title: string;
+  subtitle: string;
+  items: ExperienceItemData[];
 }
 
 export interface FaqItemData {
@@ -53,26 +74,20 @@ export interface FaqItemData {
   answer: string;
 }
 
+export interface FaqData {
+  title: string;
+  items: FaqItemData[];
+}
+
 export interface HomePageData {
-  banner: HomeBannerData;
-  shopByRoom: {
-    title: string;
-    subtitle: string;
-    items: RoomItemData[];
-  };
+  banner: HeroBannerData;
+  shopByRoom: ShopByRoomData;
   craftsmanship: CraftsmanshipData;
   recentlyCrafted: {
     title: string;
     products: Product[];
   };
-  collections: {
-    title: string;
-    subtitle: string;
-    buttonText: string;
-    buttonHref: string;
-    backgroundImage?: string;
-    items: CollectionItemData[];
-  };
+  collections: CollectionsData;
   explore: {
     title: string;
     subtitle: string;
@@ -80,38 +95,20 @@ export interface HomePageData {
     buttonHref: string;
     products: Product[];
   };
-  experiences: {
-    title: string;
-    subtitle: string;
-    items: ExperienceItemData[];
-  };
-  faq: {
-    title: string;
-    items: FaqItemData[];
-  };
+  experiences: ExperiencesData;
+  faq: FaqData;
 }
 
-const DEFAULT_HOME_DATA: HomePageData = {
+export const DEFAULT_HOME_DATA: HomePageData = {
   banner: {
     title: 'Sculpted Simplicity',
     subtitle: 'Explore curved silhouettes and minimalist craftsmanship designed to bring warmth, balance, and quiet luxury to modern living spaces.',
-    slides: [
-      { id: 'slide-1', image: '/images/home/banner/banner-hero-1.webp', alt: 'Sculpted Simplicity Living Room' },
-      { id: 'slide-2', image: '/images/home/banner/banner-hero-2.webp', alt: 'Modern Curved Furniture' },
-      { id: 'slide-3', image: '/images/home/banner/banner-hero-3.webp', alt: 'Bespoke Interior Craftsmanship' },
-    ],
+    slides: [],
   },
   shopByRoom: {
     title: 'Shop By Room',
     subtitle: 'Bespoke furniture designed with premium materials, timeless aesthetics, and precision craftsmanship for refined modern interiors.',
-    items: [
-      { id: '1', title: 'Living Room', image: '/images/home/room/room-1.png', href: '/products?category=Living%20Room' },
-      { id: '2', title: 'Dining Room', image: '/images/home/room/room-2.png', href: '/products?category=Dining%20Room' },
-      { id: '3', title: 'Bed Room', image: '/images/home/room/room-3.png', href: '/products?category=Beds' },
-      { id: '4', title: 'Study Room', image: '/images/home/room/room-4.png', href: '/products?category=Wardrobes' },
-      { id: '5', title: 'Kitchen & Bar', image: '/images/home/room/room-1.png', href: '/products?category=Dining%20Room' },
-      { id: '6', title: 'Outdoor Lounge', image: '/images/home/room/room-2.png', href: '/products?category=Outdoor' },
-    ],
+    items: [],
   },
   craftsmanship: {
     leftTitle: 'The Art of\nFurniture Making',
@@ -119,13 +116,13 @@ const DEFAULT_HOME_DATA: HomePageData = {
       'Every Good Choice Furniture piece begins with a simple belief: exceptional furniture requires exceptional care. Our artisans spend years perfecting their craft, ensuring that each table, chair, and cabinet meets the exacting standards that have defined Scandinavian design for generations.',
       'The result? Furniture that improves with age, grows more beautiful with time, and becomes an integral part of your home\'s story.',
     ],
-    leftImage: '/images/home/furniture-made-process/art-furniture.webp',
+    leftImage: '',
     rightTitle: 'Made with Care for a\nCleaner Future',
     rightParagraphs: [
       'At Good Choice Furniture, we prioritize eco-friendly materials and ethical production practices in every aspect of our business. Our unwavering commitment to sustainability ensures that every piece of furniture we create is made with a sense of responsibility towards the environment.',
       'We believe that our choices impact the planet, and we strive to make a positive difference through our high-quality designs.',
     ],
-    rightImage: '/images/home/furniture-made-process/made-furniture.webp',
+    rightImage: '',
   },
   recentlyCrafted: {
     title: 'Recently Crafted',
@@ -136,13 +133,8 @@ const DEFAULT_HOME_DATA: HomePageData = {
     subtitle: 'Collections',
     buttonText: 'Browse Collections',
     buttonHref: '/products',
-    backgroundImage: '/images/home/collections/collection-1.png',
-    items: [
-      { id: 'col-1', name: 'Alcoroque', image: '/images/home/collections/collection-1.png', href: '/products?collection=alcoroque-1' },
-      { id: 'col-2', name: 'Alcoroque', image: '/images/home/collections/collection-2.png', href: '/products?collection=alcoroque-2' },
-      { id: 'col-3', name: 'Alcoroque', image: '/images/home/collections/collection-3.png', href: '/products?collection=alcoroque-3' },
-      { id: 'col-4', name: 'Gauguin', image: '/images/home/collections/collection-1.png', href: '/products?collection=gauguin' },
-    ],
+    backgroundImage: '',
+    items: [],
   },
   explore: {
     title: 'Explore Elevated Living\nEssentials',
@@ -177,10 +169,14 @@ const DEFAULT_HOME_DATA: HomePageData = {
  * Layer 1 Home Page Fetcher with On-Demand ISR Tag Caching
  */
 export async function getHomePageData(): Promise<HomePageData> {
-  const { products } = await getCatalogProducts({ limit: 12 });
+  const products = await getProducts({ limit: 12 });
 
   const { data: heroBanners } = await fetchStrapiAPI<Array<any>>('/hero-banners?filters[is_active][$eq]=true&sort=order_by:asc&populate=*', {
     tags: ['home-page', 'hero-banners'],
+  });
+
+  const { data: categories } = await fetchStrapiAPI<Array<any>>('/categories?filters[is_active][$eq]=true&sort=order_by:asc&populate=*', {
+    tags: ['categories'],
   });
 
   const { data: homeConfig } = await fetchStrapiAPI<any>('/home-page?populate=*', {
@@ -197,13 +193,26 @@ export async function getHomePageData(): Promise<HomePageData> {
           : attrs.image?.url || attrs.image;
         return {
           id: attrs.id || b.id || `slide-${idx}`,
-          image: getStrapiMediaUrl(typeof rawImg === 'string' ? rawImg : rawImg?.url),
+          image: rawImg ? getStrapiMediaUrl(typeof rawImg === 'string' ? rawImg : rawImg?.url) : '',
           alt: attrs.title || 'Home Banner',
           title: attrs.title,
           subtitle: attrs.short_description,
         };
       })
-    : DEFAULT_HOME_DATA.banner.slides;
+    : [];
+
+  const parsedCategories: RoomItemData[] = (categories && Array.isArray(categories) && categories.length > 0)
+    ? categories.map((cat: any, idx: number) => {
+        const attrs = cat.attributes || cat;
+        const rawImg = attrs.banner_image?.url || attrs.banner_image || attrs.icon?.url || attrs.icon;
+        return {
+          id: String(attrs.id || cat.id || `cat-${idx}`),
+          title: attrs.name,
+          image: rawImg ? getStrapiMediaUrl(typeof rawImg === 'string' ? rawImg : rawImg?.url) : '',
+          href: `/products?category=${encodeURIComponent(attrs.name)}`,
+        };
+      })
+    : [];
 
   return {
     banner: {
@@ -214,19 +223,19 @@ export async function getHomePageData(): Promise<HomePageData> {
     shopByRoom: {
       title: homeAttrs.shop_by_room_title || DEFAULT_HOME_DATA.shopByRoom.title,
       subtitle: homeAttrs.shop_by_room_subtitle || DEFAULT_HOME_DATA.shopByRoom.subtitle,
-      items: homeAttrs.shop_by_room_items || DEFAULT_HOME_DATA.shopByRoom.items,
+      items: parsedCategories,
     },
     craftsmanship: {
       leftTitle: homeAttrs.craftsmanship_left_title || DEFAULT_HOME_DATA.craftsmanship.leftTitle,
       leftParagraphs: Array.isArray(homeAttrs.craftsmanship_left_paragraphs) && homeAttrs.craftsmanship_left_paragraphs.length > 0
         ? homeAttrs.craftsmanship_left_paragraphs
         : DEFAULT_HOME_DATA.craftsmanship.leftParagraphs,
-      leftImage: getStrapiMediaUrl(homeAttrs.craftsmanship_left_image?.url || DEFAULT_HOME_DATA.craftsmanship.leftImage),
+      leftImage: homeAttrs.craftsmanship_left_image?.url ? getStrapiMediaUrl(homeAttrs.craftsmanship_left_image.url) : '',
       rightTitle: homeAttrs.craftsmanship_right_title || DEFAULT_HOME_DATA.craftsmanship.rightTitle,
       rightParagraphs: Array.isArray(homeAttrs.craftsmanship_right_paragraphs) && homeAttrs.craftsmanship_right_paragraphs.length > 0
         ? homeAttrs.craftsmanship_right_paragraphs
         : DEFAULT_HOME_DATA.craftsmanship.rightParagraphs,
-      rightImage: getStrapiMediaUrl(homeAttrs.craftsmanship_right_image?.url || DEFAULT_HOME_DATA.craftsmanship.rightImage),
+      rightImage: homeAttrs.craftsmanship_right_image?.url ? getStrapiMediaUrl(homeAttrs.craftsmanship_right_image.url) : '',
     },
     recentlyCrafted: {
       title: homeAttrs.recently_crafted_title || DEFAULT_HOME_DATA.recentlyCrafted.title,
@@ -237,8 +246,15 @@ export async function getHomePageData(): Promise<HomePageData> {
       subtitle: homeAttrs.collections_subtitle || DEFAULT_HOME_DATA.collections.subtitle,
       buttonText: homeAttrs.collections_button_text || DEFAULT_HOME_DATA.collections.buttonText,
       buttonHref: homeAttrs.collections_button_href || DEFAULT_HOME_DATA.collections.buttonHref,
-      backgroundImage: getStrapiMediaUrl(homeAttrs.collections_background_image?.url || DEFAULT_HOME_DATA.collections.backgroundImage),
-      items: DEFAULT_HOME_DATA.collections.items,
+      backgroundImage: homeAttrs.collections_background_image?.url ? getStrapiMediaUrl(homeAttrs.collections_background_image.url) : '',
+      items: products.length > 0
+        ? products.slice(0, 8).map((p: Product) => ({
+            id: String(p.id),
+            name: p.name,
+            image: p.images?.[0] || '',
+            href: `/products/${p.slug}`,
+          }))
+        : [],
     },
     explore: {
       title: homeAttrs.explore_title || DEFAULT_HOME_DATA.explore.title,

@@ -1,6 +1,7 @@
 "use client";
 
 import { ArabicMajlisIcon, CustomArrowLeft, CustomArrowRight, DiningTableIcon, DressingMirrorIcon, SofaIcon } from "@/components/shared/svgs";
+import { useHomePageData } from "@/hooks/use-home";
 import Image from "next/image";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
@@ -11,6 +12,13 @@ export interface ExperienceItem {
   icon: React.ComponentType<{ className?: string }>;
   href?: string;
 }
+
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  SofaIcon,
+  ArabicMajlisIcon,
+  DiningTableIcon,
+  DressingMirrorIcon,
+};
 
 const DEFAULT_EXPERIENCES: ExperienceItem[] = [
   {
@@ -47,11 +55,24 @@ interface ExperiencesProps {
 }
 
 export function Experiences({
-  title = "Crafted Experiences for Your Home",
-  subtitle = "Delivering bespoke furniture and interior solutions meticulously designed to elevate every space with elegance, comfort, and timeless craftsmanship.",
-  experiences = DEFAULT_EXPERIENCES,
+  title: propTitle,
+  subtitle: propSubtitle,
+  experiences: propExperiences,
   className = "",
 }: ExperiencesProps) {
+  const { data: homeData } = useHomePageData();
+  const expData = homeData?.experiences;
+
+  const title = propTitle || expData?.title || "Crafted Experiences for Your Home";
+  const subtitle = propSubtitle || expData?.subtitle || "Delivering bespoke furniture and interior solutions meticulously designed to elevate every space with elegance, comfort, and timeless craftsmanship.";
+
+  const experiences = propExperiences || (expData?.items ? expData.items.map((item) => ({
+    id: item.id,
+    title: item.title,
+    description: item.description,
+    icon: ICON_MAP[item.iconName] || SofaIcon,
+  })) : DEFAULT_EXPERIENCES);
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -74,7 +95,7 @@ export function Experiences({
       el.removeEventListener("scroll", checkScrollState);
       window.removeEventListener("resize", checkScrollState);
     };
-  }, [checkScrollState]);
+  }, [checkScrollState, experiences.length]);
 
   const handleScroll = (direction: "left" | "right") => {
     const el = scrollContainerRef.current;
@@ -157,7 +178,7 @@ export function Experiences({
                 {/* Layer 0: Base White Background (hidden in default state to eliminate corner stroke bleed) */}
                 <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out pointer-events-none" />
 
-                {/* Layer 1: Burgundy Background Layer (Sucks into Icon center at 50% 100px on hover over 700ms) */}
+                {/* Layer 1: Burgundy Background Layer */}
                 <div className="absolute -inset-0.5 bg-[#701544] pointer-events-none transition-all duration-700 ease-in-out [clip-path:circle(160%_at_50%_100px)] group-hover:[clip-path:circle(0%_at_50%_100px)]" />
 
                 {/* Top Icon Area */}

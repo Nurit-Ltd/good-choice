@@ -1,5 +1,6 @@
 "use client";
 
+import { useHomePageData } from "@/hooks/use-home";
 import { Minus, Plus } from "lucide-react";
 import React, { useState } from "react";
 
@@ -24,7 +25,7 @@ const DEFAULT_FAQ_ITEMS: FaqItem[] = [
   },
   {
     id: "faq-3",
-    question: "How do I care?",
+    question: "How do I care for bespoke furniture?",
     answer:
       "Use a soft, dry cloth to clean dust regularly. Avoid direct exposure to harsh sunlight and liquid spills to preserve the premium wood and fabric finish.",
   },
@@ -49,11 +50,16 @@ interface FaqProps {
 }
 
 export function Faq({
-  title = "Frequently Asked\nQuestions",
-  items = DEFAULT_FAQ_ITEMS,
+  title: propTitle,
+  items: propItems,
   className = "",
 }: FaqProps) {
-  // First item open by default (matching Figma inspect state)
+  const { data: homeData } = useHomePageData();
+  const faqData = homeData?.faq;
+
+  const title = propTitle || faqData?.title || "Frequently Asked\nQuestions";
+  const items = propItems || faqData?.items || DEFAULT_FAQ_ITEMS;
+
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggleItem = (index: number) => {
@@ -64,8 +70,7 @@ export function Faq({
     <section className={`w-full pt-16 sm:pt-20 lg:pt-24 ${className}`}>
       <div className="container">
         <div className="flex flex-col lg:flex-row justify-between items-start gap-10 lg:gap-16 xl:gap-24">
-          
-          {/* Left Column: Section Title (Figma Spec: 64px, Legquinne, 110% line-height, -0.64px letter-spacing) */}
+          {/* Left Column: Section Title */}
           <div className="w-full lg:w-5/12 shrink-0">
             <h2
               className="font-heading text-4xl sm:text-5xl lg:text-[64px] font-normal leading-[110%] tracking-[-0.64px] text-grey-950 whitespace-pre-line"
@@ -112,7 +117,7 @@ export function Faq({
                     </span>
                   </button>
 
-                  {/* Accordion Answer Content (Smooth height transition) */}
+                  {/* Accordion Answer Content */}
                   <div
                     className={`grid transition-all duration-300 ease-in-out ${
                       isOpen ? "grid-rows-[1fr] opacity-100 pb-6" : "grid-rows-[0fr] opacity-0 pb-0"
@@ -131,7 +136,6 @@ export function Faq({
               );
             })}
           </div>
-
         </div>
       </div>
     </section>
