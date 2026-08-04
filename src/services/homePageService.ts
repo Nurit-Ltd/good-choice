@@ -7,6 +7,8 @@ export interface BannerSlide {
   id: string | number;
   image: string;
   alt: string;
+  title?: string;
+  subtitle?: string;
 }
 
 export interface HomeBannerData {
@@ -177,7 +179,7 @@ const DEFAULT_HOME_DATA: HomePageData = {
 export async function getHomePageData(): Promise<HomePageData> {
   const { products } = await getCatalogProducts({ limit: 12 });
 
-  const { data: heroBanners } = await fetchStrapiAPI<Array<{ id: number; title: string; banner_images?: Array<{ url: string }>; image?: { url: string } }>>('/hero-banners?populate=*', {
+  const { data: heroBanners } = await fetchStrapiAPI<Array<any>>('/hero-banners?filters[is_active][$eq]=true&sort=order_by:asc&populate=*', {
     tags: ['home-page', 'hero-banners'],
   });
 
@@ -188,14 +190,17 @@ export async function getHomePageData(): Promise<HomePageData> {
   const homeAttrs = homeConfig?.attributes || homeConfig || {};
 
   const parsedBanners: BannerSlide[] = (heroBanners && Array.isArray(heroBanners) && heroBanners.length > 0)
-    ? heroBanners.map((b, idx) => {
-        const imgUrl = Array.isArray(b.banner_images) && b.banner_images.length > 0
-          ? b.banner_images[0].url
-          : b.image?.url;
+    ? heroBanners.map((b: any, idx: number) => {
+        const attrs = b.attributes || b;
+        const rawImg = Array.isArray(attrs.banner_images) && attrs.banner_images.length > 0
+          ? attrs.banner_images[0]?.url || attrs.banner_images[0]
+          : attrs.image?.url || attrs.image;
         return {
-          id: b.id || `slide-${idx}`,
-          image: getStrapiMediaUrl(imgUrl),
-          alt: b.title || 'Home Banner',
+          id: attrs.id || b.id || `slide-${idx}`,
+          image: getStrapiMediaUrl(typeof rawImg === 'string' ? rawImg : rawImg?.url),
+          alt: attrs.title || 'Home Banner',
+          title: attrs.title,
+          subtitle: attrs.short_description,
         };
       })
     : DEFAULT_HOME_DATA.banner.slides;

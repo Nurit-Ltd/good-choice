@@ -196,8 +196,31 @@ async function seed() {
     await postData('/ads-banners', banner);
   }
 
+  // 6. Seed Hero Banners
+  console.log('Seeding Hero Banners...');
+  const HERO_SLIDES = [
+    {
+      title: "Bespoke Curved Sofas & Luxury Interiors",
+      short_description: "Discover handcrafted minimalist furniture blending Nordic elegance, organic curved silhouettes, and sustainable materials.",
+      link: "/products",
+      order_by: 1,
+      is_active: true,
+    },
+    {
+      title: "Elevated Living & Scandinavian Dining",
+      short_description: "Transform your living space with bespoke dining sets and sculptural lounge chairs crafted with precision.",
+      link: "/products",
+      order_by: 2,
+      is_active: true,
+    },
+  ];
+  for (const slide of HERO_SLIDES) {
+    await postData('/hero-banners', slide);
+  }
+
   console.log('✅ Strapi Data Seeding Complete!');
 }
 
 seed();
+
 
