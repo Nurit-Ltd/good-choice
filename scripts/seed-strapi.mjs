@@ -42,21 +42,51 @@ const RAW_PRODUCTS_DATA = [
 const SITE_SETTING_DATA = {
   site_name: "Good Choice Furniture",
   announcement_text: "✨ Express Shipping Available Across Bangladesh | Free Delivery on Orders Over ৳25,000",
-  support_phone: "+880 1700-000000",
+  support_phone: "123456789",
   whatsapp_number: "8801700000000",
-  support_email: "support@goodchoice.com",
+  support_email: "goodchoiceno1@gmail.com",
   footer_bio: "Good Choice Furniture — Scandinavian minimalist design and luxury curved furniture crafted with premium materials.",
   copyright_text: "© 2026 Good Choice Furniture. All rights reserved.",
+  store_address: "C.R. No:82686, Muaither, Umm Al Dome St, Doha, Qatar, Ar Rayyan",
+  store_maps_url: "https://maps.google.com/?q=Muaither+Umm+Al+Dome+St+Doha+Qatar",
   social_links: {
-    facebook: "https://facebook.com/goodchoice",
-    instagram: "https://instagram.com/goodchoice",
-    twitter: "https://twitter.com/goodchoice",
+    whatsapp: "https://wa.me/974123456789",
+    facebook: "https://facebook.com",
+    instagram: "https://instagram.com",
   },
   navigation_links: [
     { label: "Home", href: "/" },
     { label: "Product", href: "/products", hasDropdown: true, isMegaMenu: true },
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
+  ],
+  footer_sections: [
+    {
+      title: "Services 1",
+      links: [
+        { label: "New Sofa Making", href: "/products?category=Chairs" },
+        { label: "Arabic Majlis Making", href: "/products?category=Beds" },
+        { label: "Dining Table Making", href: "/products?category=Dining%20Room" },
+        { label: "Dressing Mirror Making", href: "/products?category=Home%20Decor" },
+      ]
+    },
+    {
+      title: "Services 2",
+      links: [
+        { label: "Sofa & Chair Upholstery", href: "/products?category=Chairs" },
+        { label: "Curtain Installation", href: "/products?category=Home%20Decor" },
+        { label: "Bed/Head Box", href: "/products?category=Beds" },
+        { label: "Blind Installation", href: "/products?category=Home%20Decor" },
+      ]
+    },
+    {
+      title: "Services 3",
+      links: [
+        { label: "Wallpaper Installation", href: "/products?category=Home%20Decor" },
+        { label: "Cabinet/Cupboard Installation", href: "/products?category=Wardrobes" },
+        { label: "Barkiya PVC", href: "/products?category=Home%20Decor" },
+      ]
+    }
   ],
 };
 
