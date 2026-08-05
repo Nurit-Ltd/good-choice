@@ -4,6 +4,7 @@ import {
   getSingleProductBySlug,
   getCatalogCategories,
   getCatalogBrands,
+  getMegaMenuData,
 } from '@/services/catalogService';
 import { ProductFilter } from '@/types/product';
 
@@ -51,3 +52,15 @@ export function useBrands() {
     staleTime: 1000 * 60 * 60,
   });
 }
+
+/**
+ * Layer 2 Hook for Dynamic Mega Menu Categories & Promos
+ */
+export function useMegaMenu() {
+  return useQuery({
+    queryKey: ['mega-menu-data'],
+    queryFn: () => getMegaMenuData(),
+    staleTime: 1000 * 60 * 30, // 30 mins
+  });
+}
+

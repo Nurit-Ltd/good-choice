@@ -22,8 +22,10 @@ export function ProductCard({ product, className = "" }: ProductCardProps) {
 
           {/* Row 1: Action Bar (Category | Discover) - Positioned INSIDE bottom-left of Image */}
           <div className="absolute bottom-0 left-[0.5px] w-[85%] z-20 flex items-stretch border-t border-r border-primary-950 bg-[#FAF8F5] rounded-tr-lg overflow-hidden opacity-0 scale-y-0 group-hover:opacity-100 group-hover:scale-y-100 origin-bottom transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] justify-between">
-            <span className="flex-1 p-4 text-base font-medium text-grey-950 bg-[#FAF8F5] flex items-center border-primary-950 truncate">{product.category}</span>
-            <span className="p-4 text-base font-medium text-white flex items-center justify-center transition-colors duration-200" style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}>
+            <span className="flex-1 min-w-0 py-3.5 px-4 text-base font-medium text-grey-950 bg-[#FAF8F5] flex items-center border-primary-950 overflow-hidden" title={product.category}>
+              <span className="truncate">{product.category}</span>
+            </span>
+            <span className="shrink-0 py-3.5 px-4 text-base font-medium text-white flex items-center justify-center transition-colors duration-200" style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}>
               Discover
             </span>
           </div>

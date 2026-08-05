@@ -53,7 +53,10 @@ export async function fetchStrapiAPI<T = unknown>(
  * Get full Cloudinary or Strapi asset URL
  */
 export function getStrapiMediaUrl(url: string | null | undefined): string {
-  if (!url) return '/images/placeholder.png';
+  if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
-  return `${STRAPI_URL}${url}`;
+  if (url.startsWith('/images/') || url.startsWith('/icons/') || url.startsWith('/fonts/')) return url;
+  if (url.startsWith('/uploads/')) return `${STRAPI_URL}${url}`;
+  return url.startsWith('/') ? url : `${STRAPI_URL}/${url}`;
 }
+

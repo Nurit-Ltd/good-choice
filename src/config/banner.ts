@@ -2,6 +2,8 @@ export interface BannerSlide {
   id: string | number;
   image: string;
   alt: string;
+  title?: string;
+  subtitle?: string;
 }
 
 export interface BannerData {

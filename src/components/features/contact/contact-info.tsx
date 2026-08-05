@@ -1,13 +1,26 @@
+"use client";
+
+import { useContactPage } from "@/hooks/use-contact";
+import { useSiteSettings } from "@/hooks/use-site-settings";
 import { MapPin, Mail, Phone, MessageCircle } from "lucide-react";
 
 export function ContactInfo() {
+  const { data: contact } = useContactPage();
+  const { data: settings } = useSiteSettings();
+
+  const address = contact?.addressLine || settings?.storeAddress || settings?.address || "C.R. No:82686, Muaither, Umm Al Dome St, Doha, Qatar, Ar Rayyan";
+  const email = contact?.supportEmail || settings?.supportEmail || "goodchoicefurniture@gmail.com";
+  const phone = contact?.supportPhone || settings?.supportPhone || "1234-5678";
+  const whatsapp = contact?.whatsappPhone || settings?.whatsappNumber || "1234-5678";
+  const cleanWhatsapp = whatsapp.replace(/[^\d+]/g, '');
+
   const contactItems = [
     {
       icon: MapPin,
-      title: "Office Location",
+      title: contact?.addressTitle || "Office Location",
       content: (
         <p className="font-body text-xs sm:text-sm text-grey-950/80 leading-relaxed">
-          C.R. No:82686, Muaither, Umm Al Dome St, Doha, Qatar, Ar Rayyan
+          {address}
         </p>
       ),
     },
@@ -16,10 +29,10 @@ export function ContactInfo() {
       title: "Send a Message",
       content: (
         <a
-          href="mailto:goodchoicefurniture@gmail.com"
+          href={`mailto:${email}`}
           className="font-body text-xs sm:text-sm text-grey-950/80 hover:text-primary-950 transition-colors leading-relaxed break-all"
         >
-          goodchoicefurniture@gmail.com
+          {email}
         </a>
       ),
     },
@@ -28,10 +41,10 @@ export function ContactInfo() {
       title: "Call Us Directly",
       content: (
         <a
-          href="tel:1234-5678"
+          href={`tel:${phone.replace(/[^\d+]/g, '')}`}
           className="font-body text-xs sm:text-sm text-grey-950/80 hover:text-primary-950 transition-colors leading-relaxed"
         >
-          1234-5678
+          {phone}
         </a>
       ),
     },
@@ -40,12 +53,12 @@ export function ContactInfo() {
       title: "WhatsApp Us",
       content: (
         <a
-          href="https://wa.me/12345678"
+          href={`https://wa.me/${cleanWhatsapp}`}
           target="_blank"
           rel="noopener noreferrer"
           className="font-body text-xs sm:text-sm text-grey-950/80 hover:text-primary-950 transition-colors leading-relaxed"
         >
-          1234-5678
+          {whatsapp}
         </a>
       ),
     },

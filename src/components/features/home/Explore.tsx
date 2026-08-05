@@ -1,8 +1,10 @@
 "use client";
 
 import { ProductCard } from "@/components/features/products/ProductCard";
+import { ProductCardSkeleton } from "@/components/ui/ProductCardSkeleton";
 import { DualPillButton } from "@/components/ui/DualPillButton";
-import { MOCK_PRODUCTS } from "@/services/productService";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { useHomePageData } from "@/hooks/use-home";
 import { Product } from "@/types/product";
 
 interface ExploreProps {
@@ -15,15 +17,23 @@ interface ExploreProps {
 }
 
 export function Explore({
-  title = "Explore Elevated Living\nEssentials",
-  subtitle = "Curated furniture pieces blending refined design, premium materials, and exceptional comfort to elevate everyday living beautifully.",
-  products = [],
-  buttonText = "Browse All",
-  buttonHref = "/products",
+  title: propTitle,
+  subtitle: propSubtitle,
+  products: propProducts,
+  buttonText: propButtonText,
+  buttonHref: propButtonHref,
   className = "",
 }: ExploreProps) {
-  // Use passed products or fallback to MOCK_PRODUCTS (up to 8 cards)
-  const displayProducts = products && products.length > 0 ? products.slice(0, 8) : MOCK_PRODUCTS.slice(0, 8);
+  const { data: homeData, isLoading } = useHomePageData();
+  const exploreData = homeData?.explore;
+
+  const title = propTitle || exploreData?.title || "";
+  const subtitle = propSubtitle || exploreData?.subtitle || "";
+  const buttonText = propButtonText || exploreData?.buttonText || "";
+  const buttonHref = propButtonHref || exploreData?.buttonHref || "/products";
+  const products = propProducts || exploreData?.products || [];
+
+  const displayProducts = Array.isArray(products) ? products.slice(0, 8) : [];
 
   return (
     <section className={`w-full py-16 lg:py-24 container ${className}`}>
@@ -41,12 +51,22 @@ export function Explore({
           </p>
         </div>
 
-        {/* 8 Product Cards Grid (4 Columns x 2 Rows) using existing ProductCard */}
-        <div className="w-full mt-8 lg:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {displayProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {/* 8 Product Cards Grid (4 Columns x 2 Rows) */}
+        {isLoading ? (
+          <div className="w-full mt-8 lg:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <ProductCardSkeleton key={i} />
+            ))}
+          </div>
+        ) : displayProducts.length > 0 ? (
+          <div className="w-full mt-8 lg:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            {displayProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        ) : (
+          <EmptyState title="No products featured yet" description="Featured products will appear here once added to Strapi." />
+        )}
 
         {/* Browse All Dual Pill CTA Button */}
         <div className="mt-8 lg:mt-12 flex justify-center">

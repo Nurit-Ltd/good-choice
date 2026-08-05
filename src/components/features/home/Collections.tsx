@@ -1,7 +1,9 @@
 "use client";
 
 import { DualPillButton } from "@/components/ui/DualPillButton";
-import Image from "next/image";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
+import { useHomePageData } from "@/hooks/use-home";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 export interface CollectionItem {
@@ -10,57 +12,6 @@ export interface CollectionItem {
   image: string;
   href?: string;
 }
-
-const DEFAULT_COLLECTIONS: CollectionItem[] = [
-  {
-    id: "col-1",
-    name: "Alcoroque",
-    image: "/images/home/collections/collection-1.png",
-    href: "/products?collection=alcoroque-1",
-  },
-  {
-    id: "col-2",
-    name: "Alcoroque",
-    image: "/images/home/collections/collection-2.png",
-    href: "/products?collection=alcoroque-2",
-  },
-  {
-    id: "col-3",
-    name: "Alcoroque",
-    image: "/images/home/collections/collection-3.png",
-    href: "/products?collection=alcoroque-3",
-  },
-  {
-    id: "col-4",
-    name: "Gauguin",
-    image: "/images/home/collections/collection-1.png",
-    href: "/products?collection=gauguin",
-  },
-  {
-    id: "col-5",
-    name: "Zola",
-    image: "/images/home/collections/collection-2.png",
-    href: "/products?collection=zola",
-  },
-  {
-    id: "col-6",
-    name: "Bonaparte",
-    image: "/images/home/collections/collection-3.png",
-    href: "/products?collection=bonaparte",
-  },
-  {
-    id: "col-7",
-    name: "Camus",
-    image: "/images/home/collections/collection-1.png",
-    href: "/products?collection=camus",
-  },
-  {
-    id: "col-8",
-    name: "Nordland",
-    image: "/images/home/collections/collection-2.png",
-    href: "/products?collection=nordland",
-  },
-];
 
 interface CollectionsProps {
   collections?: CollectionItem[];
@@ -72,13 +23,23 @@ interface CollectionsProps {
 }
 
 export function Collections({
-  collections = DEFAULT_COLLECTIONS,
-  title = "Grand Atelier\nFurniture\nCollection",
-  subtitle = "Collections",
-  buttonText = "Browse Collections",
-  buttonHref = "/products",
+  collections: propCollections,
+  title: propTitle,
+  subtitle: propSubtitle,
+  buttonText: propButtonText,
+  buttonHref: propButtonHref,
   className = "",
 }: CollectionsProps) {
+  const { data: homeData } = useHomePageData();
+  const collectionsData = homeData?.collections;
+
+  const title = propTitle || collectionsData?.title || "";
+  const subtitle = propSubtitle || collectionsData?.subtitle || "";
+  const buttonText = propButtonText || collectionsData?.buttonText || "";
+  const buttonHref = propButtonHref || collectionsData?.buttonHref || "/products";
+  const bgImage = collectionsData?.backgroundImage ?? "";
+  const collections = propCollections || collectionsData?.items || [];
+
   const sectionRef = useRef<HTMLElement>(null);
   const cardsWrapperRef = useRef<HTMLDivElement>(null);
   const cardsContainerRef = useRef<HTMLDivElement>(null);
@@ -152,7 +113,15 @@ export function Collections({
       <div className="sticky top-0 w-full h-screen flex items-center justify-between overflow-hidden">
         {/* Background Image Container */}
         <div className="absolute inset-0 z-0">
-          <Image src="/images/home/collections/collection-bg.webp" alt="Grand Atelier Furniture Collection background" fill priority sizes="100vw" className="object-cover object-center" />
+          <ImageWithFallback
+            src={bgImage}
+            alt="Grand Atelier Furniture Collection background"
+            fill
+            priority
+            sizes="100vw"
+            fallbackType="banner"
+            className="object-cover object-center"
+          />
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
@@ -173,14 +142,10 @@ export function Collections({
 
               {/* Main Heading */}
               <h2
-                className="font-heading text-4xl sm:text-6xl md:text-7xl lg:text-[84px] xl:text-[96px] font-normal leading-[108%] tracking-[-0.96px] text-grey-50"
+                className="font-heading text-4xl sm:text-6xl md:text-7xl lg:text-[84px] xl:text-[96px] font-normal leading-[108%] tracking-[-0.96px] text-grey-50 whitespace-pre-line"
                 style={{ color: "var(--color-grey-50, #FCFCFC)" }}
               >
-                <span className="hidden lg:inline whitespace-pre-line">{title}</span>
-                <span className="inline lg:hidden">
-                  Grand Atelier <br />
-                  Furniture Collection
-                </span>
+                {title}
               </h2>
 
               {/* Desktop CTA Button */}
@@ -206,20 +171,28 @@ export function Collections({
                 }}
               >
                 {collections.map((item, index) => (
-                  <div
+                  <Link
                     key={`${item.id}-${index}`}
-                    className="w-[70vw] sm:w-[320px] lg:w-full shrink-0 flex flex-col rounded-2xl xl:rounded-[20px] overflow-hidden shadow-lg transition-transform duration-300 hover:-translate-y-1"
+                    href={item.href || buttonHref}
+                    className="w-[70vw] sm:w-[320px] lg:w-full shrink-0 flex flex-col rounded-2xl xl:rounded-[20px] overflow-hidden shadow-lg transition-transform duration-300 hover:-translate-y-1 group"
                   >
                     {/* Card Image Area (White Background) */}
                     <div className="relative w-full h-44 sm:h-75 xl:h-85 bg-white p-4 sm:p-6 flex items-center justify-center">
                       <div className="relative w-full h-full">
-                        <Image src={item.image} alt={item.name} fill sizes="(max-width: 640px) 320px, 400px" className="object-contain img-hover-scale" />
+                        <ImageWithFallback
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          sizes="(max-width: 640px) 320px, 400px"
+                          fallbackType="product"
+                          className="object-cover rounded-lg"
+                        />
                       </div>
                     </div>
 
                     {/* Card Bottom Tag */}
                     <div
-                      className="w-full py-3 sm:py-4 px-4 sm:px-6 font-body text-sm sm:text-[16px] font-normal leading-[140%] text-secondary-950 text-left"
+                      className="w-full py-3 sm:py-4 px-4 sm:px-6 font-body text-sm sm:text-[16px] font-normal leading-[140%] text-secondary-950 text-left group-hover:text-primary-950 transition-colors"
                       style={{
                         backgroundColor: "var(--color-secondary-100, #efece5)",
                         color: "var(--color-secondary-950, #2c221e)",
@@ -227,7 +200,7 @@ export function Collections({
                     >
                       {item.name}
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
 

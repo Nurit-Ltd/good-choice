@@ -1,7 +1,10 @@
 "use client";
 
 import { ProductCard } from "@/components/features/products/ProductCard";
+import { ProductCardSkeleton } from "@/components/ui/ProductCardSkeleton";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { CustomArrowLeft, CustomArrowRight } from "@/components/shared/svgs";
+import { useHomePageData } from "@/hooks/use-home";
 import { Product } from "@/types/product";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -11,23 +14,31 @@ interface RecentlyCraftedProps {
 }
 
 export function RecentlyCrafted({
-  title = "Recently Crafted",
-  products = [],
+  title: propTitle,
+  products: propProducts,
 }: RecentlyCraftedProps) {
+  const { data: homeData, isLoading } = useHomePageData();
+  const title = propTitle || homeData?.recentlyCrafted?.title || "";
+  const products = propProducts || homeData?.recentlyCrafted?.products || [];
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [canScrollRight, setCanScrollRight] = useState(false);
 
   // Use up to 12 products for a rich single-row horizontal slider
   const displayProducts = products.length > 0 ? products.slice(0, 12) : [];
 
   const checkScrollState = useCallback(() => {
     const el = scrollContainerRef.current;
-    if (!el) return;
+    if (!el || displayProducts.length === 0) {
+      setCanScrollLeft(false);
+      setCanScrollRight(false);
+      return;
+    }
     const { scrollLeft, scrollWidth, clientWidth } = el;
     setCanScrollLeft(scrollLeft > 5);
     setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 5);
-  }, []);
+  }, [displayProducts.length]);
 
   useEffect(() => {
     const el = scrollContainerRef.current;
@@ -39,7 +50,7 @@ export function RecentlyCrafted({
       el.removeEventListener("scroll", checkScrollState);
       window.removeEventListener("resize", checkScrollState);
     };
-  }, [checkScrollState]);
+  }, [checkScrollState, displayProducts.length]);
 
   const handleScroll = (direction: "left" | "right") => {
     const el = scrollContainerRef.current;
@@ -64,19 +75,83 @@ export function RecentlyCrafted({
           </h2>
 
           {/* Slider Controls (Desktop/Tablet Top Right) */}
-          <div className="hidden sm:flex items-center gap-6 lg:gap-8 xl:gap-16 shrink-0">
+          {displayProducts.length > 0 && (
+            <div className="hidden sm:flex items-center gap-6 lg:gap-8 xl:gap-16 shrink-0">
+              <button
+                type="button"
+                onClick={() => handleScroll("left")}
+                disabled={!canScrollLeft}
+                className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-colors cursor-pointer ${
+                  canScrollLeft
+                    ? "text-grey-950 hover:text-primary-950"
+                    : "text-grey-400 cursor-not-allowed opacity-40"
+                }`}
+                aria-label="Previous slide"
+              >
+                <CustomArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>Previous</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleScroll("right")}
+                disabled={!canScrollRight}
+                className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-colors cursor-pointer ${
+                  canScrollRight
+                    ? "text-primary-950 hover:text-[#4a0c2c]"
+                    : "text-grey-400 cursor-not-allowed opacity-40"
+                }`}
+                aria-label="Next slide"
+              >
+                <span>Next</span>
+                <CustomArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Single Row Horizontal Carousel Track */}
+        {isLoading ? (
+          <div className="flex flex-nowrap gap-6 overflow-x-auto scrollbar-none snap-x snap-mandatory py-4 scroll-smooth">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="shrink-0 w-[82vw] sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] snap-start">
+                <ProductCardSkeleton />
+              </div>
+            ))}
+          </div>
+        ) : displayProducts.length > 0 ? (
+          <div
+            ref={scrollContainerRef}
+            className="flex flex-nowrap gap-6 overflow-x-auto scrollbar-none snap-x snap-mandatory py-4 scroll-smooth"
+          >
+            {displayProducts.map((product) => (
+              <div
+                key={product.id}
+                className="shrink-0 w-[82vw] sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] snap-start"
+              >
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <EmptyState title="No products available" description="No products match this category or section yet." />
+        )}
+
+        {/* Mobile Bottom Slider Controls (Centered below slider) */}
+        {displayProducts.length > 0 && (
+          <div className="flex sm:hidden items-center justify-center gap-8 mt-6">
             <button
               type="button"
               onClick={() => handleScroll("left")}
               disabled={!canScrollLeft}
-              className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-colors cursor-pointer ${
+              className={`inline-flex items-center gap-2 text-sm font-medium transition-colors cursor-pointer ${
                 canScrollLeft
                   ? "text-grey-950 hover:text-primary-950"
                   : "text-grey-400 cursor-not-allowed opacity-40"
               }`}
               aria-label="Previous slide"
             >
-              <CustomArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+              <CustomArrowLeft className="w-4 h-4" />
               <span>Previous</span>
             </button>
 
@@ -84,7 +159,7 @@ export function RecentlyCrafted({
               type="button"
               onClick={() => handleScroll("right")}
               disabled={!canScrollRight}
-              className={`inline-flex items-center gap-2 text-sm sm:text-base font-medium transition-colors cursor-pointer ${
+              className={`inline-flex items-center gap-2 text-sm font-medium transition-colors cursor-pointer ${
                 canScrollRight
                   ? "text-primary-950 hover:text-[#4a0c2c]"
                   : "text-grey-400 cursor-not-allowed opacity-40"
@@ -92,58 +167,10 @@ export function RecentlyCrafted({
               aria-label="Next slide"
             >
               <span>Next</span>
-              <CustomArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+              <CustomArrowRight className="w-4 h-4" />
             </button>
           </div>
-        </div>
-
-        {/* Single Row Horizontal Carousel Track */}
-        <div
-          ref={scrollContainerRef}
-          className="flex flex-nowrap gap-6 overflow-x-auto scrollbar-none snap-x snap-mandatory py-4 scroll-smooth"
-        >
-          {displayProducts.map((product) => (
-            <div
-              key={product.id}
-              className="shrink-0 w-[82vw] sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] snap-start"
-            >
-              <ProductCard product={product} />
-            </div>
-          ))}
-        </div>
-
-        {/* Mobile Bottom Slider Controls (Centered below slider) */}
-        <div className="flex sm:hidden items-center justify-center gap-8 mt-6">
-          <button
-            type="button"
-            onClick={() => handleScroll("left")}
-            disabled={!canScrollLeft}
-            className={`inline-flex items-center gap-2 text-sm font-medium transition-colors cursor-pointer ${
-              canScrollLeft
-                ? "text-grey-950 hover:text-primary-950"
-                : "text-grey-400 cursor-not-allowed opacity-40"
-            }`}
-            aria-label="Previous slide"
-          >
-            <CustomArrowLeft className="w-4 h-4" />
-            <span>Previous</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => handleScroll("right")}
-            disabled={!canScrollRight}
-            className={`inline-flex items-center gap-2 text-sm font-medium transition-colors cursor-pointer ${
-              canScrollRight
-                ? "text-primary-950 hover:text-[#4a0c2c]"
-                : "text-grey-400 cursor-not-allowed opacity-40"
-            }`}
-            aria-label="Next slide"
-          >
-            <span>Next</span>
-            <CustomArrowRight className="w-4 h-4" />
-          </button>
-        </div>
+        )}
       </div>
     </section>
   );

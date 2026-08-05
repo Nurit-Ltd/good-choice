@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { fetchStrapiAPI, getStrapiMediaUrl } from './strapi';
 import { Product, ProductFilter } from '@/types/product';
-import { MOCK_PRODUCTS } from './productService';
 
 export interface CategoryData {
   id: string | number;
@@ -27,26 +26,38 @@ export interface CatalogProductsResult {
 
 /**
  * Layer 1 Catalog Service — Products, Categories & Brands
- * Supports Tag-based caching ('products-list', 'product-[slug]') for Zero DB Hit & On-Demand ISR
+ * Pure Strapi REST API implementation (Zero Mock Fallbacks)
  */
+
+export interface MegaMenuCategoryItem {
+  label: string;
+  href: string;
+}
+
+export interface MegaMenuCategory {
+  title: string;
+  href: string;
+  items: MegaMenuCategoryItem[];
+}
+
+export interface MegaMenuPromo {
+  title: string;
+  image: string;
+  href: string;
+}
+
+export interface MegaMenuData {
+  categories: MegaMenuCategory[];
+  promos: MegaMenuPromo[];
+}
 
 export async function getCatalogCategories(): Promise<CategoryData[]> {
   const { data, error } = await fetchStrapiAPI<Array<{ id: number; name: string; slug: string; description?: string; image?: { url: string } }>>('/categories?populate=*', {
     tags: ['products-list', 'categories'],
   });
 
-  if (error || !data || !Array.isArray(data) || data.length === 0) {
-    return [
-      { id: '1', name: 'Sofas', slug: 'sofas' },
-      { id: '2', name: 'Beds', slug: 'beds' },
-      { id: '3', name: 'Chairs', slug: 'chairs' },
-      { id: '4', name: 'Wardrobes', slug: 'wardrobes' },
-      { id: '5', name: 'Living Room', slug: 'living-room' },
-      { id: '6', name: 'Dining Room', slug: 'dining-room' },
-      { id: '7', name: 'Lighting', slug: 'lighting' },
-      { id: '8', name: 'Home Decor', slug: 'home-decor' },
-      { id: '9', name: 'Outdoor', slug: 'outdoor' },
-    ];
+  if (error || !data || !Array.isArray(data)) {
+    return [];
   }
 
   return data.map((cat) => ({
@@ -58,17 +69,64 @@ export async function getCatalogCategories(): Promise<CategoryData[]> {
   }));
 }
 
+export async function getMegaMenuData(): Promise<MegaMenuData> {
+  const { data: catData } = await fetchStrapiAPI<Array<any>>('/categories?populate=*', {
+    tags: ['mega-menu', 'categories'],
+  });
+
+  const { data: bannerData } = await fetchStrapiAPI<Array<any>>('/ads-banners?filters[placement][$eq]=mega_menu&filters[is_active][$eq]=true', {
+    tags: ['mega-menu', 'ads-banners'],
+  });
+
+  const rawCategories = Array.isArray(catData) ? catData : [];
+  // Filter top-level parent categories (where parent is null)
+  const parentCategories = rawCategories.filter((cat: any) => {
+    const attrs = cat.attributes || cat;
+    return !attrs.parent;
+  });
+
+  const categories: MegaMenuCategory[] = parentCategories.slice(0, 8).map((cat: any) => {
+    const attrs = cat.attributes || cat;
+    const catSlug = attrs.slug || attrs.name.toLowerCase().replace(/\s+/g, '-');
+    const childrenList = Array.isArray(attrs.children) ? attrs.children : (attrs.children?.data || []);
+
+    const subItems: MegaMenuCategoryItem[] = childrenList.map((sub: any) => {
+      const subAttrs = sub.attributes || sub;
+      const subSlug = subAttrs.slug || subAttrs.name.toLowerCase().replace(/\s+/g, '-');
+      return {
+        label: subAttrs.name || 'Subcategory',
+        href: `/products?category=${catSlug}&subcategory=${subSlug}`,
+      };
+    });
+
+    return {
+      title: attrs.name || 'Category',
+      href: `/products?category=${catSlug}`,
+      items: subItems,
+    };
+  });
+
+  const promos: MegaMenuPromo[] = (Array.isArray(bannerData) ? bannerData : []).slice(0, 2).map((b: any) => {
+    const attrs = b.attributes || b;
+    return {
+      title: attrs.title || 'Special Promo',
+      image: getStrapiMediaUrl(attrs.image?.url || attrs.image),
+      href: attrs.link || '/products',
+    };
+  });
+
+  return { categories, promos };
+}
+
+
+
 export async function getCatalogBrands(): Promise<BrandData[]> {
   const { data, error } = await fetchStrapiAPI<Array<{ id: number; name: string; slug: string; logo?: { url: string } }>>('/brands?populate=*', {
     tags: ['products-list', 'brands'],
   });
 
-  if (error || !data || !Array.isArray(data) || data.length === 0) {
-    return [
-      { id: 'b1', name: 'Good Choice Exclusive', slug: 'good-choice-exclusive' },
-      { id: 'b2', name: 'Scandinavian Atelier', slug: 'scandinavian-atelier' },
-      { id: 'b3', name: 'Nordic Craft', slug: 'nordic-craft' },
-    ];
+  if (error || !data || !Array.isArray(data)) {
+    return [];
   }
 
   return data.map((b) => ({
@@ -87,10 +145,10 @@ export async function getCatalogProducts(filter?: ProductFilter): Promise<Catalo
 
   let endpoint = `/products?populate=*&pagination[page]=${page}&pagination[pageSize]=${limit}`;
   if (category) {
-    endpoint += `&filters[category][name][$iContains]=${encodeURIComponent(category)}`;
+    endpoint += `&filters[categories][name][$iContains]=${encodeURIComponent(category)}`;
   }
   if (search) {
-    endpoint += `&filters[title][$iContains]=${encodeURIComponent(search)}`;
+    endpoint += `&filters[name][$iContains]=${encodeURIComponent(search)}`;
   }
 
   const { data, error } = await fetchStrapiAPI<{
@@ -101,74 +159,56 @@ export async function getCatalogProducts(filter?: ProductFilter): Promise<Catalo
   });
 
   if (error || !data) {
-    // Fallback to local mock dataset seamlessly
-    let filtered = [...MOCK_PRODUCTS];
-    if (category) {
-      const catLower = category.toLowerCase();
-      filtered = filtered.filter(
-        (p) =>
-          p.category.toLowerCase() === catLower ||
-          p.subcategory?.toLowerCase() === catLower
-      );
-    }
-    if (search) {
-      const searchLower = search.toLowerCase();
-      filtered = filtered.filter(
-        (p) => p.name.toLowerCase().includes(searchLower) || p.description.toLowerCase().includes(searchLower)
-      );
-    }
-
-    const total = filtered.length;
-    const totalPages = Math.ceil(total / limit) || 1;
-    const start = (page - 1) * limit;
-
     return {
-      products: filtered.slice(start, start + limit),
-      total,
-      totalPages,
+      products: [],
+      total: 0,
+      totalPages: 1,
       currentPage: page,
     };
   }
 
-  const productsList: Product[] = (Array.isArray(data) ? data : (data as any)?.data || []).map((item: any, idx: number) => {
+  const rawList = Array.isArray(data) ? data : (data as any)?.data || [];
+  const productsList: Product[] = rawList.map((item: any, idx: number) => {
     const attrs = item.attributes || item;
-    const imagesList = Array.isArray(attrs.images)
-      ? attrs.images.map((img: any) => getStrapiMediaUrl(img.url))
-      : [attrs.main_image?.url ? getStrapiMediaUrl(attrs.main_image.url) : '/images/product/product-1.png'];
+    const featureImgUrl = attrs.feature_image?.url ? getStrapiMediaUrl(attrs.feature_image.url) : '';
+    const productImgs = Array.isArray(attrs.product_images)
+      ? attrs.product_images.map((img: any) => getStrapiMediaUrl(img.url)).filter(Boolean)
+      : [];
+
+    const imagesList = productImgs.length > 0 ? productImgs : (featureImgUrl ? [featureImgUrl] : []);
+
+    const catName = Array.isArray(attrs.categories) && attrs.categories.length > 0
+      ? attrs.categories[0].name
+      : (attrs.category?.name || attrs.category || 'Furniture');
+
+    const basePrice = Number(attrs.base_price || attrs.price || 0);
+    const discPrice = attrs.base_discount_price || attrs.original_price;
 
     return {
-      id: String(item.id || `prod-${idx}`),
-      name: attrs.title || attrs.name || 'Bespoke Furniture Item',
-      slug: attrs.slug || (attrs.title || attrs.name || '').toLowerCase().replace(/\s+/g, '-'),
-      description: attrs.description || attrs.short_description || 'Handcrafted luxury furniture piece.',
-      price: attrs.price || attrs.regular_price || 1200,
-      originalPrice: attrs.original_price || attrs.old_price || Math.round((attrs.price || 1200) * 1.2),
-      category: attrs.category?.name || attrs.category || 'Furniture',
+      id: String(item.id || item.documentId || `prod-${idx}`),
+      name: attrs.name || attrs.title || 'Bespoke Furniture Item',
+      slug: attrs.slug || (attrs.name || attrs.title || '').toLowerCase().replace(/\s+/g, '-'),
+      description: attrs.description || attrs.short_description || '',
+      price: basePrice,
+      originalPrice: discPrice ? Number(discPrice) : basePrice,
+      category: catName,
       subcategory: attrs.subcategory || '',
-      tag: attrs.tag || 'Made to order',
-      images: imagesList.length > 0 ? imagesList : ['/images/product/product-1.png'],
-      inStock: attrs.in_stock ?? true,
-      stockCount: attrs.stock_count || 10,
-      rating: attrs.rating || 4.8,
-      reviewCount: attrs.review_count || 24,
-      isFeatured: attrs.is_featured || false,
-      specs: attrs.specs || {
-        style: 'Modern Contemporary',
-        seatingCapacity: 'Standard Unit',
-        upholstery: 'Premium Fabric',
-      },
-      keyFeatures: attrs.key_features || [
-        'Elegant curved design',
-        'High-density foam cushioning',
-        'Precision craftsmanship',
-      ],
+      tag: attrs.tag || '',
+      images: imagesList,
+      inStock: attrs.catalog_status === 'available' || attrs.is_active || true,
+      stockCount: Number(attrs.base_stock_quantity || 0),
+      rating: Number(attrs.rating || 5.0),
+      reviewCount: Number(attrs.review_count || 0),
+      isFeatured: Boolean(attrs.feature_product || attrs.is_featured),
+      specs: attrs.specifications || attrs.specs || undefined,
+      keyFeatures: attrs.key_features || attrs.features || [],
       createdAt: attrs.createdAt || new Date().toISOString(),
     };
   });
 
   const pagination = (data as any)?.meta?.pagination;
   const total = pagination?.total || productsList.length;
-  const totalPages = pagination?.pageCount || 1;
+  const totalPages = pagination?.pageCount || Math.ceil(total / limit) || 1;
 
   return {
     products: productsList,
@@ -184,45 +224,48 @@ export async function getSingleProductBySlug(slug: string): Promise<Product | nu
   });
 
   if (error || !data) {
-    return MOCK_PRODUCTS.find((p) => p.slug.toLowerCase() === slug.toLowerCase()) || null;
+    return null;
   }
 
   const items = Array.isArray(data) ? data : (data as any)?.data || [];
   if (items.length === 0) {
-    return MOCK_PRODUCTS.find((p) => p.slug.toLowerCase() === slug.toLowerCase()) || null;
+    return null;
   }
 
   const item = items[0];
   const attrs = item.attributes || item;
-  const imagesList = Array.isArray(attrs.images)
-    ? attrs.images.map((img: any) => getStrapiMediaUrl(img.url))
-    : [attrs.main_image?.url ? getStrapiMediaUrl(attrs.main_image.url) : '/images/product/product-1.png'];
+  const featureImgUrl = attrs.feature_image?.url ? getStrapiMediaUrl(attrs.feature_image.url) : '';
+  const productImgs = Array.isArray(attrs.product_images)
+    ? attrs.product_images.map((img: any) => getStrapiMediaUrl(img.url)).filter(Boolean)
+    : [];
+
+  const imagesList = productImgs.length > 0 ? productImgs : (featureImgUrl ? [featureImgUrl] : []);
+
+  const catName = Array.isArray(attrs.categories) && attrs.categories.length > 0
+    ? attrs.categories[0].name
+    : (attrs.category?.name || attrs.category || 'Furniture');
+
+  const basePrice = Number(attrs.base_price || attrs.price || 0);
+  const discPrice = attrs.base_discount_price || attrs.original_price;
 
   return {
-    id: String(item.id),
-    name: attrs.title || attrs.name,
+    id: String(item.id || item.documentId),
+    name: attrs.name || attrs.title,
     slug: attrs.slug,
-    description: attrs.description || attrs.short_description,
-    price: attrs.price || attrs.regular_price,
-    originalPrice: attrs.original_price || Math.round((attrs.price || 1200) * 1.2),
-    category: attrs.category?.name || attrs.category || 'Furniture',
+    description: attrs.description || attrs.short_description || '',
+    price: basePrice,
+    originalPrice: discPrice ? Number(discPrice) : basePrice,
+    category: catName,
     subcategory: attrs.subcategory || '',
-    tag: attrs.tag || 'Made to order',
+    tag: attrs.tag || '',
     images: imagesList,
-    inStock: attrs.in_stock ?? true,
-    stockCount: attrs.stock_count || 15,
-    rating: attrs.rating || 4.9,
-    reviewCount: attrs.review_count || 32,
-    isFeatured: attrs.is_featured || false,
-    specs: attrs.specs || {
-      style: 'Modern Contemporary',
-      seatingCapacity: 'Standard Unit',
-      upholstery: 'Premium Fabric',
-    },
-    keyFeatures: attrs.key_features || [
-      'Elegant curved design',
-      'High-density foam cushioning',
-    ],
+    inStock: attrs.catalog_status === 'available' || attrs.is_active || true,
+    stockCount: Number(attrs.base_stock_quantity || 0),
+    rating: Number(attrs.rating || 5.0),
+    reviewCount: Number(attrs.review_count || 0),
+    isFeatured: Boolean(attrs.feature_product || attrs.is_featured),
+    specs: attrs.specifications || attrs.specs || undefined,
+    keyFeatures: attrs.key_features || attrs.features || [],
     createdAt: attrs.createdAt || new Date().toISOString(),
   };
 }

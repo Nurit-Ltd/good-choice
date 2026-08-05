@@ -6,11 +6,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
+import { useSiteSettings } from "@/hooks/use-site-settings";
+
 interface ProductDetailSectionProps {
   product: Product;
 }
 
 export function ProductDetailSection({ product }: ProductDetailSectionProps) {
+  const { data: settings } = useSiteSettings();
+  const whatsappNumber = settings?.whatsappNumber || "8801700000000";
+  const orderMessage = encodeURIComponent(`Hi, I would like to order "${product.name}"`);
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${orderMessage}`;
+
   const images = product.images && product.images.length > 0 ? product.images : ["/images/product/product-1.png"];
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
@@ -87,7 +94,7 @@ export function ProductDetailSection({ product }: ProductDetailSectionProps) {
           {/* Order Now CTA Button */}
           <div>
             <Link
-              href={`https://wa.me/8801700000000?text=Hi,%20I%20would%20like%20to%20order%20the%20${encodeURIComponent(product.name)}`}
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center w-full py-3.5 px-8 rounded-full font-body font-medium text-base text-white shadow-md transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99] text-center"
