@@ -74,7 +74,7 @@ export async function getMegaMenuData(): Promise<MegaMenuData> {
     tags: ['mega-menu', 'categories'],
   });
 
-  const { data: bannerData } = await fetchStrapiAPI<Array<any>>('/ads-banners?filters[placement][$eq]=mega_menu&filters[is_active][$eq]=true', {
+  const { data: bannerData } = await fetchStrapiAPI<Array<any>>('/ads-banners?filters[placement][$eq]=mega_menu&filters[is_active][$eq]=true&populate=*', {
     tags: ['mega-menu', 'ads-banners'],
   });
 

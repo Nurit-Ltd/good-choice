@@ -35,7 +35,7 @@ export function DesktopNav({
             onMouseEnter={() => onMouseEnter(item.label)}
             onMouseLeave={onMouseLeave}
           >
-            {item.isMegaMenu && item.megaMenu ? (
+            {(item.isMegaMenu && item.megaMenu) || item.isServicesMegaMenu ? (
               <Link
                 href={item.href}
                 onClick={onItemClick}

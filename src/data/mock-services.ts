@@ -1,0 +1,341 @@
+import { ServiceItem } from "@/types/service";
+
+export const MOCK_SERVICES: ServiceItem[] = [
+  {
+    id: "service-1",
+    title: "Bespoke Furniture Creation & Hardwood Crafting",
+    slug: "bespoke-furniture-creation",
+    category: "Bespoke Furniture",
+    shortDescription:
+      "Handcrafted solid teak, sheesham, and oak furniture custom engineered to fit your exact interior dimensions.",
+    description:
+      "Our bespoke furniture creation service brings your architectural vision to life. From organic curved sofas to solid hardwood dining tables and custom bed frames, our master artisans craft each piece using 100% seasoned timber, traditional mortise-and-tenon joinery, and eco-friendly Italian finishes.",
+    iconName: "Hammer",
+    featureImage: "/images/services/service-1.webp",
+    bannerImage: "/images/services/service-banner-1.webp",
+    gallery: [
+      "/images/services/service-1.webp",
+      "/images/services/service-2.webp",
+      "/images/services/service-3.webp",
+    ],
+    features: [
+      "100% Seasoned & Kiln-Dried Hardwood",
+      "Custom 3D CAD Preview Before Production",
+      "Hand-Applied Eco-Friendly Italian PU Polish",
+      "5-Year Structural Frame Warranty",
+      "Complimentary On-Site White-Glove Installation",
+    ],
+    processSteps: [
+      {
+        step: 1,
+        title: "Initial Consultation & Measurements",
+        description: "Our interior specialist visits your space to take laser measurements and discuss design preferences.",
+        duration: "1-2 Days",
+      },
+      {
+        step: 2,
+        title: "3D CAD Rendering & Wood Selection",
+        description: "We generate a photo-realistic 3D render and let you choose timber species, grain patterns, and finishes.",
+        duration: "3-4 Days",
+      },
+      {
+        step: 3,
+        title: "Precision Artisan Handcrafting",
+        description: "Master carpenters build your custom furniture using reinforced joinery and hand sanding.",
+        duration: "10-14 Days",
+      },
+      {
+        step: 4,
+        title: "White-Glove Delivery & Fitting",
+        description: "Our delivery team carefully transports, unpacks, and installs your new piece in your preferred room.",
+        duration: "1 Day",
+      },
+    ],
+    specifications: [
+      { label: "Timber Options", value: "Burma Teak, Sheesham, American Red Oak, Walnut" },
+      { label: "Finish Choices", value: "Italian PU Matte, High Gloss Lacquer, Natural Wax" },
+      { label: "Lead Time", value: "14 to 21 Working Days" },
+      { label: "Warranty", value: "5-Year Structural Guarantee" },
+    ],
+    isFeatured: true,
+    pricingStartingFrom: "Starting from ৳25,000",
+    orderBy: 1,
+    isActive: true,
+  },
+  {
+    id: "service-2",
+    title: "Complete Interior Design & 3D Spatial Planning",
+    slug: "interior-design-3d-planning",
+    category: "Interior Design",
+    shortDescription:
+      "End-to-end luxury residential and commercial interior design with immersive 3D architectural visualization.",
+    description:
+      "Transform raw spaces into breathtaking living environments. Our principal interior architects curate harmonious color palettes, custom lighting layouts, organic curved furniture placement, and bespoke wall treatments tailored for modern Scandinavian and contemporary aesthetic standards.",
+    iconName: "Compass",
+    featureImage: "/images/services/service-2.webp",
+    bannerImage: "/images/services/service-banner-2.webp",
+    gallery: [
+      "/images/services/service-2.webp",
+      "/images/services/service-3.webp",
+      "/images/services/service-4.webp",
+    ],
+    features: [
+      "Full 4K Photo-Realistic 3D Renders",
+      "Material & Fabric Mood Board Curation",
+      "Lighting & Electrical Layout Diagrams",
+      "Turnkey Project Management & Oversight",
+      "Custom Furniture & Decor Selection",
+    ],
+    processSteps: [
+      {
+        step: 1,
+        title: "Concept Discovery Brief",
+        description: "We analyze your space requirement, budget, lifestyle, and aesthetic preferences.",
+        duration: "2 Days",
+      },
+      {
+        step: 2,
+        title: "Spatial Blueprint & 3D Visualization",
+        description: "Interactive 3D walk-through model of your entire home/office.",
+        duration: "5-7 Days",
+      },
+      {
+        step: 3,
+        title: "Material Sourcing & Fabrication",
+        description: "Procurement of custom furniture, curtains, lighting, and decorative accents.",
+        duration: "15-20 Days",
+      },
+      {
+        step: 4,
+        title: "Turnkey Execution & Styling",
+        description: "Final installation, ambient lighting setup, and professional interior styling.",
+        duration: "3-5 Days",
+      },
+    ],
+    specifications: [
+      { label: "Scope", value: "Apartments, Duplexes, Luxury Villas, Executive Offices" },
+      { label: "Deliverables", value: "2D Layout Drawings, 3D Renders, Material Samples" },
+      { label: "Project Lead Time", value: "30 to 45 Days (Full Turnkey)" },
+    ],
+    isFeatured: true,
+    pricingStartingFrom: "Starting from ৳45,000",
+    orderBy: 2,
+    isActive: true,
+  },
+  {
+    id: "service-3",
+    title: "Antique Furniture Restoration & Polishing",
+    slug: "antique-restoration-polishing",
+    category: "Restoration & Repair",
+    shortDescription:
+      "Expert French polishing, structural joint tightening, and heirloom wood preservation by master craftsmen.",
+    description:
+      "Preserve the legacy and elegance of your cherished antique furniture. Our restoration specialists utilize authentic shellac French polishing, hand-applied beeswax treatments, precision veneer matching, and traditional structural repairs without altering vintage character.",
+    iconName: "Palette",
+    featureImage: "/images/services/service-3.webp",
+    bannerImage: "/images/services/service-banner-3.webp",
+    gallery: [
+      "/images/services/service-3.webp",
+      "/images/services/service-1.webp",
+      "/images/services/service-5.webp",
+    ],
+    features: [
+      "Traditional Shellac French Polishing",
+      "Structural Re-jointing & Dowel Reinforcement",
+      "Rare Timber Veneer Patching & Color Matching",
+      "Termite & Wood Borer Chemical Treatment",
+      "Door-to-Door Pickup & Safe Delivery",
+    ],
+    processSteps: [
+      {
+        step: 1,
+        title: "Assessment & Condition Audit",
+        description: "Inspect wood condition, joint integrity, finish erosion, and historical timber species.",
+        duration: "1 Day",
+      },
+      {
+        step: 2,
+        title: "Gentle Stripping & Structural Repair",
+        description: "Hand-stripping old varnish, re-gluing loose mortise joints, and filling wood cracks.",
+        duration: "4-6 Days",
+      },
+      {
+        step: 3,
+        title: "Hand French Polish & Buffing",
+        description: "Applying 10-15 coats of hand-rubbed shellac polish for deep optical clarity.",
+        duration: "5-7 Days",
+      },
+      {
+        step: 4,
+        title: "Protective Wax & Final Inspection",
+        description: "Sealing with natural beeswax and delivering back to your living space.",
+        duration: "1 Day",
+      },
+    ],
+    specifications: [
+      { label: "Polishing Method", value: "Hand Shellac French Polish, PU Lacquer, Wax Buff" },
+      { label: "Treatment", value: "Anti-Termite & Moisture Defense Coating" },
+      { label: "Average Turnaround", value: "7 to 14 Days" },
+    ],
+    isFeatured: true,
+    pricingStartingFrom: "Starting from ৳8,500",
+    orderBy: 3,
+    isActive: true,
+  },
+  {
+    id: "service-4",
+    title: "Custom Upholstery & Fine Fabric Tailoring",
+    slug: "custom-upholstery-fabric-tailoring",
+    category: "Bespoke Furniture",
+    shortDescription:
+      "Re-upholster luxury sofas, majlis sets, and armchairs with stain-resistant velvet, linen, and Italian leather.",
+    description:
+      "Give your seating a fresh, luxurious makeover. Choose from over 300 premium upholstery fabrics including Belgian linen, velvet, performance stain-resistant weaves, and full-grain Italian leather. Includes high-density ergonomic foam replacement.",
+    iconName: "Armchair",
+    featureImage: "/images/services/service-4.webp",
+    bannerImage: "/images/services/service-banner-1.webp",
+    gallery: [
+      "/images/services/service-4.webp",
+      "/images/services/service-2.webp",
+    ],
+    features: [
+      "300+ Designer Fabric & Genuine Leather Swatches",
+      "Ultra High-Density Ergonomic Foam Replacement",
+      "Stain-Shield & Water-Repellent Nano Coating",
+      "Precision Hand Tufting & Piping Detail",
+    ],
+    processSteps: [
+      {
+        step: 1,
+        title: "Fabric Swatch Selection",
+        description: "Choose fabric textures, colors, and durability ratings from our catalog.",
+        duration: "1 Day",
+      },
+      {
+        step: 2,
+        title: "Stripping & Foam Core Renewal",
+        description: "Removing old fabric and upgrading internal cushioning to high-resiliency foam.",
+        duration: "3-5 Days",
+      },
+      {
+        step: 3,
+        title: "Tailoring & Hand Stitching",
+        description: "Precision cutting, double seam stitching, and crisp tufting by master upholsterers.",
+        duration: "4-6 Days",
+      },
+    ],
+    specifications: [
+      { label: "Fabrics", value: "Velvet, Belgian Linen, Bouclé, Genuine Grain Leather" },
+      { label: "Foam Density", value: "32D to 45D High Resiliency Comfort Foam" },
+      { label: "Turnaround", value: "7 to 10 Days" },
+    ],
+    isFeatured: false,
+    pricingStartingFrom: "Starting from ৳12,000",
+    orderBy: 4,
+    isActive: true,
+  },
+  {
+    id: "service-5",
+    title: "Architectural Millwork & Built-in Wall Units",
+    slug: "architectural-millwork-built-in-units",
+    category: "Architectural Millwork",
+    shortDescription:
+      "Bespoke floor-to-ceiling wardrobes, TV media wall paneling, and custom library cabinetry.",
+    description:
+      "Seamlessly integrate storage and architectural elegance into your interior walls. We manufacture floating media consoles, fluted wood accent paneling, walk-in closets, and concealed storage walls with integrated LED strip lighting.",
+    iconName: "Ruler",
+    featureImage: "/images/services/service-5.webp",
+    bannerImage: "/images/services/service-banner-2.webp",
+    gallery: [
+      "/images/services/service-5.webp",
+      "/images/services/service-6.webp",
+    ],
+    features: [
+      "Fluted Solid Wood & Veneer Wall Panels",
+      "Soft-Close German Hardware & Blum Hinges",
+      "Integrated Warm LED Architectural Lighting",
+      "Concealed Push-to-Open Storage Compartments",
+    ],
+    processSteps: [
+      {
+        step: 1,
+        title: "On-Site Laser Scanning",
+        description: "Accurate measurement of wall plumbness, electrical points, and ceiling height.",
+        duration: "1 Day",
+      },
+      {
+        step: 2,
+        title: "Modular Off-Site Fabrication",
+        description: "Precision CNC cutting and finish lacquering in our workshop.",
+        duration: "12-15 Days",
+      },
+      {
+        step: 3,
+        title: "Clean Dustless Fitting",
+        description: "Quick 1-2 day installation with minimal disturbance to your home.",
+        duration: "2 Days",
+      },
+    ],
+    specifications: [
+      { label: "Core Materials", value: "Boiling Water Resistant (BWR) Plywood, Teak Veneer" },
+      { label: "Hardware", value: "Blum / Hettich Soft-close Slides & Hinges" },
+      { label: "Warranty", value: "7-Year Cabinetry Guarantee" },
+    ],
+    isFeatured: false,
+    pricingStartingFrom: "Starting from ৳35,000",
+    orderBy: 5,
+    isActive: true,
+  },
+  {
+    id: "service-6",
+    title: "Commercial Office Furniture Fitting & Acoustic Layouts",
+    slug: "commercial-office-furniture-fitting",
+    category: "Commercial & Office",
+    shortDescription:
+      "Ergonomic executive desks, boardroom conference tables, acoustic partition panels, and lounge seating.",
+    description:
+      "Create high-performing work environments that embody modern corporate sophistication. We craft heavy-duty solid oak conference tables with concealed cable management, ergonomic acoustic office partitions, and executive lounge suites.",
+    iconName: "Wrench",
+    featureImage: "/images/services/service-6.webp",
+    bannerImage: "/images/services/service-banner-3.webp",
+    gallery: [
+      "/images/services/service-6.webp",
+      "/images/services/service-1.webp",
+    ],
+    features: [
+      "Built-in Wireless Charging & Flip Power Grommets",
+      "Sound-Dampening Felt Acoustic Wall Panels",
+      "Ergonomic BIFMA-Certified Structural Frames",
+      "Bulk Order Fast-Track Production Capability",
+    ],
+    processSteps: [
+      {
+        step: 1,
+        title: "Workplace Efficiency Audit",
+        description: "Space layout optimization for staff count and collaboration zones.",
+        duration: "2 Days",
+      },
+      {
+        step: 2,
+        title: "Prototyping & Bulk Manufacturing",
+        description: "Building sample desk units followed by full floor production.",
+        duration: "14-20 Days",
+      },
+      {
+        step: 3,
+        title: "After-Hours Commercial Fitting",
+        description: "Installation scheduled during non-business hours to avoid downtime.",
+        duration: "2-3 Days",
+      },
+    ],
+    specifications: [
+      { label: "Standards", value: "BIFMA & ISO Ergonomic Compliance" },
+      { label: "Wiring Integration", value: "Concealed Raceway Cable Management" },
+      { label: "Warranty", value: "3-Year Commercial Warranty" },
+    ],
+    isFeatured: false,
+    pricingStartingFrom: "Starting from ৳60,000",
+    orderBy: 6,
+    isActive: true,
+  },
+];

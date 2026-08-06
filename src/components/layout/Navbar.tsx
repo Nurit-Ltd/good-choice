@@ -2,6 +2,7 @@
 
 import { DesktopNav } from "@/components/layout/navbar/DesktopNav";
 import { MegaMenuPanel } from "@/components/layout/navbar/MegaMenuPanel";
+import { ServicesMegaMenuPanel } from "@/components/layout/navbar/ServicesMegaMenuPanel";
 import { MobileSheet } from "@/components/layout/navbar/MobileSheet";
 import { FloatingWhatsAppButton } from "@/components/shared/FloatingWhatsAppButton";
 import { ModernMenuIcon } from "@/components/shared/svgs";
@@ -125,6 +126,9 @@ export function Navbar({
 
       {/* Desktop Dynamic Mega Menu Panel Overlay */}
       <MegaMenuPanel navItems={mergedNavItems} hoveredNav={hoveredNav} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onItemClick={handleItemClick} />
+
+      {/* Services Mega Menu Panel Overlay */}
+      <ServicesMegaMenuPanel hoveredNav={hoveredNav} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onItemClick={handleItemClick} />
 
       {/* Mobile Side Sheet Drawer Navigation */}
       <MobileSheet isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} navItems={mergedNavItems} logoSrc={logoSrc} logoAlt={logoAlt} whatsappUrl={whatsappUrl} />

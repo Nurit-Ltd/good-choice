@@ -29,6 +29,7 @@ export interface NavItem {
   href: string;
   hasDropdown?: boolean;
   isMegaMenu?: boolean;
+  isServicesMegaMenu?: boolean;
   subItems?: NavSubItem[];
   megaMenu?: MegaMenuConfig;
 }
