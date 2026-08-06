@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { useServices } from "@/hooks/useServices";
-import { ArrowRight, Sparkles, Layers } from "lucide-react";
+import { ArrowRight, Layers, Sparkles } from "lucide-react";
+import Link from "next/link";
 
 interface ServicesMegaMenuPanelProps {
   hoveredNav: string | null;
@@ -12,12 +12,7 @@ interface ServicesMegaMenuPanelProps {
   onItemClick: () => void;
 }
 
-export function ServicesMegaMenuPanel({
-  hoveredNav,
-  onMouseEnter,
-  onMouseLeave,
-  onItemClick,
-}: ServicesMegaMenuPanelProps) {
+export function ServicesMegaMenuPanel({ hoveredNav, onMouseEnter, onMouseLeave, onItemClick }: ServicesMegaMenuPanelProps) {
   const isHovered = hoveredNav === "Services" || hoveredNav === "Service";
   const { featuredServices, totalCountLabel, totalCount } = useServices();
 
@@ -29,9 +24,7 @@ export function ServicesMegaMenuPanel({
       onMouseEnter={() => onMouseEnter("Services")}
       onMouseLeave={onMouseLeave}
       className={`hidden md:block absolute top-full left-0 right-0 px-4 z-40 transition-all duration-300 ease-out origin-top transform ${
-        isHovered
-          ? "opacity-100 translate-y-0 scale-y-100 pointer-events-auto"
-          : "opacity-0 -translate-y-4 scale-y-95 pointer-events-none"
+        isHovered ? "opacity-100 translate-y-0 scale-y-100 pointer-events-auto" : "opacity-0 -translate-y-4 scale-y-95 pointer-events-none"
       }`}
     >
       <div
@@ -49,9 +42,6 @@ export function ServicesMegaMenuPanel({
               Craftsmanship & Bespoke Services
             </h3>
           </div>
-          <span className="font-body text-xs font-medium text-grey-700 bg-secondary-200/50 px-3 py-1 rounded-full">
-            Tailored Interior Solutions
-          </span>
         </div>
 
         {/* 4-Column Ads-Banner Grid */}
@@ -65,16 +55,10 @@ export function ServicesMegaMenuPanel({
               className="group relative h-72 rounded-xl overflow-hidden flex flex-col justify-end p-5 transition-all duration-300 shadow-md hover:shadow-2xl hover:-translate-y-1"
             >
               {/* Full Card Background Image */}
-              <ImageWithFallback
-                src={service.featureImage}
-                alt={service.title}
-                fill
-                fallbackType="banner"
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-108"
-              />
+              <ImageWithFallback src={service.featureImage} alt={service.title} fill fallbackType="banner" className="object-cover transition-transform duration-700 ease-out group-hover:scale-108" />
 
               {/* Dark Gradient Overlay for Maximum Text Contrast */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent transition-opacity group-hover:opacity-95" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 to-transparent transition-opacity group-hover:opacity-95" />
 
               {/* Category Pill Tag */}
               <div className="relative z-10 mb-auto">
@@ -85,12 +69,8 @@ export function ServicesMegaMenuPanel({
 
               {/* Title, Short Description, and Learn More CTA */}
               <div className="relative z-10 space-y-2">
-                <h4 className="font-heading text-lg font-bold text-white leading-snug drop-shadow-md group-hover:text-secondary-100 transition-colors line-clamp-2">
-                  {service.title}
-                </h4>
-                <p className="font-body text-xs text-white/80 line-clamp-2 leading-relaxed font-normal">
-                  {service.shortDescription}
-                </p>
+                <h4 className="font-heading text-lg font-bold text-white leading-snug drop-shadow-md group-hover:text-secondary-100 transition-colors line-clamp-2">{service.title}</h4>
+                <p className="font-body text-xs text-white/80 line-clamp-2 leading-relaxed font-normal">{service.shortDescription}</p>
                 <div className="flex items-center gap-1.5 pt-1 text-xs font-semibold text-white group-hover:text-secondary-200 transition-colors">
                   <span>Learn More</span>
                   <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
@@ -121,12 +101,8 @@ export function ServicesMegaMenuPanel({
 
             {/* Middle Title & Subtitle */}
             <div className="space-y-2 my-auto">
-              <h4 className="font-heading text-xl lg:text-2xl font-bold text-white leading-tight">
-                Explore All Services
-              </h4>
-              <p className="font-body text-xs text-white/80 leading-relaxed">
-                Discover bespoke woodworking, 3D interior architecture, fine upholstery, and antique restoration care.
-              </p>
+              <h4 className="font-heading text-xl lg:text-2xl font-bold text-white leading-tight">Explore All Services</h4>
+              <p className="font-body text-xs text-white/80 leading-relaxed">Discover bespoke woodworking, 3D interior architecture, fine upholstery, and antique restoration care.</p>
             </div>
 
             {/* Bottom Button CTA */}

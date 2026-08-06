@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ServiceItem } from "@/types/service";
 import { X, Send, Sparkles, CheckCircle2 } from "lucide-react";
 import { siteConfig } from "@/config/site";
+import { Select } from "@/components/ui/select";
 
 interface ServiceQuoteModalProps {
   isOpen: boolean;
@@ -11,12 +12,27 @@ interface ServiceQuoteModalProps {
   service: ServiceItem;
 }
 
+const ROOM_OPTIONS = [
+  "Living Room",
+  "Bedroom",
+  "Dining Room",
+  "Commercial Office",
+  "Entire Duplex / Villa",
+];
+
+const TIMBER_OPTIONS = [
+  "Burma Teak Wood",
+  "Sheesham / Rosewood",
+  "American Red Oak",
+  "Luxury Fabric / Leather",
+];
+
 export function ServiceQuoteModal({ isOpen, onClose, service }: ServiceQuoteModalProps) {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     roomType: "Living Room",
-    woodPreference: "Burma Teak",
+    woodPreference: "Burma Teak Wood",
     budget: "৳25,000 - ৳50,000",
     notes: "",
   });
@@ -53,7 +69,7 @@ export function ServiceQuoteModal({ isOpen, onClose, service }: ServiceQuoteModa
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+            className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -74,7 +90,7 @@ export function ServiceQuoteModal({ isOpen, onClose, service }: ServiceQuoteModa
                 setSubmitted(false);
                 onClose();
               }}
-              className="mt-4 px-6 py-2.5 rounded-xl bg-primary-950 text-white font-body text-sm font-semibold"
+              className="mt-4 px-6 py-2.5 rounded-xl bg-primary-950 text-white font-body text-sm font-semibold cursor-pointer"
               style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}
             >
               Done
@@ -92,7 +108,7 @@ export function ServiceQuoteModal({ isOpen, onClose, service }: ServiceQuoteModa
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="e.g. Tanvir Ahmed"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-secondary-300 focus:outline-none focus:border-primary-950"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-secondary-300 focus:outline-none focus:border-primary-950 focus:ring-1 focus:ring-primary-950/30 transition-all"
               />
             </div>
 
@@ -106,42 +122,32 @@ export function ServiceQuoteModal({ isOpen, onClose, service }: ServiceQuoteModa
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 placeholder="e.g. 01700000000"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-secondary-300 focus:outline-none focus:border-primary-950"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-secondary-300 focus:outline-none focus:border-primary-950 focus:ring-1 focus:ring-primary-950/30 transition-all"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            {/* Custom Branded Select Dropdowns */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-semibold text-grey-800 mb-1">
                   Room / Space Type
                 </label>
-                <select
+                <Select
+                  options={ROOM_OPTIONS}
                   value={formData.roomType}
-                  onChange={(e) => setFormData({ ...formData, roomType: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl border border-secondary-300 bg-white"
-                >
-                  <option>Living Room</option>
-                  <option>Bedroom</option>
-                  <option>Dining Room</option>
-                  <option>Commercial Office</option>
-                  <option>Entire Duplex / Villa</option>
-                </select>
+                  onChange={(val) => setFormData({ ...formData, roomType: val })}
+                />
               </div>
 
               <div>
                 <label className="block text-xs font-semibold text-grey-800 mb-1">
                   Timber / Material
                 </label>
-                <select
+                <Select
+                  options={TIMBER_OPTIONS}
                   value={formData.woodPreference}
-                  onChange={(e) => setFormData({ ...formData, woodPreference: e.target.value })}
-                  className="w-full px-3 py-2 rounded-xl border border-secondary-300 bg-white"
-                >
-                  <option>Burma Teak Wood</option>
-                  <option>Sheesham / Rosewood</option>
-                  <option>American Red Oak</option>
-                  <option>Luxury Fabric / Leather</option>
-                </select>
+                  onChange={(val) => setFormData({ ...formData, woodPreference: val })}
+                />
               </div>
             </div>
 
@@ -154,13 +160,13 @@ export function ServiceQuoteModal({ isOpen, onClose, service }: ServiceQuoteModa
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 placeholder="Describe your dimensions, design ideas, or timeline..."
-                className="w-full px-3.5 py-2.5 rounded-xl border border-secondary-300 focus:outline-none focus:border-primary-950"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-secondary-300 focus:outline-none focus:border-primary-950 focus:ring-1 focus:ring-primary-950/30 transition-all"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-3.5 rounded-xl font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer mt-2"
+              className="w-full py-3.5 rounded-xl font-bold text-white shadow-lg hover:shadow-xl hover:opacity-95 active:scale-99 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer mt-2"
               style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}
             >
               <Send className="w-4 h-4" />

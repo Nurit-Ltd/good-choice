@@ -32,7 +32,7 @@ export function RelatedServicesCarousel({ services, currentSlug }: RelatedServic
         </div>
 
         {/* 3-Column Service Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 2xl:grid-cols-4 gap-6">
           {otherServices.map((service) => (
             <Link
               key={service.id}

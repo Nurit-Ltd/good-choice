@@ -27,7 +27,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
 
   return (
     <div className="w-full min-h-screen flex flex-col">
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 w-full pb-16">
+      <main className="flex-1 w-full pb-16">
         <ServiceDetailClient slug={slug} />
       </main>
     </div>
