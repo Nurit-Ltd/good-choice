@@ -1,40 +1,12 @@
-import { Banner } from "@/components/features/home/Banner";
-import { Collections } from "@/components/features/home/Collections";
-import { Experiences } from "@/components/features/home/Experiences";
-import { Explore } from "@/components/features/home/Explore";
-import { Faq } from "@/components/features/home/Faq";
-import { MadeFurniture } from "@/components/features/home/MadeFurniture";
-import { RecentlyCrafted } from "@/components/features/home/RecentlyCrafted";
-import { ShopByRoom } from "@/components/features/home/ShobByRoom";
+import { getHomePageData } from "@/services/homePageService";
+import { HomePageClient } from "./HomePageClient";
 
-export default function Home() {
-  return (
-    <div className="pb-16 space-y-0">
-      {/* Hero Banner Section */}
-      <section className="px-4 pt-4">
-        <Banner />
-      </section>
+// Revalidate every 60 seconds (ISR) or on-demand via Strapi webhooks
+export const revalidate = 60;
 
-      {/* Shop By Room Section */}
-      <ShopByRoom />
+export default async function Home() {
+  // Preload data on server side before rendering HTML
+  const initialData = await getHomePageData();
 
-      {/* Made Furniture Craftsmanship Section */}
-      <MadeFurniture />
-
-      {/* Recently Crafted Slider Section */}
-      <RecentlyCrafted />
-
-      {/* Grand Atelier Collections Section */}
-      <Collections />
-
-      {/* Explore Elevated Living Essentials Section */}
-      <Explore />
-
-      {/* Crafted Experiences Section */}
-      <Experiences />
-
-      {/* Frequently Asked Questions Section */}
-      <Faq />
-    </div>
-  );
+  return <HomePageClient initialData={initialData} />;
 }
