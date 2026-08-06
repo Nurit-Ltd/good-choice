@@ -38,9 +38,9 @@ export function ServicesBentoGrid({ services }: ServicesBentoGridProps) {
   return (
     <section className="w-full py-12 lg:py-16 space-y-10">
       {/* Category Filter Tabs & Live Search Bar */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-secondary-200/80">
-        {/* Category Pill Buttons */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 pb-6 border-b border-secondary-200/80">
+        {/* Category Pill Buttons - Wrapped cleanly so pills never cut off */}
+        <div className="flex items-center flex-wrap gap-2 flex-1">
           {CATEGORIES.map((cat) => {
             const isActive = selectedCategory === cat;
             return (
@@ -48,7 +48,7 @@ export function ServicesBentoGrid({ services }: ServicesBentoGridProps) {
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2.5 rounded-full font-body text-xs sm:text-sm font-medium transition-all duration-200 whitespace-nowrap cursor-pointer ${
+                className={`px-4 py-2 rounded-full font-body text-xs sm:text-sm font-medium transition-all duration-200 whitespace-nowrap cursor-pointer ${
                   isActive
                     ? "bg-primary-950 text-white shadow-md scale-102"
                     : "bg-secondary-100/70 text-grey-800 hover:bg-secondary-200/80 hover:text-primary-950"
@@ -66,19 +66,19 @@ export function ServicesBentoGrid({ services }: ServicesBentoGridProps) {
         </div>
 
         {/* Search Input Box */}
-        <div className="relative min-w-65 sm:min-w-[320px]">
+        <div className="relative w-full xl:w-80 shrink-0">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-grey-500" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search services (e.g. woodworking, 3D design)..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-secondary-200/90 bg-white/80 font-body text-sm text-grey-950 placeholder:text-grey-500 focus:outline-none focus:border-primary-950 focus:ring-1 focus:ring-primary-950 transition-all"
+            placeholder="Search services (e.g. woodworking, 3D)..."
+            className="w-full pl-10 pr-4 py-2 rounded-xl border border-secondary-200/90 bg-white/80 font-body text-sm text-grey-950 placeholder:text-grey-500 focus:outline-none focus:border-primary-950 focus:ring-1 focus:ring-primary-950 transition-all"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-grey-500 hover:text-grey-950"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-grey-500 hover:text-grey-950 cursor-pointer"
             >
               Clear
             </button>

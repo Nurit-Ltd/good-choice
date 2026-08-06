@@ -7,8 +7,8 @@ import { ServiceProcessTabs } from "@/components/features/services/ServiceProces
 import { ServiceQuoteModal } from "@/components/features/services/ServiceQuoteModal";
 import { ServicesHeader } from "@/components/features/services/ServicesHeader";
 import { ServiceSpecifications } from "@/components/features/services/ServiceSpecifications";
+import { ServiceDetailSkeleton } from "@/components/features/services/ServiceDetailSkeleton";
 import { useServices, useSingleService } from "@/hooks/useServices";
-import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
 interface ServiceDetailClientProps {
@@ -21,14 +21,7 @@ export function ServiceDetailClient({ slug }: ServiceDetailClientProps) {
   const { data: allServices } = useServices();
 
   if (isLoading || !service) {
-    return (
-      <div className="w-full py-24 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-3">
-          <Loader2 className="w-8 h-8 animate-spin text-primary-950" style={{ color: "var(--color-primary-950, #62103A)" }} />
-          <p className="font-body text-sm text-grey-600">Loading Service Details...</p>
-        </div>
-      </div>
-    );
+    return <ServiceDetailSkeleton />;
   }
 
   return (
