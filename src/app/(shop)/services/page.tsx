@@ -16,7 +16,7 @@ export default function ServicesPage() {
         <ServicesHeader />
       </section>
 
-      {/* Main Container with Bento Grid */}
+      {/* Main Container with Services Card Grid */}
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 flex-1 w-full">
         <ServicesPageClient />
       </main>

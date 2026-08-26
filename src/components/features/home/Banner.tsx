@@ -116,7 +116,16 @@ export function Banner({ autoPlayInterval = 4000, className = "" }: BannerProps)
 
           return (
             <div key={slide.id} className={`absolute inset-0 ${animationClass}`}>
-              <ImageWithFallback src={slide.image} alt={slide.alt || activeTitle} fill priority={idx === 0} sizes="100vw" fallbackType="banner" className="object-cover object-top" />
+              <ImageWithFallback
+                src={slide.image}
+                alt={slide.alt || activeTitle}
+                fill
+                priority={idx === 0}
+                loading={idx === 0 ? "eager" : "lazy"}
+                sizes="100vw"
+                fallbackType="banner"
+                className="object-cover object-top"
+              />
             </div>
           );
         })}
