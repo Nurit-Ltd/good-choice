@@ -1,6 +1,6 @@
 export function ServiceDetailSkeleton() {
   return (
-    <div className="w-full space-y-10 py-6 animate-pulse">
+    <div className="w-full space-y-8 py-6 animate-pulse">
       {/* Header Skeleton */}
       <div className="px-4">
         <div
@@ -9,6 +9,28 @@ export function ServiceDetailSkeleton() {
         >
           <div className="w-3/4 max-w-lg h-10 bg-white/20 rounded-lg mb-3" />
           <div className="w-48 h-4 bg-white/15 rounded-md" />
+        </div>
+      </div>
+
+      {/* Top Switcher Strip Skeleton */}
+      <div className="w-full bg-secondary-100/60 border-y border-secondary-200 py-3.5 px-4">
+        <div className="container mx-auto">
+          <div className="w-48 h-4 bg-secondary-300/80 rounded mb-2" />
+          <div className="flex items-center gap-3 overflow-x-hidden">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div
+                key={i}
+                className="flex-none flex items-center gap-3 p-2 rounded-xl bg-white border border-secondary-200 w-60 sm:w-68 shrink-0"
+              >
+                <div className="w-13 h-13 rounded-lg bg-secondary-200 shrink-0" />
+                <div className="flex-1 space-y-1.5">
+                  <div className="w-16 h-2.5 bg-secondary-200 rounded" />
+                  <div className="w-32 h-4 bg-secondary-300 rounded" />
+                  <div className="w-20 h-2.5 bg-secondary-200 rounded" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -44,3 +66,5 @@ export function ServiceDetailSkeleton() {
     </div>
   );
 }
+
+export default ServiceDetailSkeleton;
