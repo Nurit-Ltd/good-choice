@@ -18,6 +18,7 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
   aspectRatio = "aspect-square",
   iconSize = 32,
   className = "",
+  sizes,
   ...props
 }) => {
   const [error, setError] = useState(false);
@@ -42,13 +43,19 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
     );
   }
 
+  // Next.js performance recommendation: provide sizes when fill is used
+  const effectiveSizes = sizes || (props.fill ? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" : undefined);
+
   return (
     <Image
       {...props}
       src={src}
       alt={alt || "Good Choice Furniture"}
+      sizes={effectiveSizes}
       className={className}
       onError={() => setError(true)}
     />
   );
 };
+
+export default ImageWithFallback;

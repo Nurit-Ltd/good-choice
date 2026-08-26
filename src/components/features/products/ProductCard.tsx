@@ -11,7 +11,6 @@ interface ProductCardProps {
 
 export function ProductCard({ product, className = "" }: ProductCardProps) {
   const primaryImage = product.images?.[0] || "/images/product/product-1.png";
-  const tagText = product.tag || "Made to order";
 
   return (
     <div className={`group relative flex flex-col mb-4 md:mb-14 ${className}`}>
@@ -36,13 +35,11 @@ export function ProductCard({ product, className = "" }: ProductCardProps) {
           <h3 className="font-body text-sm sm:text-base font-medium text-grey-950 line-clamp-1">{product.name}</h3>
         </div>
 
-        {/* Row 2: Info Box (Positioned Directly Below Image with Generous Spacing) */}
+        {/* Row 2: Info Box (Positioned Directly Below Image with Full Name Display) */}
         <div className="absolute -bottom-5.25 left-0 w-[85%] z-30 flex flex-col border-x border-b border-primary-950 bg-[#FAF8F5] rounded-b-lg p-3.5 opacity-0 scale-y-0 group-hover:opacity-100 group-hover:scale-y-100 origin-top transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
-          <div className="flex items-center justify-between gap-2 pt-0.5 min-w-0">
-            <span className="font-body text-base font-medium text-grey-950 truncate flex-1 min-w-0">{product.name}</span>
-            {/* Made to Order Text on Bottom-Right */}
-            <span className="font-body text-base font-medium shrink-0 whitespace-nowrap" style={{ color: "var(--color-primary-950, #62103A)" }}>
-              {tagText}
+          <div className="flex items-center pt-0.5 min-w-0">
+            <span className="font-body text-sm sm:text-base font-medium text-grey-950 truncate w-full" title={product.name}>
+              {product.name}
             </span>
           </div>
         </div>

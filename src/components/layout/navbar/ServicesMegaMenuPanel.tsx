@@ -37,7 +37,7 @@ export function ServicesMegaMenuPanel({ hoveredNav, onMouseEnter, onMouseLeave, 
       >
         <div className="flex items-center justify-between mb-5 pb-3 border-b border-secondary-200/60">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-primary-950" style={{ color: "var(--color-primary-950, #62103A)" }} />
+            <Layers className="w-5 h-5 text-primary-950" style={{ color: "var(--color-primary-950, #62103A)" }} />
             <h3 className="font-heading text-lg font-bold tracking-wide" style={{ color: "var(--color-primary-950, #62103A)" }}>
               Craftsmanship & Bespoke Services
             </h3>
@@ -95,7 +95,7 @@ export function ServicesMegaMenuPanel({ hoveredNav, onMouseEnter, onMouseLeave, 
                 <Layers className="w-5 h-5 text-white" />
               </div>
               <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-white bg-white/20 border border-white/30 backdrop-blur-md shadow-xs">
-                ✨ {totalCountLabel || `${totalCount}+`} Services
+                {totalCountLabel || `${totalCount}+`} Services
               </span>
             </div>
 
