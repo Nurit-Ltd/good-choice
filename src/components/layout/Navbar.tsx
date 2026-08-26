@@ -4,7 +4,7 @@ import { DesktopNav } from "@/components/layout/navbar/DesktopNav";
 import { MegaMenuPanel } from "@/components/layout/navbar/MegaMenuPanel";
 import { ServicesMegaMenuPanel } from "@/components/layout/navbar/ServicesMegaMenuPanel";
 import { MobileSheet } from "@/components/layout/navbar/MobileSheet";
-import { FloatingWhatsAppButton } from "@/components/shared/FloatingWhatsAppButton";
+import { FloatingSocialDock } from "@/components/shared/FloatingSocialDock";
 import { ModernMenuIcon } from "@/components/shared/svgs";
 import { DualPillButton } from "@/components/ui/DualPillButton";
 import { siteConfig } from "@/config/site";
@@ -46,7 +46,7 @@ export function Navbar({
 
   // Merge Strapi Mega Menu categories and promos dynamically
   const mergedNavItems: NavItem[] = useMemo(() => {
-    const baseItems = propNavItems || siteConfig.navLinks;
+    const baseItems: NavItem[] = propNavItems || (siteConfig.navLinks as NavItem[]);
 
     if (!megaMenuData || (megaMenuData.categories.length === 0 && megaMenuData.promos.length === 0)) {
       return baseItems;
@@ -90,12 +90,12 @@ export function Navbar({
   return (
     <header className={`sticky top-0 z-50 w-full transition-all px-3 pt-2 sm:px-4 sm:pt-4 duration-300 ${className}`}>
       <div
-        className="flex h-14 sm:h-18 items-center rounded-lg border justify-between px-3 sm:px-6 py-1.5 sm:py-2.5 bg-secondary-300/16 backdrop-blur-[32px] shadow-xs relative z-50"
+        className="flex h-14 sm:h-18 items-center rounded-xl border justify-between px-3 sm:px-6 py-1.5 sm:py-2.5 bg-[#FAF7F2]/94 backdrop-blur-xl border-secondary-200/90 shadow-md shadow-black/5 relative z-50 transition-colors duration-200"
         style={{
-          backgroundColor: "rgba(201, 188, 168, 0.16)",
-          borderColor: "var(--color-secondary-50, #F8F6F4)",
-          backdropFilter: "blur(32px)",
-          WebkitBackdropFilter: "blur(32px)",
+          backgroundColor: "rgba(250, 247, 242, 0.94)",
+          borderColor: "rgba(227, 221, 212, 0.9)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
         }}
       >
         {/* Brand Logo */}
@@ -133,8 +133,8 @@ export function Navbar({
       {/* Mobile Side Sheet Drawer Navigation */}
       <MobileSheet isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} navItems={mergedNavItems} logoSrc={logoSrc} logoAlt={logoAlt} whatsappUrl={whatsappUrl} />
 
-      {/* Mobile Draggable Floating WhatsApp Icon */}
-      <FloatingWhatsAppButton whatsappUrl={whatsappUrl} />
+      {/* Unified Floating Social Dock (Desktop Vertical Sidebar + Mobile Expandable Hub) */}
+      <FloatingSocialDock whatsappUrl={whatsappUrl} />
     </header>
   );
 }

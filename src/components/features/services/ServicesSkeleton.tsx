@@ -3,14 +3,17 @@ export function ServicesSkeleton() {
     <div className="w-full min-h-screen flex flex-col animate-pulse">
       {/* Services Grid Skeleton Section */}
       <section className="w-full py-8 sm:py-12 lg:py-14 space-y-8 sm:space-y-10">
-        {/* Category Pills & Search Skeleton */}
-        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 pb-6 border-b border-secondary-200/80">
-          <div className="flex items-center flex-wrap gap-2 flex-1">
+        {/* Two-Tier Filter Skeleton */}
+        <div className="space-y-4 pb-6 border-b border-secondary-200/80">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="w-56 h-6 rounded-md bg-secondary-300/70" />
+            <div className="w-full sm:w-72 md:w-80 h-10 rounded-xl bg-secondary-200/80" />
+          </div>
+          <div className="flex items-center gap-2 overflow-x-hidden">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="w-24 sm:w-28 h-9 rounded-full bg-secondary-200/80 shrink-0" />
+              <div key={i} className="w-28 h-9 rounded-full bg-secondary-200/80 shrink-0" />
             ))}
           </div>
-          <div className="w-full xl:w-80 h-10 rounded-xl bg-secondary-200/80 shrink-0" />
         </div>
 
         {/* Uniform 3-Column Grid Cards Skeleton */}

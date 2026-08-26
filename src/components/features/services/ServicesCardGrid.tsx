@@ -37,10 +37,42 @@ export function ServicesCardGrid({ services }: ServicesCardGridProps) {
 
   return (
     <section className="w-full py-8 sm:py-12 lg:py-14 space-y-8 sm:space-y-10">
-      {/* Category Filter Tabs & Live Search Bar */}
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 pb-6 border-b border-secondary-200/80">
-        {/* Category Pill Buttons - Flex-wrapped cleanly to prevent cutting off on mobile */}
-        <div className="flex items-center flex-wrap gap-2 flex-1">
+      {/* Two-Tier Studio Filter Header */}
+      <div className="space-y-4 pb-6 border-b border-secondary-200/80">
+        {/* Tier 1: Category Title & Count on Left + Search Box on Right */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <span className="font-heading text-base sm:text-lg lg:text-xl font-bold text-grey-950">
+              {selectedCategory === "All" ? "All Craftsmanship Offerings" : selectedCategory}
+            </span>
+            <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-secondary-200/80 text-grey-750">
+              {filteredServices.length} {filteredServices.length === 1 ? "Service" : "Services"}
+            </span>
+          </div>
+
+          {/* Search Input Box */}
+          <div className="relative w-full sm:w-72 md:w-80 shrink-0">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-grey-500 pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search services (e.g. woodworking, 3D)..."
+              className="w-full pl-10 pr-12 py-2 rounded-xl border border-secondary-200/90 bg-white font-body text-xs sm:text-sm text-grey-950 placeholder:text-grey-500 focus:outline-none focus:border-primary-950 focus:ring-1 focus:ring-primary-950 transition-all shadow-xs"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-grey-500 hover:text-grey-950 cursor-pointer font-medium"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Tier 2: Single-Line Horizontal Scroll Category Pills (No Wrap, No Orphans) */}
+        <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1 overscroll-x-contain">
           {CATEGORIES.map((cat) => {
             const isActive = selectedCategory === cat;
             const count =
@@ -53,7 +85,7 @@ export function ServicesCardGrid({ services }: ServicesCardGridProps) {
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3.5 sm:px-4 py-2 rounded-full font-body text-xs sm:text-sm font-medium transition-all duration-200 whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                className={`px-3.5 sm:px-4 py-2 rounded-full font-body text-xs sm:text-sm font-medium transition-all duration-200 whitespace-nowrap cursor-pointer flex items-center gap-1.5 shrink-0 ${
                   isActive
                     ? "bg-primary-950 text-white shadow-md scale-102"
                     : "bg-secondary-100/80 text-grey-800 hover:bg-secondary-200/90 hover:text-primary-950"
@@ -75,26 +107,6 @@ export function ServicesCardGrid({ services }: ServicesCardGridProps) {
               </button>
             );
           })}
-        </div>
-
-        {/* Search Input Box */}
-        <div className="relative w-full xl:w-80 shrink-0">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-grey-500 pointer-events-none" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search services (e.g. woodworking, 3D)..."
-            className="w-full pl-10 pr-12 py-2 rounded-xl border border-secondary-200/90 bg-white font-body text-xs sm:text-sm text-grey-950 placeholder:text-grey-500 focus:outline-none focus:border-primary-950 focus:ring-1 focus:ring-primary-950 transition-all shadow-xs"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-grey-500 hover:text-grey-950 cursor-pointer font-medium"
-            >
-              Clear
-            </button>
-          )}
         </div>
       </div>
 
