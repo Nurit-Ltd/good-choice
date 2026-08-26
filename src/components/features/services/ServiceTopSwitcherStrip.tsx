@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ServiceItem } from "@/types/service";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
-import { ChevronLeft, ChevronRight, ArrowRight, Sparkles } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight, Layers } from "lucide-react";
 
 interface ServiceTopSwitcherStripProps {
   services: ServiceItem[];
@@ -65,7 +65,7 @@ export function ServiceTopSwitcherStrip({ services, currentSlug }: ServiceTopSwi
       <div className="container mx-auto">
         <div className="flex items-center justify-between gap-4 mb-2 px-1">
           <div className="flex items-center gap-1.5 text-xs font-semibold text-grey-800 tracking-wide uppercase">
-            <Sparkles className="w-3.5 h-3.5 text-primary-950" style={{ color: "var(--color-primary-950, #62103A)" }} />
+            <Layers className="w-3.5 h-3.5 text-primary-950" style={{ color: "var(--color-primary-950, #62103A)" }} />
             <span>Explore All Craftsmanship Services ({services.length})</span>
           </div>
 

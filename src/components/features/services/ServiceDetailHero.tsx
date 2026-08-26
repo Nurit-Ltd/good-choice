@@ -115,7 +115,7 @@ export function ServiceDetailHero({ service, onOpenQuoteModal }: ServiceDetailHe
                 </p>
               </div>
               <span className="hidden sm:inline-flex px-3 py-1 rounded-full text-xs font-bold text-white bg-primary-950 shrink-0 ml-3" style={{ backgroundColor: "var(--color-primary-950, #62103A)" }}>
-                ✨ Atelier Quality
+                Atelier Quality
               </span>
             </div>
           </div>

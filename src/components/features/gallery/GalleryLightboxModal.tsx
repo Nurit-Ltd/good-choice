@@ -128,8 +128,7 @@ export function GalleryLightboxModal({
           <div className="space-y-4">
             {/* Category Tag */}
             <div className="flex items-center gap-1.5">
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-primary-950/10 text-primary-950">
-                <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary-950/10 text-primary-950">
                 {currentItem.category}
               </span>
             </div>

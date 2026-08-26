@@ -158,8 +158,7 @@ export function ServicesCardGrid({ services }: ServicesCardGridProps) {
 
                   {/* Top Floating Badges */}
                   <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10 pointer-events-none">
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/95 text-primary-950 shadow-sm backdrop-blur-md">
-                      <Sparkles className="w-3 h-3 text-amber-600 shrink-0" />
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/95 text-primary-950 shadow-sm backdrop-blur-md">
                       <span className="truncate max-w-[130px]">{service.category}</span>
                     </span>
 
