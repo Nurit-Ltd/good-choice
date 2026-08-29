@@ -27,6 +27,7 @@ export async function fetchStrapiAPI<T = unknown>(
   try {
     const res = await fetch(url, {
       headers: defaultHeaders,
+      signal: options.signal || AbortSignal.timeout(4000),
       next: {
         tags: tags.length > 0 ? tags : ['global-settings'],
         revalidate,

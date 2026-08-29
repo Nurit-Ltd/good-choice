@@ -7,8 +7,12 @@ import { GalleryLightboxModal } from "@/components/features/gallery/GalleryLight
 import { GallerySkeleton } from "@/components/features/gallery/GallerySkeleton";
 import { useSiteSettings } from "@/hooks/use-site-settings";
 
-export function GalleryPageClient() {
-  const { data: galleryItems, isLoading } = useGallery();
+interface GalleryPageClientProps {
+  initialData?: any[];
+}
+
+export function GalleryPageClient({ initialData }: GalleryPageClientProps = {}) {
+  const { data: galleryItems, isLoading } = useGallery(initialData);
   const { data: settings } = useSiteSettings();
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
