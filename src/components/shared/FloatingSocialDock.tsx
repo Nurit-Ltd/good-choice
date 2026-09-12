@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react";
 import { FacebookIcon, InstagramIcon, WhatsappIcon } from "@/components/shared/svgs";
 import { useSiteSettings } from "@/hooks/use-site-settings";
-import { X, MessageCircle } from "lucide-react";
+import { X } from "lucide-react";
 
 interface FloatingSocialDockProps {
   whatsappUrl?: string;
