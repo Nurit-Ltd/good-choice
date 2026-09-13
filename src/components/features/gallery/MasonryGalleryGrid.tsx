@@ -2,18 +2,35 @@
 
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
-import { GalleryItem, GalleryCategory } from "@/types/gallery";
-import { GALLERY_CATEGORIES } from "@/hooks/useGallery";
-import { Search, Sparkles, Filter, Maximize2, Tag } from "lucide-react";
+import { GalleryItem } from "@/types/gallery";
+import { Search, Filter, Maximize2 } from "lucide-react";
 
 interface MasonryGalleryGridProps {
   items: GalleryItem[];
   onOpenLightbox: (index: number) => void;
+  catalogTitle?: string;
+  searchPlaceholder?: string;
 }
 
-export function MasonryGalleryGrid({ items, onOpenLightbox }: MasonryGalleryGridProps) {
-  const [selectedCategory, setSelectedCategory] = useState<"All" | GalleryCategory>("All");
+export function MasonryGalleryGrid({
+  items,
+  onOpenLightbox,
+  catalogTitle = "All Craftsmanship Creations",
+  searchPlaceholder = "Search by keyword, wood, majlis...",
+}: MasonryGalleryGridProps) {
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Derive categories dynamically from active items
+  const categories = useMemo(() => {
+    const cats = new Set<string>();
+    items.forEach((item) => {
+      if (item.category && item.category.trim()) {
+        cats.add(item.category.trim());
+      }
+    });
+    return ["All", ...Array.from(cats)];
+  }, [items]);
 
   const filteredItems = useMemo(() => {
     return items.filter((item) => {
@@ -23,7 +40,7 @@ export function MasonryGalleryGrid({ items, onOpenLightbox }: MasonryGalleryGrid
         item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (item.description && item.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        (item.tags && item.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase())));
+        (item.serviceTitle && item.serviceTitle.toLowerCase().includes(searchQuery.toLowerCase()));
       return matchesCategory && matchesSearch;
     });
   }, [items, selectedCategory, searchQuery]);
@@ -52,7 +69,7 @@ export function MasonryGalleryGrid({ items, onOpenLightbox }: MasonryGalleryGrid
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="font-heading text-base sm:text-lg lg:text-xl font-bold text-grey-950">
-              {selectedCategory === "All" ? "All Craftsmanship Creations" : selectedCategory}
+              {selectedCategory === "All" ? catalogTitle : selectedCategory}
             </span>
             <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-secondary-200/80 text-grey-750">
               {filteredItems.length} {filteredItems.length === 1 ? "Item" : "Items"}
@@ -66,7 +83,7 @@ export function MasonryGalleryGrid({ items, onOpenLightbox }: MasonryGalleryGrid
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by keyword, wood, majlis..."
+              placeholder={searchPlaceholder}
               className="w-full pl-10 pr-12 py-2 rounded-xl border border-secondary-200/90 bg-white font-body text-xs sm:text-sm text-grey-950 placeholder:text-grey-500 focus:outline-none focus:border-primary-950 focus:ring-1 focus:ring-primary-950 transition-all shadow-xs"
             />
             {searchQuery && (
@@ -80,9 +97,9 @@ export function MasonryGalleryGrid({ items, onOpenLightbox }: MasonryGalleryGrid
           </div>
         </div>
 
-        {/* Tier 2: Single-Line Horizontal Scroll Category Pills (No Wrap, No Orphans) */}
+        {/* Tier 2: Single-Line Horizontal Scroll Category Pills */}
         <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1 overscroll-x-contain">
-          {GALLERY_CATEGORIES.map((cat) => {
+          {categories.map((cat) => {
             const isActive = selectedCategory === cat;
             const count =
               cat === "All"
@@ -181,23 +198,15 @@ export function MasonryGalleryGrid({ items, onOpenLightbox }: MasonryGalleryGrid
                     </span>
                   </div>
 
-                  {/* Bottom Info Overlay on Hover */}
+                  {/* Bottom Info Overlay on Hover (Clean, without tags) */}
                   <div className="absolute bottom-0 inset-x-0 p-4 z-10 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 space-y-1">
                     <h3 className="font-heading text-sm sm:text-base font-bold text-white leading-snug line-clamp-2">
                       {item.title}
                     </h3>
-                    {item.tags && item.tags.length > 0 && (
-                      <div className="flex flex-wrap items-center gap-1 pt-1">
-                        {item.tags.slice(0, 2).map((t, i) => (
-                          <span
-                            key={i}
-                            className="inline-flex items-center gap-1 text-xs text-white/80 bg-white/15 backdrop-blur-xs px-2 py-0.5 rounded-md"
-                          >
-                            <Tag className="w-3 h-3 text-white/60" />
-                            {t}
-                          </span>
-                        ))}
-                      </div>
+                    {item.serviceTitle && item.serviceTitle !== item.title && (
+                      <p className="font-body text-xs text-white/80 line-clamp-1">
+                        {item.serviceTitle}
+                      </p>
                     )}
                   </div>
                 </div>

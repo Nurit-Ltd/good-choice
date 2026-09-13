@@ -1,20 +1,9 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { GalleryItem, GalleryCategory } from "@/types/gallery";
+import { GalleryItem } from "@/types/gallery";
 import { MOCK_GALLERY_ITEMS } from "@/data/mock-gallery";
 import { getGalleryItemsFromAPI } from "@/services/galleryService";
-
-export const GALLERY_CATEGORIES: ("All" | GalleryCategory)[] = [
-  "All",
-  "Luxury Sofas",
-  "Arabic Majlis",
-  "Beds & Headboards",
-  "Dining & Tables",
-  "Lighting & Decor",
-  "Restoration & Repair",
-  "Commercial Fitting",
-];
 
 export function useGallery(initialData?: GalleryItem[]) {
   return useQuery<GalleryItem[]>({

@@ -2,17 +2,21 @@
 
 import React, { useState } from "react";
 import { useGallery } from "@/hooks/useGallery";
+import { useGalleryPage } from "@/hooks/useGalleryPage";
 import { MasonryGalleryGrid } from "@/components/features/gallery/MasonryGalleryGrid";
 import { GalleryLightboxModal } from "@/components/features/gallery/GalleryLightboxModal";
 import { GallerySkeleton } from "@/components/features/gallery/GallerySkeleton";
 import { useSiteSettings } from "@/hooks/use-site-settings";
+import { GalleryItem, GalleryPageData } from "@/types/gallery";
 
 interface GalleryPageClientProps {
-  initialData?: any[];
+  initialData?: GalleryItem[];
+  initialPageData?: GalleryPageData;
 }
 
-export function GalleryPageClient({ initialData }: GalleryPageClientProps = {}) {
+export function GalleryPageClient({ initialData, initialPageData }: GalleryPageClientProps = {}) {
   const { data: galleryItems, isLoading } = useGallery(initialData);
+  const { data: pageSettings } = useGalleryPage(initialPageData);
   const { data: settings } = useSiteSettings();
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
@@ -33,7 +37,12 @@ export function GalleryPageClient({ initialData }: GalleryPageClientProps = {}) 
 
   return (
     <>
-      <MasonryGalleryGrid items={items} onOpenLightbox={handleOpenLightbox} />
+      <MasonryGalleryGrid
+        items={items}
+        onOpenLightbox={handleOpenLightbox}
+        catalogTitle={pageSettings?.catalogTitle}
+        searchPlaceholder={pageSettings?.searchPlaceholder}
+      />
 
       {/* Interactive Lightbox Modal */}
       <GalleryLightboxModal
@@ -43,6 +52,8 @@ export function GalleryPageClient({ initialData }: GalleryPageClientProps = {}) 
         currentIndex={selectedPhotoIndex}
         onIndexChange={setSelectedPhotoIndex}
         whatsappNumber={whatsappNumber}
+        whatsappButtonText={pageSettings?.whatsappButtonText}
+        serviceButtonText={pageSettings?.serviceButtonText}
       />
     </>
   );
