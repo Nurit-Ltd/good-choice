@@ -36,7 +36,7 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
         ) : (
           <Package className="opacity-60 stroke-[1.5]" size={iconSize} />
         )}
-        <span className="mt-1.5 text-[10px] uppercase tracking-wider font-semibold opacity-60 text-stone-600 dark:text-stone-300">
+        <span className="mt-1.5 text-xs uppercase tracking-wider font-semibold opacity-60 text-stone-600 dark:text-stone-300">
           No Image (Strapi CMS)
         </span>
       </div>

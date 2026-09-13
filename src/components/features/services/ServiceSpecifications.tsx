@@ -6,9 +6,16 @@ import { CheckCircle2, ShieldAlert } from "lucide-react";
 interface ServiceSpecificationsProps {
   features?: string[];
   specifications?: ServiceSpecification[];
+  featuresTitle?: string;
+  specificationsTitle?: string;
 }
 
-export function ServiceSpecifications({ features = [], specifications = [] }: ServiceSpecificationsProps) {
+export function ServiceSpecifications({
+  features = [],
+  specifications = [],
+  featuresTitle = "Service Features & Quality Commitments",
+  specificationsTitle = "Technical Specifications & Standards",
+}: ServiceSpecificationsProps) {
   if (features.length === 0 && specifications.length === 0) return null;
 
   return (
@@ -19,7 +26,7 @@ export function ServiceSpecifications({ features = [], specifications = [] }: Se
           <div className="lg:col-span-6 space-y-4">
             <h3 className="font-heading text-xl font-bold text-grey-950 flex items-center gap-2">
               <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-              Service Features & Quality Commitments
+              {featuresTitle}
             </h3>
             <div className="p-6 rounded-2xl bg-white border border-secondary-200/80 shadow-xs space-y-3">
               {features.map((feat, idx) => (
@@ -37,7 +44,7 @@ export function ServiceSpecifications({ features = [], specifications = [] }: Se
           <div className="lg:col-span-6 space-y-4">
             <h3 className="font-heading text-xl font-bold text-grey-950 flex items-center gap-2">
               <ShieldAlert className="w-5 h-5 text-primary-950" style={{ color: "var(--color-primary-950, #62103A)" }} />
-              Technical Specifications & Standards
+              {specificationsTitle}
             </h3>
             <div className="p-6 rounded-2xl bg-white border border-secondary-200/80 shadow-xs divide-y divide-secondary-100">
               {specifications.map((spec, idx) => (

@@ -6,9 +6,17 @@ import { CheckCircle2, Clock, Layers } from "lucide-react";
 
 interface ServiceProcessTabsProps {
   steps: ProcessStep[];
+  badgeText?: string;
+  sectionTitle?: string;
+  sectionSubtitle?: string;
 }
 
-export function ServiceProcessTabs({ steps }: ServiceProcessTabsProps) {
+export function ServiceProcessTabs({
+  steps,
+  badgeText = "Step-by-Step Workflow",
+  sectionTitle = "How We Deliver Service Excellence",
+  sectionSubtitle = "Click on any step below to explore our meticulous quality control timeline.",
+}: ServiceProcessTabsProps) {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
 
   if (!steps || steps.length === 0) return null;
@@ -24,15 +32,15 @@ export function ServiceProcessTabs({ steps }: ServiceProcessTabsProps) {
             <div className="flex items-center gap-2 mb-1">
               <Layers className="w-4 h-4 text-primary-950" style={{ color: "var(--color-primary-950, #62103A)" }} />
               <span className="font-body text-xs font-semibold uppercase tracking-wider text-primary-950" style={{ color: "var(--color-primary-950, #62103A)" }}>
-                Step-by-Step Workflow
+                {badgeText}
               </span>
             </div>
             <h2 className="font-heading text-2xl sm:text-3xl font-bold text-grey-950">
-              How We Deliver Service Excellence
+              {sectionTitle}
             </h2>
           </div>
           <p className="font-body text-xs text-grey-600 max-w-md">
-            Click on any step below to explore our meticulous quality control timeline.
+            {sectionSubtitle}
           </p>
         </div>
 
@@ -73,7 +81,7 @@ export function ServiceProcessTabs({ steps }: ServiceProcessTabsProps) {
                     {step.title}
                   </h4>
                   {step.duration && (
-                    <span className={`text-[11px] font-body block mt-0.5 ${isActive ? "text-white/80" : "text-grey-500"}`}>
+                    <span className={`text-xs font-body block mt-0.5 ${isActive ? "text-white/80" : "text-grey-500"}`}>
                       ⏳ {step.duration}
                     </span>
                   )}

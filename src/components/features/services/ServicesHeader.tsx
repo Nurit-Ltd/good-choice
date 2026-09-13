@@ -39,7 +39,7 @@ export function ServicesHeader({
         </h1>
 
         {/* Breadcrumb Single Line */}
-        <nav className="flex items-center justify-center gap-1.5 sm:gap-2 font-body text-[11px] sm:text-sm text-white/80 pt-1 max-w-full overflow-hidden whitespace-nowrap">
+        <nav className="flex items-center justify-center gap-1.5 sm:gap-2 font-body text-xs sm:text-sm text-white/80 pt-1 max-w-full overflow-hidden whitespace-nowrap">
           <Link href="/" className="hover:text-white transition-colors shrink-0">
             {categoryParent}
           </Link>

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { GalleryItem } from "@/types/gallery";
 import { WhatsappIcon } from "@/components/shared/svgs";
-import { X, ChevronLeft, ChevronRight, Sparkles, ArrowRight, Tag } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 
 interface GalleryLightboxModalProps {
   isOpen: boolean;
@@ -14,6 +14,8 @@ interface GalleryLightboxModalProps {
   currentIndex: number;
   onIndexChange: (newIndex: number) => void;
   whatsappNumber?: string;
+  whatsappButtonText?: string;
+  serviceButtonText?: string;
 }
 
 export function GalleryLightboxModal({
@@ -23,6 +25,8 @@ export function GalleryLightboxModal({
   currentIndex,
   onIndexChange,
   whatsappNumber = "+8801700000000",
+  whatsappButtonText = "Inquire on WhatsApp",
+  serviceButtonText = "View Craftsmanship Service",
 }: GalleryLightboxModalProps) {
   const currentItem = items[currentIndex];
 
@@ -106,13 +110,10 @@ export function GalleryLightboxModal({
         </button>
       )}
 
-      {/* Main Modal Card Container */}
-      <div
-        className="relative z-40 max-w-5xl w-full max-h-[90vh] bg-white rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row border border-secondary-200/80"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Visual Image Section */}
-        <div className="relative flex-1 min-h-75 sm:min-h-105 md:min-h-135 bg-secondary-900/90 flex items-center justify-center overflow-hidden">
+      {/* Modal Dialog Card */}
+      <div className="relative z-40 max-w-5xl w-full max-h-[92vh] bg-neutral-900 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/10 flex flex-col md:flex-row">
+        {/* Photo Container */}
+        <div className="relative flex-1 min-h-[45vh] md:min-h-[60vh] lg:min-h-[70vh] bg-black/90 flex items-center justify-center">
           <Image
             src={currentItem.imageUrl}
             alt={currentItem.title}
@@ -133,32 +134,22 @@ export function GalleryLightboxModal({
               </span>
             </div>
 
-            {/* Title & Description */}
+            {/* Title & Service Reference */}
             <div className="space-y-2">
               <h3 className="font-heading text-xl lg:text-2xl font-bold text-grey-950 leading-tight">
                 {currentItem.title}
               </h3>
+              {currentItem.serviceTitle && currentItem.serviceTitle !== currentItem.title && (
+                <p className="font-body text-xs font-medium text-primary-950">
+                  Part of {currentItem.serviceTitle}
+                </p>
+              )}
               {currentItem.description && (
                 <p className="font-body text-xs sm:text-sm text-grey-650 leading-relaxed">
                   {currentItem.description}
                 </p>
               )}
             </div>
-
-            {/* Tags */}
-            {currentItem.tags && currentItem.tags.length > 0 && (
-              <div className="flex flex-wrap items-center gap-1.5 pt-2">
-                {currentItem.tags.map((tag, i) => (
-                  <span
-                    key={i}
-                    className="inline-flex items-center gap-1 text-[11px] font-medium text-grey-600 bg-secondary-100/80 px-2.5 py-0.8 rounded-lg"
-                  >
-                    <Tag className="w-2.5 h-2.5 text-grey-400" />
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
           </div>
 
           {/* Direct CTA Buttons */}
@@ -170,7 +161,7 @@ export function GalleryLightboxModal({
               className="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-body text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20 active:scale-98"
             >
               <WhatsappIcon className="w-5 h-5 text-white" />
-              <span>Inquire on WhatsApp</span>
+              <span>{whatsappButtonText}</span>
             </a>
 
             {currentItem.serviceSlug && (
@@ -179,7 +170,7 @@ export function GalleryLightboxModal({
                 onClick={onClose}
                 className="w-full py-2.5 px-4 rounded-xl bg-secondary-100 hover:bg-secondary-200/80 text-grey-900 font-body text-xs sm:text-sm font-semibold transition-colors flex items-center justify-center gap-1.5"
               >
-                <span>View Craftsmanship Service</span>
+                <span>{serviceButtonText}</span>
                 <ArrowRight className="w-3.5 h-3.5 text-primary-950" />
               </Link>
             )}

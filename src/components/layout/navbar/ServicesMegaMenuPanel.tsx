@@ -2,6 +2,7 @@
 
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { useServices } from "@/hooks/useServices";
+import { useServicesPage } from "@/hooks/useServicesPage";
 import { ArrowRight, Layers, Sparkles } from "lucide-react";
 import Link from "next/link";
 
@@ -15,6 +16,7 @@ interface ServicesMegaMenuPanelProps {
 export function ServicesMegaMenuPanel({ hoveredNav, onMouseEnter, onMouseLeave, onItemClick }: ServicesMegaMenuPanelProps) {
   const isHovered = hoveredNav === "Services" || hoveredNav === "Service";
   const { featuredServices, totalCountLabel, totalCount } = useServices();
+  const { data: pageSettings } = useServicesPage();
 
   // Pick top 3 services for mega menu
   const topThree = featuredServices.slice(0, 3);
@@ -39,7 +41,7 @@ export function ServicesMegaMenuPanel({ hoveredNav, onMouseEnter, onMouseLeave, 
           <div className="flex items-center gap-2">
             <Layers className="w-5 h-5 text-primary-950" style={{ color: "var(--color-primary-950, #62103A)" }} />
             <h3 className="font-heading text-lg font-bold tracking-wide" style={{ color: "var(--color-primary-950, #62103A)" }}>
-              Craftsmanship & Bespoke Services
+              {pageSettings?.headerTitle || "Craftsmanship & Bespoke Services"}
             </h3>
           </div>
         </div>
@@ -60,12 +62,8 @@ export function ServicesMegaMenuPanel({ hoveredNav, onMouseEnter, onMouseLeave, 
               {/* Dark Gradient Overlay for Maximum Text Contrast */}
               <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/50 to-transparent transition-opacity group-hover:opacity-95" />
 
-              {/* Category Pill Tag */}
-              <div className="relative z-10 mb-auto">
-                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-white/90 bg-white/20 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20">
-                  {service.category}
-                </span>
-              </div>
+              {/* Spacer for top */}
+              <div className="relative z-10 mb-auto" />
 
               {/* Title, Short Description, and Learn More CTA */}
               <div className="relative z-10 space-y-2">

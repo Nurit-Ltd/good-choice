@@ -12,8 +12,8 @@ export function Handcraft() {
 
   const img1 = aboutData?.handcraftImage1 || "/images/about/handcraft/handcraft-1.png";
   const img2 = aboutData?.handcraftImage2 || "/images/about/handcraft/handcraft-2.png";
-  const defaultImg3 = "/images/about/handcraft/handcraft-3.png";
-  const defaultImg4 = "/images/about/handcraft/handcraft-4.png";
+  const img3 = aboutData?.handcraftImage3 || "/images/about/handcraft/handcraft-3.png";
+  const img4 = aboutData?.handcraftImage4 || "/images/about/handcraft/handcraft-4.png";
 
   return (
     <section className="w-full py-16 sm:py-24">
@@ -62,22 +62,30 @@ export function Handcraft() {
           <div className="flex flex-col gap-8">
             <div className="grid grid-cols-2 gap-4 sm:gap-6">
               <div className="relative w-full aspect-398/500 rounded-lg overflow-hidden shadow-sm bg-secondary-100 group">
-                <Image
-                  src={defaultImg3}
-                  alt="Artisan crafting bespoke furniture"
-                  fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover img-hover-scale"
-                />
+                {img3 ? (
+                  <Image
+                    src={img3}
+                    alt="Artisan crafting bespoke furniture"
+                    fill
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    className="object-cover img-hover-scale"
+                  />
+                ) : (
+                  <CmsImagePlaceholder label="Craft Image 3 Missing" aspectRatio="aspect-398/500" />
+                )}
               </div>
               <div className="relative w-full aspect-398/500 rounded-lg overflow-hidden shadow-sm bg-secondary-100 group">
-                <Image
-                  src={defaultImg4}
-                  alt="Handcrafted furniture workshop"
-                  fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover img-hover-scale"
-                />
+                {img4 ? (
+                  <Image
+                    src={img4}
+                    alt="Handcrafted furniture workshop"
+                    fill
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    className="object-cover img-hover-scale"
+                  />
+                ) : (
+                  <CmsImagePlaceholder label="Craft Image 4 Missing" aspectRatio="aspect-398/500" />
+                )}
               </div>
             </div>
 
@@ -87,9 +95,7 @@ export function Handcraft() {
               style={{ color: "var(--color-grey-950, #292929)" }}
             >
               <p>{subtitle}</p>
-              <p>
-                From material selection to final finishing, precision defines our process, resulting in elegant, durable furniture that elevates living spaces, offers lasting comfort, and reflects an unwavering commitment to timeless sophistication and refined luxury aesthetics.
-              </p>
+              
             </div>
           </div>
         </div>

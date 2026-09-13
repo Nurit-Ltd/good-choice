@@ -2,26 +2,36 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { ServiceItem, ServiceCategory } from "@/types/service";
+import { ServiceItem, ServiceCategoryItem } from "@/types/service";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { Search, ArrowRight, Sparkles, Filter } from "lucide-react";
 
 interface ServicesCardGridProps {
   services: ServiceItem[];
+  categories?: ServiceCategoryItem[];
+  catalogTitle?: string;
 }
 
-const CATEGORIES: ("All" | ServiceCategory)[] = [
-  "All",
-  "Bespoke Furniture",
-  "Interior Design",
-  "Restoration & Repair",
-  "Architectural Millwork",
-  "Commercial & Office",
-];
-
-export function ServicesCardGrid({ services }: ServicesCardGridProps) {
-  const [selectedCategory, setSelectedCategory] = useState<"All" | ServiceCategory>("All");
+export function ServicesCardGrid({
+  services,
+  categories,
+  catalogTitle = "All Craftsmanship Offerings",
+}: ServicesCardGridProps) {
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Dynamically populate category pills from Strapi or distinct active service categories
+  const categoryPills = useMemo(() => {
+    if (categories && categories.length > 0) {
+      const activeCats = categories
+        .filter((c) => c.isActive !== false)
+        .sort((a, b) => (a.orderBy ?? 0) - (b.orderBy ?? 0))
+        .map((c) => c.name);
+      return ["All", ...activeCats];
+    }
+    const distinct = Array.from(new Set(services.map((s) => s.category))).filter(Boolean);
+    return ["All", ...distinct];
+  }, [categories, services]);
 
   const filteredServices = useMemo(() => {
     return services.filter((service) => {
@@ -43,7 +53,7 @@ export function ServicesCardGrid({ services }: ServicesCardGridProps) {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="font-heading text-base sm:text-lg lg:text-xl font-bold text-grey-950">
-              {selectedCategory === "All" ? "All Craftsmanship Offerings" : selectedCategory}
+              {selectedCategory === "All" ? catalogTitle : selectedCategory}
             </span>
             <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-secondary-200/80 text-grey-750">
               {filteredServices.length} {filteredServices.length === 1 ? "Service" : "Services"}
@@ -73,7 +83,7 @@ export function ServicesCardGrid({ services }: ServicesCardGridProps) {
 
         {/* Tier 2: Single-Line Horizontal Scroll Category Pills (No Wrap, No Orphans) */}
         <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1 overscroll-x-contain">
-          {CATEGORIES.map((cat) => {
+          {categoryPills.map((cat) => {
             const isActive = selectedCategory === cat;
             const count =
               cat === "All"
@@ -98,7 +108,7 @@ export function ServicesCardGrid({ services }: ServicesCardGridProps) {
               >
                 <span>{cat}</span>
                 <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                  className={`text-xs px-2 py-0.5 rounded-full font-medium ${
                     isActive ? "bg-white/20 text-white" : "bg-secondary-200/80 text-grey-600"
                   }`}
                 >
@@ -140,9 +150,10 @@ export function ServicesCardGrid({ services }: ServicesCardGridProps) {
             const serialNumber = String(index + 1).padStart(2, "0");
 
             return (
-              <div
+              <Link
                 key={service.id}
-                className="group relative rounded-2xl overflow-hidden bg-white border border-secondary-200/80 shadow-xs hover:shadow-xl hover:border-primary-900/30 transition-all duration-300 flex flex-col justify-between h-full"
+                href={`/services/${service.slug}`}
+                className="group relative rounded-2xl overflow-hidden bg-white border border-secondary-200/80 shadow-xs hover:shadow-xl hover:border-primary-900/30 transition-all duration-300 flex flex-col justify-between h-full cursor-pointer"
               >
                 {/* Image Container with Locked 16:10 Aspect Ratio & Overlays */}
                 <div className="relative w-full aspect-[16/10] overflow-hidden bg-secondary-100">
@@ -158,11 +169,11 @@ export function ServicesCardGrid({ services }: ServicesCardGridProps) {
 
                   {/* Top Floating Badges */}
                   <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10 pointer-events-none">
-                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/95 text-primary-950 shadow-sm backdrop-blur-md">
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-white/95 text-primary-950 shadow-sm backdrop-blur-md">
                       <span className="truncate max-w-[130px]">{service.category}</span>
                     </span>
 
-                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-black/40 text-white/90 backdrop-blur-md border border-white/20">
+                    <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-semibold bg-black/40 text-white/90 backdrop-blur-md border border-white/20">
                       {serialNumber}
                     </span>
                   </div>
@@ -171,14 +182,12 @@ export function ServicesCardGrid({ services }: ServicesCardGridProps) {
                 {/* Card Content Body */}
                 <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
                   <div className="space-y-2">
-                    <Link href={`/services/${service.slug}`} className="block">
-                      <h3
-                        className="font-heading text-lg sm:text-xl font-bold text-grey-950 group-hover:text-primary-950 transition-colors line-clamp-1 break-words"
-                        title={service.title}
-                      >
-                        {service.title}
-                      </h3>
-                    </Link>
+                    <h3
+                      className="font-heading text-lg sm:text-xl font-bold text-grey-950 group-hover:text-primary-950 transition-colors line-clamp-1 break-words"
+                      title={service.title}
+                    >
+                      {service.title}
+                    </h3>
                     <p
                       className="font-body text-xs sm:text-sm text-grey-600 leading-relaxed line-clamp-2 break-words"
                       title={service.shortDescription}
@@ -189,17 +198,16 @@ export function ServicesCardGrid({ services }: ServicesCardGridProps) {
 
                   {/* Bottom Footer CTA (Divider + Left-Aligned Explore Link) */}
                   <div className="pt-4 border-t border-secondary-100/80 flex items-center justify-start">
-                    <Link
-                      href={`/services/${service.slug}`}
-                      className="inline-flex items-center gap-1.5 font-body text-xs sm:text-sm font-bold text-primary-950 hover:text-primary-800 transition-colors group/link"
+                    <div
+                      className="inline-flex items-center gap-1.5 font-body text-xs sm:text-sm font-bold text-primary-950 transition-colors"
                       style={{ color: "var(--color-primary-950, #62103A)" }}
                     >
                       <span>Explore Service</span>
-                      <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover/link:translate-x-1" />
-                    </Link>
+                      <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

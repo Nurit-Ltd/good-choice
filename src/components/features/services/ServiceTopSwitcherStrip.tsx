@@ -9,9 +9,10 @@ import { ChevronLeft, ChevronRight, ArrowRight, Layers } from "lucide-react";
 interface ServiceTopSwitcherStripProps {
   services: ServiceItem[];
   currentSlug: string;
+  switcherTitle?: string;
 }
 
-export function ServiceTopSwitcherStrip({ services, currentSlug }: ServiceTopSwitcherStripProps) {
+export function ServiceTopSwitcherStrip({ services, currentSlug, switcherTitle }: ServiceTopSwitcherStripProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const activeCardRef = useRef<HTMLAnchorElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -60,13 +61,17 @@ export function ServiceTopSwitcherStrip({ services, currentSlug }: ServiceTopSwi
 
   if (!services || services.length === 0) return null;
 
+  const displayTitle = switcherTitle || "Explore All Craftsmanship Services";
+
   return (
     <section className="w-full bg-secondary-50/70 border-y border-secondary-200/80 py-3 sm:py-3.5 px-2 sm:px-4">
       <div className="container mx-auto">
         <div className="flex items-center justify-between gap-4 mb-2 px-1">
           <div className="flex items-center gap-1.5 text-xs font-semibold text-grey-800 tracking-wide uppercase">
             <Layers className="w-3.5 h-3.5 text-primary-950" style={{ color: "var(--color-primary-950, #62103A)" }} />
-            <span>Explore All Craftsmanship Services ({services.length})</span>
+            <span>
+              {displayTitle} ({services.length})
+            </span>
           </div>
 
           {/* Slider Arrow Controls (Desktop/Tablet) */}
@@ -135,10 +140,7 @@ export function ServiceTopSwitcherStrip({ services, currentSlug }: ServiceTopSwi
                 </div>
 
                 {/* Title & Metadata */}
-                <div className="flex-1 min-w-0 space-y-0.5">
-                  <span className="block text-[10px] font-medium text-grey-500 uppercase tracking-wider truncate">
-                    {s.category}
-                  </span>
+                <div className="flex-1 min-w-0 space-y-1">
                   <h4
                     className={`font-heading text-xs sm:text-sm font-bold truncate transition-colors ${
                       isActive ? "text-primary-950" : "text-grey-900 group-hover:text-primary-950"
@@ -150,14 +152,14 @@ export function ServiceTopSwitcherStrip({ services, currentSlug }: ServiceTopSwi
 
                   {/* Active / Inactive Status Indicator */}
                   {isActive ? (
-                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-primary-950">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-bold text-primary-950">
                       <span className="w-1.5 h-1.5 rounded-full bg-primary-950 animate-pulse" />
                       Currently Viewing
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 text-[10px] font-medium text-grey-500 group-hover:text-primary-950 transition-colors">
+                    <span className="inline-flex items-center gap-1 text-xs font-medium text-grey-500 group-hover:text-primary-950 transition-colors">
                       <span>View Service</span>
-                      <ArrowRight className="w-2.5 h-2.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+                      <ArrowRight className="w-3 h-3 transition-transform duration-200 group-hover:translate-x-0.5" />
                     </span>
                   )}
                 </div>

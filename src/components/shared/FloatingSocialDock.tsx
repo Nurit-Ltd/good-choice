@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react";
 import { FacebookIcon, InstagramIcon, WhatsappIcon } from "@/components/shared/svgs";
 import { useSiteSettings } from "@/hooks/use-site-settings";
-import { X, MessageCircle } from "lucide-react";
+import { X } from "lucide-react";
 
 interface FloatingSocialDockProps {
   whatsappUrl?: string;
@@ -112,17 +112,17 @@ export function FloatingSocialDock({
 
   return (
     <>
-      {/* 1. DESKTOP FLOATING DOCK (Fixed right side, vertical glassmorphic dock) */}
+      {/* 1. DESKTOP FLOATING DOCK (Fixed left side, vertical glassmorphic dock) */}
       <aside
         aria-label="Social media floating links"
-        className="hidden md:flex fixed right-4 top-1/2 -translate-y-1/2 z-40 flex-col gap-2.5 p-2 rounded-2xl bg-white/85 backdrop-blur-md border border-secondary-200/90 shadow-xl shadow-black/5 select-none"
+        className="hidden md:flex fixed left-4 top-1/2 -translate-y-1/2 z-40 flex-col gap-2.5 p-2 rounded-2xl bg-white/85 backdrop-blur-md border border-secondary-200/90 shadow-xl shadow-black/5 select-none"
       >
         {socialItems.map((social) => {
           const Icon = social.icon;
           return (
             <div key={social.id} className="relative group/tooltip flex items-center">
-              {/* Sliding Tooltip on Left */}
-              <span className="absolute right-full mr-3.5 px-3 py-1.5 rounded-xl bg-grey-950 text-white font-body text-xs font-medium whitespace-nowrap shadow-md opacity-0 -translate-x-2 pointer-events-none group-hover/tooltip:opacity-100 group-hover/tooltip:translate-x-0 transition-all duration-200">
+              {/* Sliding Tooltip on Right */}
+              <span className="absolute left-full ml-3.5 px-3 py-1.5 rounded-xl bg-grey-950 text-white font-body text-xs font-medium whitespace-nowrap shadow-md opacity-0 translate-x-2 pointer-events-none group-hover/tooltip:opacity-100 group-hover/tooltip:translate-x-0 transition-all duration-200">
                 {social.label}
               </span>
 

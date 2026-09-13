@@ -8,9 +8,16 @@ import Link from "next/link";
 interface RelatedServicesCarouselProps {
   services: ServiceItem[];
   currentSlug: string;
+  badgeText?: string;
+  sectionTitle?: string;
 }
 
-export function RelatedServicesCarousel({ services, currentSlug }: RelatedServicesCarouselProps) {
+export function RelatedServicesCarousel({
+  services,
+  currentSlug,
+  badgeText = "Explore Complementary Offerings",
+  sectionTitle = "Related Craftsmanship Services",
+}: RelatedServicesCarouselProps) {
   const otherServices = services.filter((s) => s.slug !== currentSlug).slice(0, 3);
 
   if (otherServices.length === 0) return null;
@@ -21,9 +28,9 @@ export function RelatedServicesCarousel({ services, currentSlug }: RelatedServic
         <div className="flex items-center justify-between">
           <div>
             <span className="font-body text-xs font-semibold uppercase tracking-wider text-primary-950" style={{ color: "var(--color-primary-950, #62103A)" }}>
-              Explore Complementary Offerings
+              {badgeText}
             </span>
-            <h3 className="font-heading text-2xl font-bold text-grey-950">Related Craftsmanship Services</h3>
+            <h3 className="font-heading text-2xl font-bold text-grey-950">{sectionTitle}</h3>
           </div>
           <Link href="/services" className="inline-flex items-center gap-1 font-body text-xs font-bold text-primary-950 hover:underline" style={{ color: "var(--color-primary-950, #62103A)" }}>
             <span>View All</span>
@@ -42,7 +49,7 @@ export function RelatedServicesCarousel({ services, currentSlug }: RelatedServic
               <div className="relative h-48 w-full overflow-hidden">
                 <ImageWithFallback src={service.featureImage} alt={service.title} fill fallbackType="banner" className="object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
-                <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[11px] font-semibold text-white bg-black/40 backdrop-blur-md">{service.category}</span>
+                <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold text-white bg-black/40 backdrop-blur-md">{service.category}</span>
               </div>
 
               <div className="p-5 space-y-2">
