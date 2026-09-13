@@ -24,6 +24,8 @@ export interface AboutPageData {
   handcraftSubtitle: string;
   handcraftImage1: string;
   handcraftImage2: string;
+  handcraftImage3: string;
+  handcraftImage4: string;
   approachTitle: string;
   approachItems: AboutApproachItem[];
   visionaryQuote: string;
@@ -57,6 +59,8 @@ const DEFAULT_ABOUT_DATA: AboutPageData = {
   handcraftSubtitle: 'Every joint, curved armrest, and hand-stitched seam reflects our unwavering dedication to uncompromising quality.',
   handcraftImage1: '/images/home/furniture-made-process/art-furniture.webp',
   handcraftImage2: '/images/home/furniture-made-process/made-furniture.webp',
+  handcraftImage3: '/images/about/handcraft/handcraft-3.png',
+  handcraftImage4: '/images/about/handcraft/handcraft-4.png',
   approachTitle: 'Our Approach to Luxury',
   approachItems: [
     {
@@ -111,6 +115,12 @@ export async function getAboutPageData(): Promise<AboutPageData> {
     handcraftImage2: attrs.handcraft_image_2?.url
       ? getStrapiMediaUrl(attrs.handcraft_image_2.url)
       : DEFAULT_ABOUT_DATA.handcraftImage2,
+    handcraftImage3: attrs.handcraft_image_3?.url
+      ? getStrapiMediaUrl(attrs.handcraft_image_3.url)
+      : DEFAULT_ABOUT_DATA.handcraftImage3,
+    handcraftImage4: attrs.handcraft_image_4?.url
+      ? getStrapiMediaUrl(attrs.handcraft_image_4.url)
+      : DEFAULT_ABOUT_DATA.handcraftImage4,
     approachTitle: attrs.approach_title || DEFAULT_ABOUT_DATA.approachTitle,
     approachItems:
       Array.isArray(attrs.approach_items) && attrs.approach_items.length > 0
