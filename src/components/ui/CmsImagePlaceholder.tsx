@@ -26,7 +26,7 @@ export function CmsImagePlaceholder({
           <AlertCircle className="w-3.5 h-3.5 text-amber-600" />
           <span>{label}</span>
         </p>
-        <p className="font-body text-[11px] text-grey-500 mt-0.5">
+        <p className="font-body text-xs text-grey-500 mt-0.5">
           Upload media in Strapi CMS Content Manager
         </p>
       </div>

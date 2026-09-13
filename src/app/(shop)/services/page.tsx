@@ -1,25 +1,23 @@
 import { Metadata } from "next";
-import { ServicesHeader } from "@/components/features/services/ServicesHeader";
+import { getServicesPageData } from "@/services/servicesPageService";
 import { ServicesPageClient } from "./ServicesPageClient";
 
-export const metadata: Metadata = {
-  title: "Bespoke Furniture & Interior Craftsmanship Services | Good Choice",
-  description:
-    "Explore bespoke woodworking, 3D spatial interior planning, fine upholstery tailoring, and antique furniture restoration care by Good Choice Furniture.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const pageData = await getServicesPageData();
+  return {
+    title: pageData.metaTitle || "Bespoke Furniture & Interior Craftsmanship Services | Good Choice",
+    description:
+      pageData.metaDescription ||
+      "Explore bespoke woodworking, 3D spatial interior planning, fine upholstery tailoring, and antique furniture restoration care by Good Choice Furniture.",
+  };
+}
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const pageData = await getServicesPageData();
+
   return (
     <div className="w-full min-h-screen flex flex-col">
-      {/* Top Luxury Banner Header */}
-      <section className="px-4 pt-4">
-        <ServicesHeader />
-      </section>
-
-      {/* Main Container with Services Card Grid */}
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 flex-1 w-full">
-        <ServicesPageClient />
-      </main>
+      <ServicesPageClient initialData={pageData} />
     </div>
   );
 }

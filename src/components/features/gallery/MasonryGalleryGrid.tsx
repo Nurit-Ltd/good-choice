@@ -107,7 +107,7 @@ export function MasonryGalleryGrid({ items, onOpenLightbox }: MasonryGalleryGrid
               >
                 <span>{cat}</span>
                 <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                  className={`text-xs px-2 py-0.5 rounded-full font-medium ${
                     isActive ? "bg-white/20 text-white" : "bg-secondary-200/80 text-grey-600"
                   }`}
                 >
@@ -169,7 +169,7 @@ export function MasonryGalleryGrid({ items, onOpenLightbox }: MasonryGalleryGrid
 
                   {/* Top Floating Badge */}
                   <div className="absolute top-3 left-3 z-10">
-                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold bg-white/95 text-primary-950 shadow-sm backdrop-blur-md">
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-white/95 text-primary-950 shadow-sm backdrop-blur-md">
                       <span className="truncate max-w-30">{item.category}</span>
                     </span>
                   </div>
@@ -191,9 +191,9 @@ export function MasonryGalleryGrid({ items, onOpenLightbox }: MasonryGalleryGrid
                         {item.tags.slice(0, 2).map((t, i) => (
                           <span
                             key={i}
-                            className="inline-flex items-center gap-0.5 text-[9px] text-white/80 bg-white/15 backdrop-blur-xs px-2 py-0.5 rounded-md"
+                            className="inline-flex items-center gap-1 text-xs text-white/80 bg-white/15 backdrop-blur-xs px-2 py-0.5 rounded-md"
                           >
-                            <Tag className="w-2 h-2 text-white/60" />
+                            <Tag className="w-3 h-3 text-white/60" />
                             {t}
                           </span>
                         ))}

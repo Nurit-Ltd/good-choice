@@ -10,6 +10,7 @@ import { ServiceSpecifications } from "@/components/features/services/ServiceSpe
 import { ServiceDetailSkeleton } from "@/components/features/services/ServiceDetailSkeleton";
 import { ServiceTopSwitcherStrip } from "@/components/features/services/ServiceTopSwitcherStrip";
 import { useServices, useSingleService } from "@/hooks/useServices";
+import { useServicesPage } from "@/hooks/useServicesPage";
 import { useState } from "react";
 
 interface ServiceDetailClientProps {
@@ -20,6 +21,7 @@ export function ServiceDetailClient({ slug }: ServiceDetailClientProps) {
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const { data: service, isLoading } = useSingleService(slug);
   const { data: allServices } = useServices();
+  const { data: pageSettings } = useServicesPage();
 
   if (isLoading || !service) {
     return <ServiceDetailSkeleton />;
@@ -33,23 +35,51 @@ export function ServiceDetailClient({ slug }: ServiceDetailClientProps) {
       </div>
 
       {/* Top Slim Service Switcher Strip Hook */}
-      <ServiceTopSwitcherStrip services={allServices || []} currentSlug={slug} />
+      <ServiceTopSwitcherStrip
+        services={allServices || []}
+        currentSlug={slug}
+        switcherTitle={pageSettings?.detailSwitcherTitle}
+      />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Hero Section */}
-        <ServiceDetailHero service={service} onOpenQuoteModal={() => setQuoteModalOpen(true)} />
+        <ServiceDetailHero
+          service={service}
+          onOpenQuoteModal={() => setQuoteModalOpen(true)}
+          consultationButtonText={pageSettings?.consultationButtonText}
+          whatsappButtonText={pageSettings?.whatsappInquiryButtonText}
+        />
 
         {/* Process Tabs Workflow */}
-        <ServiceProcessTabs steps={service.processSteps || []} />
+        <ServiceProcessTabs
+          steps={service.processSteps || []}
+          badgeText={pageSettings?.workflowBadgeText}
+          sectionTitle={pageSettings?.workflowSectionTitle}
+          sectionSubtitle={pageSettings?.workflowSectionSubtitle}
+        />
 
         {/* Features & Specifications */}
-        <ServiceSpecifications features={service.features || []} specifications={service.specifications || []} />
+        <ServiceSpecifications
+          features={service.features || []}
+          specifications={service.specifications || []}
+          featuresTitle={pageSettings?.featuresSectionTitle}
+          specificationsTitle={pageSettings?.specificationsSectionTitle}
+        />
 
         {/* Gallery Lightbox */}
-        <ServiceGalleryLightbox gallery={service.gallery || []} title={service.title} />
+        <ServiceGalleryLightbox
+          gallery={service.gallery || []}
+          title={service.title}
+          sectionTitle={pageSettings?.gallerySectionTitle}
+        />
 
         {/* Related Services at Bottom */}
-        <RelatedServicesCarousel services={allServices || []} currentSlug={slug} />
+        <RelatedServicesCarousel
+          services={allServices || []}
+          currentSlug={slug}
+          badgeText={pageSettings?.relatedBadgeText}
+          sectionTitle={pageSettings?.relatedSectionTitle}
+        />
 
         {/* Interactive Consultation Quote Modal */}
         <ServiceQuoteModal isOpen={quoteModalOpen} onClose={() => setQuoteModalOpen(false)} service={service} />

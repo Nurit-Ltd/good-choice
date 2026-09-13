@@ -35,7 +35,7 @@ export function GalleryHeader({ title = "Our Project Gallery" }: GalleryHeaderPr
         </p>
  */}
         {/* Breadcrumb Single Line */}
-        <nav className="flex items-center justify-center gap-1.5 sm:gap-2 font-body text-[11px] sm:text-sm text-white/80 pt-2 max-w-full overflow-hidden whitespace-nowrap">
+        <nav className="flex items-center justify-center gap-1.5 sm:gap-2 font-body text-xs sm:text-sm text-white/80 pt-2 max-w-full overflow-hidden whitespace-nowrap">
           <Link href="/" className="hover:text-white transition-colors shrink-0">
             Home
           </Link>

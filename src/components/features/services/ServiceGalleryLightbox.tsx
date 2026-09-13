@@ -2,14 +2,19 @@
 
 import { useState } from "react";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
-import { Camera, X, ZoomIn } from "lucide-react";
+import { X, ZoomIn } from "lucide-react";
 
 interface ServiceGalleryLightboxProps {
   gallery?: string[];
   title: string;
+  sectionTitle?: string;
 }
 
-export function ServiceGalleryLightbox({ gallery = [], title }: ServiceGalleryLightboxProps) {
+export function ServiceGalleryLightbox({
+  gallery = [],
+  title,
+  sectionTitle = "Completed Project Showcase",
+}: ServiceGalleryLightboxProps) {
   const [activeImage, setActiveImage] = useState<string | null>(null);
 
   if (!gallery || gallery.length === 0) return null;
@@ -18,12 +23,9 @@ export function ServiceGalleryLightbox({ gallery = [], title }: ServiceGalleryLi
     <section className="w-full py-10 border-t border-secondary-200/80">
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Camera className="w-5 h-5 text-primary-950" style={{ color: "var(--color-primary-950, #62103A)" }} />
-            <h3 className="font-heading text-xl sm:text-2xl font-bold text-grey-950">
-              Completed Project Showcase
-            </h3>
-          </div>
+          <h3 className="font-heading text-xl sm:text-2xl font-bold text-grey-950">
+            {sectionTitle}
+          </h3>
           <span className="font-body text-xs text-grey-600">
             {gallery.length} High-Res Photography
           </span>

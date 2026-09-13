@@ -151,7 +151,7 @@ export function GalleryLightboxModal({
                 {currentItem.tags.map((tag, i) => (
                   <span
                     key={i}
-                    className="inline-flex items-center gap-1 text-[11px] font-medium text-grey-600 bg-secondary-100/80 px-2.5 py-0.8 rounded-lg"
+                    className="inline-flex items-center gap-1 text-xs font-medium text-grey-600 bg-secondary-100/80 px-2.5 py-1 rounded-lg"
                   >
                     <Tag className="w-2.5 h-2.5 text-grey-400" />
                     {tag}
